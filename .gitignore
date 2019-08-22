@@ -12,7 +12,7 @@ target/
 .classpath
 .deployables
 .git
-.project
+#.project
 .settings/
  
 # Packages #
