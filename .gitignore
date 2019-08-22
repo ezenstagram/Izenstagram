@@ -9,7 +9,7 @@
 
 target/
 */.git/*
-.classpath
+#.classpath
 .deployables
 .git
 #.project
