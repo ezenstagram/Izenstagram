@@ -6,6 +6,14 @@
 *.exe
 *.o
 *.so
+
+target/
+*/.git/*
+.classpath
+.deployables
+.git
+.project
+.settings/
  
 # Packages #
 ############
