@@ -9,11 +9,11 @@
 
 target/
 */.git/*
-#.classpath
+.classpath
 .deployables
 .git
-#.project
-#.settings/
+.project
+.settings/
  
 # Packages #
 ############
