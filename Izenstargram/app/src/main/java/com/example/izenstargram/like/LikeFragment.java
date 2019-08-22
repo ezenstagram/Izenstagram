@@ -1,4 +1,4 @@
-package com.example.izenstargram;
+package com.example.izenstargram.like;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.izenstargram.R;
 
 public class LikeFragment extends Fragment {
 
