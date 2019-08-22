@@ -13,7 +13,7 @@ target/
 .deployables
 .git
 #.project
-.settings/
+#.settings/
  
 # Packages #
 ############
