@@ -1,0 +1,75 @@
+package com.ezen.project.dao;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.ezen.project.bean.UserDTO;
+
+@Repository
+public class UserDAO {
+
+	@Resource
+	private SqlSessionTemplate sqlSession;
+	
+	public UserDTO userLogin(String login_id, String password) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("loginId", login_id);
+		map.put("password", password);
+		 
+		return sqlSession.selectOne("mybatis.memberMapping.userLogin", map);
+	}
+//	public int loginTotal(String login_id, String password) {
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("loginId", login_id);
+//		map.put("password", password);
+//		
+//		return sqlSession.selectOne("mybatis.userMapping.total", map);
+//	}
+	public int userJoin(UserDTO userDTO) {
+		return sqlSession.insert("mybatis.memberMapping.userJoin", userDTO);
+	}
+	public List<String> find_loginId(String tel) {
+		return sqlSession.selectList("mybatis.memberMapping.find_loginId", tel);
+	}
+//	public int find_password(String login_id, String tel) {
+//		Map<String, String> map = new HashMap<String, String>();
+//		map.put("login_id", login_id);
+//		map.put("tel", tel);
+//		
+//		return sqlSession.selectOne("mybatis.userMapping.find_password", map);
+//	}
+	public int change_password(String login_id, String password) {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("login_id", login_id);
+		map.put("password", password);
+		
+		return sqlSession.update("mybatis.memberMapping.change_password", map);
+	}
+	public UserDTO user_profile(int user_id) {
+		return sqlSession.selectOne("mybatis.memberMapping.user_profile", user_id);
+	}
+	public int follow(int user_id, int follow_user_id) {
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("user_id", user_id);
+		map.put("follow_user_id", follow_user_id);
+		return sqlSession.insert("mybatis.memberMapping.followUser", map);
+	}
+	public int emailOX(String email) {
+		return sqlSession.selectOne("mybatis.memberMapping.emailOX", email);
+	}
+	public int login_idOX(String login_id) {
+		return sqlSession.selectOne("mybatis.memberMapping.login_idOX", login_id);
+	}
+	public int find_user_id(String login_id) {
+		return sqlSession.selectOne("mybatis.memberMapping.find_user_id", login_id);
+	}
+	public String emailForFind(String email) {
+		return sqlSession.selectOne("mybatis.memberMapping.emailForFind", email);
+	}
+} 

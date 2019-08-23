@@ -7,5 +7,40 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		resultType="memberDTO">
 		SELECT * FROM member WHERE id = #{id}
 	</select>
-
+	<select resultType="userDTO" parameterType="java.util.Map" id="userLogin">
+		 select * from sns_user where login_id=#{loginId} and password=#{password}
+	</select>
+	<insert parameterType="userDTO" id="userJoin"> 
+		insert into sns_user(user_id, login_id, name, password, email, tel) values (seq_user_id.nextval, #{login_id}, #{name, jdbcType=VARCHAR}, #{password}, #{email, jdbcType=VARCHAR}, #{tel, jdbcType=VARCHAR}) 
+	</insert>
+	<select resultType="String" parameterType="String" id="find_loginId"> 
+		select login_id from sns_user where tel=#{tel} 
+	</select>
+	<select resultType="int" parameterType="java.util.Map" id="find_password"> 
+		select count(user_id) from sns_user where login_id= #{login_id} and tel=#{tel} 
+	</select>
+	<update parameterType="java.util.Map" id="change_password"> 
+		update sns_user set password=#{password} where login_id=#{login_id} 
+	</update>
+	<select resultType="userDTO" parameterType="int" id="user_profile"> 
+		select * from sns_user where user_id=#{user_id} 
+	</select>
+	<insert parameterType="java.util.Map" id="followUser"> 
+		insert into follow values(#{user_id}, #{follow_user_id}, sysdate) 
+	</insert>
+	<select resultType="int" parameterType="String" id="emailOX"> 
+		select count(user_id) from sns_user where email=#{email} 
+	</select>
+	<select resultType="int" parameterType="String" id="login_idOX"> 
+		select count(user_id) from sns_user where login_id=#{login_id} 
+	</select>
+	<select resultType="int" parameterType="String" id="find_user_id"> 
+		select user_id from sns_user where login_id=#{login_id} 
+	</select>
+	<select resultType="String" parameterType="String" id="emailForFind"> 
+		select login_id from sns_user where email=#{email} 
+	</select>
+	<select resultType="String" parameterType="String" id="loginId_list"> 
+		select login_id from sns_user where tel=#{tel} 
+	</select>
 </mapper>
