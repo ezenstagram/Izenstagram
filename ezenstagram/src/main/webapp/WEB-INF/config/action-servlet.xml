@@ -27,6 +27,11 @@
 			value="application/json;charset=UTF-8">
 		</property>
 	</bean>
+	<!-- multipartResolver 등록 : id는 반드시 "multipartResolver"이어야 함.-->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="5000000"/>
+		<property name="defaultEncoding" value="UTF-8"/>
+	</bean>
 	<bean
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
 		p:order="1"

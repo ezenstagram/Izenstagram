@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.postMapping">
+
+	<insert id="insertPost" parameterType="PostDTO">
+		insert into post values
+		(seq_post_id.nextval,#{user_id},#{content},#{location},sysdate)
+	</insert>
+
+	<select id="getcurrPost_id" resultType="int">
+		select max (post_id) from POST
+	</select>
+	<delete id="deletePost" parameterType="int">
+		delete from POST  where POST_ID=#{post_id}
+	</delete>
+</mapper>

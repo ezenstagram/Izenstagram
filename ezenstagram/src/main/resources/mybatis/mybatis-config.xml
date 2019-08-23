@@ -4,9 +4,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="memberDTO" type="com.ezen.project.bean.TestMemDTO" />
+		<typeAlias alias="memberDTO"
+			type="com.ezen.project.bean.TestMemDTO" />
+		<typeAlias alias="postDTO"
+			type="com.ezen.project.bean.PostDTO" />
+		<typeAlias alias="postImageDTO"
+			type="com.ezen.project.bean.PostImageDTO" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/member-mapping.xml" />
+		<mapper resource="mybatis/post-mapping.xml" />
+		<mapper resource="mybatis/postImage-mapping.xml" />
 	</mappers>
 </configuration>
