@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.tagMapping">
+
+  
+	<select id="isExistTag" parameterType="java.lang.String" resultType="int">
+		select count(*) as count from post_all_hashtag where tag_name=#{tag_name}
+	</select>
+	
+	<select id="getTagIdByName" parameterType="java.lang.String" resultType="Integer">
+		select tag_id from post_all_hashtag where tag_name=#{tag_name}
+	</select>
+	
+	 <insert id="addToTagList" parameterType="AllTagDTO">
+		insert into post_all_hashtag values (seq_tag_id.nextval, #{tag_name})	
+	</insert>
+	
+	<insert id="insertLinkedTag" parameterType="java.util.Map">
+		insert into post_linked_hashtag values (#{post_id}, #{tag_id})
+	</insert>
+	
+	<insert id="insertUserTag" parameterType="java.util.Map">
+		insert into post_user_tag values (#{post_id}, #{user_id})
+	</insert>
+	
+	<select id="findUserIdByLoginId" parameterType="java.lang.String" resultType="int">
+		select user_id from sns_user where login_id=#{login_id}
+	</select>
+
+	<select id="tagListByLetter" parameterType="java.lang.String" resultType="AllTagDTO">
+		select * from post_all_hashtag where tag_name like #{letter_to_search} || '%' order by tag_name asc
+	</select>
+	
+	<select id="selectPostIdByTagId" parameterType="int" resultType="LinkedTagDTO">
+		select * from post_linked_hashtag where tag_id=#{tag_id} order by post_id desc
+	</select>
+
+	<select id="selectUserBySearch" parameterType="java.lang.String" resultType="UserDTO">
+		select * from sns_user where login_id like #{letter_to_search} || '%' order by login_id asc
+	</select>
+	
+	<select id="selectPostImageRandom" resultType="PostImageDTO">
+		select * from post_image order by dbms_random.random 
+	</select>
+	
+	<select id="allTagList" resultType="AllTagDTO">
+		select * from post_all_hashtag order by tag_id asc	
+	</select>
+	
+	<!--  
+	<select id="taggedLinkList" parameterType="int" resultType="LinkedTagDTO">
+		select * from post_linked_hashtag where post_id=#{post_id}	
+	</select>
+	
+	<select id="taggedUserList" parameterType="int" resultType="UserTagDTO">
+		select * from post_user_tag where post_id=#{post_id}	
+	</select>
+	-->
+</mapper>
