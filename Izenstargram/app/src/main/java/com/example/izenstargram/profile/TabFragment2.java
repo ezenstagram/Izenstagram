@@ -1,4 +1,4 @@
-package com.example.izenstargram;
+package com.example.izenstargram.profile;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,13 +8,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class ProfileFragment extends Fragment {
+import com.example.izenstargram.R;
+
+public class TabFragment2 extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.profile_layout, container, false);// attachToRoot는 일단 false로..
+        View view = inflater.inflate(R.layout.tab_fragment_2, container, false);
 
         return view;
     }
-}
+    }

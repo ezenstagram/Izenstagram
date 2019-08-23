@@ -13,11 +13,15 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.izenstargram.like.LikeFragment;
+import com.example.izenstargram.profile.ProfileFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Button button;
     // FrameLayout에 각 메뉴의 Fragment를 바꿔 줌
     private FragmentManager fragmentManager = getSupportFragmentManager();
     // 메뉴에 들어갈 Fragment들
@@ -29,13 +33,19 @@ public class MainActivity extends AppCompatActivity {
     // menu
     BottomNavigationView bottomNavigationView;
     // user id
-    String user_id;
+    int user_id;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+
+        button = findViewById(R.id.button);
+        button.setOnClickListener(this);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -65,8 +75,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         SharedPreferences pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
-        user_id = pref.getString("user_id", null);
-        if (user_id == null) {
+        user_id = pref.getInt("user_id", 0);
+        if (user_id == 0) {
             // 에러 화면....
         }
 
@@ -88,5 +98,15 @@ public class MainActivity extends AppCompatActivity {
     private void replaceFragment(int layoutId, Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(layoutId, fragment).commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onClick(View v) {
+        pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
+
+        editor = pref.edit();
+        //editor.remove("user_id");   // or
+        editor.clear();
+        editor.commit();
     }
 }
