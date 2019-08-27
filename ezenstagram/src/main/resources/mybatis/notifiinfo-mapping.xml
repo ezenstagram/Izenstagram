@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.notifiInfoMapping">
+	<select id="selectList" parameterType="int"
+		resultType="notifiInfoDTO">
+		select * from notifi_info WHERE target_user_id = #{target_user_id} and delete_flg = 0
+	</select>
+
+</mapper>

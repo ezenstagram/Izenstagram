@@ -18,12 +18,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			type="com.ezen.project.bean.LinkedTagDTO" />
 		<typeAlias alias="userTagDTO"
 			type="com.ezen.project.bean.UserTagDTO" />
-		<typeAlias alias="postAllDTO" 
-		    type="com.ezen.project.bean.PostAllDTO"/>
-	    <typeAlias alias="commentsDTO" 
-		    type="com.ezen.project.bean.CommentsDTO"/>
-	    <typeAlias alias="likesDTO" 
-		    type="com.ezen.project.bean.LikesDTO"/>
+		<typeAlias alias="postAllDTO"
+			type="com.ezen.project.bean.PostAllDTO" />
+		<typeAlias alias="commentsDTO"
+			type="com.ezen.project.bean.CommentsDTO" />
+		<typeAlias alias="likesDTO"
+			type="com.ezen.project.bean.LikesDTO" />
+		<typeAlias alias="notifiInfoDTO"
+			type="com.ezen.project.bean.NotifiInfoDTO" />
 	</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/member-mapping.xml" />
@@ -31,5 +33,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="mybatis/postImage-mapping.xml" />
 		<mapper resource="mybatis/tag-mapping.xml" />
 		<mapper resource="mybatis/feed-mapping.xml" />
+		<mapper resource="mybatis/notifiinfo-mapping.xml" />
 	</mappers>
 </configuration>

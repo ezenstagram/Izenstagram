@@ -50,7 +50,7 @@ public class PostService {
 				postImageDTO.setImage_url(image_url);
 				postImageDTO.setPost_id(post_id);
 
-				int result1 = postImageDAO.insertPostImage(postImageDTO);//이미지를 올렸을때 성공하는 result. 최종 json에 출력해야 하는것을 result로 해야해서 1을 붙였음
+				int result1 = postImageDAO.insertPostImage(postImageDTO);//�씠誘몄�瑜� �삱�졇�쓣�븣 �꽦怨듯븯�뒗 result. 理쒖쥌 json�뿉 異쒕젰�빐�빞 �븯�뒗寃껋쓣 result濡� �빐�빞�빐�꽌 1�쓣 遺숈��쓬
 				
 				if (result1 > 0) {
 					result = "1";
