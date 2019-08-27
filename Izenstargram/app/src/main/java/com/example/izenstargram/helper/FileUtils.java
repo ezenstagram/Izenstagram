@@ -1,4 +1,4 @@
-package com.example.izenstargram.upload.helper;
+package com.example.izenstargram.helper;
 
 /*
  * Copyright (C) 2007-2008 OpenIntents.org
