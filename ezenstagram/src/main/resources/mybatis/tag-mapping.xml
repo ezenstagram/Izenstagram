@@ -41,8 +41,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from sns_user where login_id like #{letter_to_search} || '%' order by login_id asc
 	</select>
 	
-	<select id="selectPostImageRandom" resultType="PostImageDTO">
-		select * from post_image order by dbms_random.random 
+	<select id="selectPostImageRandom" resultType="PostImageDTO">	
+		select * from (select * from post_image order by dbms_random.random) where rownum &lt;30
 	</select>
 	
 	<select id="allTagList" resultType="AllTagDTO">
