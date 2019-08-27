@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                     case R.id.navigation_menu4: // 수정
                         Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
-                        bundle.putString("data", "hong"); // key , value
+                        bundle.putInt("user_id", user_id); // key , value
                         likeFragment.setArguments(bundle);
                         replaceFragment(R.id.frame_layout, likeFragment);
                         break;
@@ -97,7 +97,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 화면 전환
     private void replaceFragment(int layoutId, Fragment fragment) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(layoutId, fragment).commitAllowingStateLoss();
+        transaction.replace(layoutId, fragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
     }
 
     @Override

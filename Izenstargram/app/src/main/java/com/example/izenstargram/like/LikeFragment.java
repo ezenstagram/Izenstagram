@@ -21,7 +21,6 @@ public class LikeFragment extends Fragment {
     ViewPager viewPager;
     TabLayout tabLayout;
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -30,16 +29,20 @@ public class LikeFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
 
         likePagerAdapter = new LikePagerAdapter(
-                getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(likePagerAdapter);
+                this.getChildFragmentManager(), 2);
 
+        viewPager.setAdapter(likePagerAdapter);
         viewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
+        viewPager.onSaveInstanceState();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                likePagerAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -49,10 +52,14 @@ public class LikeFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                viewPager.setCurrentItem(tab.getPosition());
+                likePagerAdapter.notifyDataSetChanged();
             }
         });
 
+        TabLayout.Tab tab = tabLayout.getTabAt(1);
+        tab.select();
         return view;
     }
+
 }
