@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			type="com.ezen.project.bean.NotifiInfoDTO" />
 		<typeAlias alias="followDTO" 
 		    type="com.ezen.project.bean.FollowDTO"/>
-	</typeAliases>
+		</typeAliases>
 	<mappers>
 		<mapper resource="mybatis/member-mapping.xml" />
 		<mapper resource="mybatis/post-mapping.xml" />
