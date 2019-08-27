@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +22,7 @@ import com.example.izenstargram.profile.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button button;
+    //    Button button;
     // FrameLayout에 각 메뉴의 Fragment를 바꿔 줌
     private FragmentManager fragmentManager = getSupportFragmentManager();
     // 메뉴에 들어갈 Fragment들
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+    String[] navNames = {"list","search","upload","like","profile"};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
 
-        button = findViewById(R.id.button);
-        button.setOnClickListener(this);
+//        button = findViewById(R.id.button);
+//        button.setOnClickListener(this);
+
+        replaceFragment(R.id.frame_layout, listFragment, navNames[0]);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -53,22 +58,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_menu1: // 민경
-                        replaceFragment(R.id.frame_layout, listFragment);
+                        replaceFragment(R.id.frame_layout, listFragment, navNames[0]);
                         break;
                     case R.id.navigation_menu2: // 은경
-                        replaceFragment(R.id.frame_layout, searchFragment);
+                        replaceFragment(R.id.frame_layout, searchFragment, navNames[1]);
                         break;
                     case R.id.navigation_menu3: // 지현
-                        replaceFragment(R.id.frame_layout, uploadFragment);
+                        replaceFragment(R.id.frame_layout, uploadFragment, navNames[2]);
                         break;
                     case R.id.navigation_menu4: // 수정
                         Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
                         bundle.putInt("user_id", user_id); // key , value
                         likeFragment.setArguments(bundle);
-                        replaceFragment(R.id.frame_layout, likeFragment);
+                        replaceFragment(R.id.frame_layout, likeFragment, navNames[3]);
                         break;
                     case R.id.navigation_menu5: // 지윤
-                        replaceFragment(R.id.frame_layout, profileFragment);
+                        replaceFragment(R.id.frame_layout, profileFragment, navNames[4]);
                         break;
                 }
                 return true;
@@ -95,11 +100,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // 화면 전환
-    private void replaceFragment(int layoutId, Fragment fragment) {
+    private void replaceFragment(int layoutId, Fragment fragment, String fra_name) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(layoutId, fragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.replace(layoutId, fragment,fra_name);
+        transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
+        transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onBackPressed();
+            for(int i = 0; i <navNames.length; i++){
+                Fragment currentFrag1 =  fragmentManager.findFragmentByTag(navNames[i]);
+                if (currentFrag1 != null && currentFrag1.isVisible()) {
+                    bottomNavigationView.getMenu().getItem(i).setChecked(true);
+                    return false;
+                }
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
