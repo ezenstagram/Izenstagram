@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
-
         editor = pref.edit();
         //editor.remove("user_id");   // or
         editor.clear();

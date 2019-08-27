@@ -1,4 +1,4 @@
-package com.example.izenstargram.upload.helper;
+package com.example.izenstargram.helper;
 
 import android.annotation.SuppressLint;
 import android.content.res.AssetFileDescriptor;
