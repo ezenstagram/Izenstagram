@@ -40,9 +40,6 @@ public class PostController {
 		
 		//파일 저장용 함수들을 service에 보내기
 		String realPath="Z:";
-//				"http://192.168.0.13:8080/image/storage/";
-				//request.getSession().getServletContext().getRealPath("http://192.168.0.13:8080/image/storage/");
-		
 		String result = postService.insert(postDTO, img.getOriginalFilename(), img.getInputStream(),realPath);
 		
 		ModelAndView mv = new ModelAndView("jsonView"); //// 꼭 jsonView 로 해주기
