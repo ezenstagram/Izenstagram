@@ -1,6 +1,7 @@
 package com.example.izenstargram;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -19,6 +20,9 @@ import android.widget.Button;
 
 import com.example.izenstargram.like.LikeFragment;
 import com.example.izenstargram.profile.ProfileFragment;
+import com.example.izenstargram.upload.UploadActivity;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
-    String[] navNames = {"list","search","upload","like","profile"};
+    String[] navNames = {"list","search","like","profile"};
 
 
     @Override
@@ -64,16 +68,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         replaceFragment(R.id.frame_layout, searchFragment, navNames[1]);
                         break;
                     case R.id.navigation_menu3: // 지현
-                        replaceFragment(R.id.frame_layout, uploadFragment, navNames[2]);
+                        Intent intent = new Intent(MainActivity.this, UploadActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(0,R.xml.slide_up);
                         break;
                     case R.id.navigation_menu4: // 수정
                         Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
                         bundle.putInt("user_id", user_id); // key , value
                         likeFragment.setArguments(bundle);
-                        replaceFragment(R.id.frame_layout, likeFragment, navNames[3]);
+                        replaceFragment(R.id.frame_layout, likeFragment, navNames[2]);
                         break;
                     case R.id.navigation_menu5: // 지윤
-                        replaceFragment(R.id.frame_layout, profileFragment, navNames[4]);
+                        replaceFragment(R.id.frame_layout, profileFragment, navNames[3]);
                         break;
                 }
                 return true;
@@ -84,8 +90,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user_id == 0) {
             // 에러 화면....
         }
+        ArrayList<String> permissionCheck = new ArrayList<String>();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            permissionCheck.add(Manifest.permission.CAMERA);}
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionCheck.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);}
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            permissionCheck.add(Manifest.permission.RECORD_AUDIO);}
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionCheck.add(Manifest.permission.READ_EXTERNAL_STORAGE);}
 
-        permissionCheck();
+        if(permissionCheck.size() > 0) {
+            String[] reqPermissionArray = new String[permissionCheck.size()];
+            reqPermissionArray = permissionCheck.toArray(reqPermissionArray);
+            ActivityCompat.requestPermissions(this, reqPermissionArray,100);
+        }
+    }
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(grantResults.length > 0) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            }
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            }
+        }
     }
 
     // 퍼미션 체크
