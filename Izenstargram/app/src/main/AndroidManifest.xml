@@ -14,6 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".profile.ProfileAuthActivity"></activity>
+        <activity android:name=".profile.ChangeProfileActivity" />
         <activity android:name=".login.ChangePasswordActivity"></activity>
         <activity android:name=".login.FindLoginActivity" />
         <activity android:name=".login.JoinSuccessActivity" />

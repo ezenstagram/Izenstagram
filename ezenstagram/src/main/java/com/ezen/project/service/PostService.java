@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,18 @@ public class PostService {
 			}
 		}
 		return result;
+	}
+	public List<PostImageDTO> profilePostRefImage(int user_id) {
+		return postImageDAO.profilePostRefImage(user_id);
+	}
+	public int following(int user_id) {
+		return postDAO.following(user_id);
+	}
+	public int follower(int user_id) {
+		return postDAO.follower(user_id);
+	}
+	public int postCount(int user_id) {
+		return postDAO.postCount(user_id);
 	}
 
 }
