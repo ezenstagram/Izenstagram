@@ -1,5 +1,7 @@
 package com.ezen.project.dao;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -18,5 +20,7 @@ public class PostImageDAO {
 		System.out.println("post_id: " +postImageDTO.getPost_id());
 		return sqlSessionTemplate.insert("mybatis.postImageMapping.insertPostImage",postImageDTO);
 	}
-
+	public List<PostImageDTO> profilePostRefImage(int user_id) {
+		return sqlSessionTemplate.selectList("mybatis.postImageMapping.PostsRefImage",user_id);
+	}
 }

@@ -59,10 +59,14 @@ public class UserService {
 	public String emailForFind(String email) {
 		String login_id = null;
 		login_id = userDAO.emailForFind(email);
-//		
-//		if(login_id != null) {
-//			
-//		}
+
 		return login_id;
+	}
+	public UserDTO selectOne(int string) {
+		return userDAO.selectOne(string);
+	}
+	
+	public int changeProfile(UserDTO userDTO) {
+		return userDAO.changeProfile(userDTO);
 	}
 }

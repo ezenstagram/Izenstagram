@@ -171,6 +171,14 @@ public class RegexHelper {
         }
         return result;
     }
+
+    public boolean websiteCheck(String str) {
+        boolean result = false;
+        if(isValue(str)) {
+            result = Pattern.matches("^(https?):\\\\/\\\\/([^:\\\\/\\\\s]+)(:([^\\\\/]*))?((\\\\/[^\\\\s/\\\\/]+)*)?\\\\/?([^#\\\\s\\\\?]*)(\\\\?([^#\\\\s]*))?(#(\\\\w*))?$", str);
+        }
+        return result;
+    }
 }
 
 

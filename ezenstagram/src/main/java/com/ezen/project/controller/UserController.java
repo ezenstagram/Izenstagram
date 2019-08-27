@@ -62,7 +62,6 @@ public class UserController {
 		userDTO.setName(name);
 		userDTO.setTel(tel);
 		userDTO.setEmail(email);
-		
 		int result = userService.userJoin(userDTO);
 		
 		mv.addObject("result", result);
@@ -91,33 +90,6 @@ public class UserController {
 		return mv;
 	}
 	
-//	@RequestMapping(value="userProfile.do") 
-//	public ModelAndView userProfile(HttpServletRequest request) {
-//		ModelAndView mv = new ModelAndView("jsonView");
-//		
-//		int user_id = Integer.parseInt(request.getParameter("user_id"));
-//		
-//		UserDTO userDTO = userService.user_profile(user_id);
-//		
-//		List<Integer> list = postService.userPage_postIds(user_id);
-//		List<PostImageDTO> postList=new ArrayList<PostImageDTO>(); // 遺꾨━, �븞�뱶濡쒖씠�뱶�뿉�꽌 �꽌踰� 2媛� 留뚮뱾湲�, postController�뿉 �옉�꽦, sql濡� 異뺤빟(join�궗�슜)
-//		for(int i=0; i<list.size(); i++) {
-//			PostImageDTO PID = postService.repreImage(list.get(i));		
-//			
-//			if(PID != null) {
-//				postList.add(PID);
-//			}
-//		}
-//		
-//		int result = 0;
-//		if(userDTO != null) {
-//			result = 1;
-//		}
-//		mv.addObject("result", result);
-//		mv.addObject("repreImage", postList);
-//		
-//		return mv;
-//	}
 	@RequestMapping(value="follow.do") 
 	public ModelAndView follow(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
@@ -211,6 +183,75 @@ public class UserController {
 	
 		mv.addObject("result", result);
 		mv.addObject("div", div);
+		
+		return mv;
+	}
+	@RequestMapping(value="user_profileInfo.do") 
+	public ModelAndView user_profileInfo(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		int user_id = Integer.parseInt(request.getParameter("user_id"));
+		
+		UserDTO userDTO = userService.selectOne(user_id);
+		
+	
+		mv.addObject("userDTO", userDTO);
+		
+		return mv;
+	}
+	@RequestMapping(value="emailAndLogin_id.do") 
+	public ModelAndView emailAndLogin_id(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		String email = request.getParameter("email");
+		String login_id = request.getParameter("login_id");
+		
+		int div= 2;
+		int result = 0;
+		if(email != null) {
+			result = userService.emailOX(email);
+			mv.addObject("email", email);
+			div = 0;
+		} else {
+			result = userService.login_idOX(login_id);
+			mv.addObject("login_id", login_id);
+			div = 1;
+		}
+		
+
+		mv.addObject("result", result);
+		mv.addObject("div", div);
+		
+		return mv;
+	}
+	@RequestMapping(value="changeProfile.do") 
+	public ModelAndView changeProfile(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		String name = request.getParameter("name");
+		String login_id = request.getParameter("login_id");
+		String website = request.getParameter("website");
+		String introduction = request.getParameter("introduction");
+		String tel = request.getParameter("tel");
+		String email = request.getParameter("email");
+		String gender = request.getParameter("gender");
+		int user_id = Integer.parseInt(request.getParameter("user_id"));
+		String profile_photo = request.getParameter("profile_photo");
+		
+		UserDTO userDTO = new UserDTO();
+		userDTO.setName(name);
+		userDTO.setLogin_id(login_id);
+		userDTO.setWebsite(website);
+		userDTO.setIntroduction(introduction);
+		userDTO.setTel(tel);
+		userDTO.setEmail(email);
+		userDTO.setGender(gender);
+		userDTO.setUser_id(user_id);
+		userDTO.setProfile_photo(profile_photo);
+		
+		int result = userService.changeProfile(userDTO);
+		
+		mv.addObject("result", result);
 		
 		return mv;
 	}

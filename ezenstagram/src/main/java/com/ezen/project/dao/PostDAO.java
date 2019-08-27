@@ -23,5 +23,13 @@ public class PostDAO {
 	public int deletePost(int post_id) {
 		return sqlSessionTemplate.delete("mybatis.postMapping.deletePost",post_id);
 	}
-
+	public int following(int user_id) {
+		return sqlSessionTemplate.selectOne("mybatis.postMapping.following",user_id);
+	}
+	public int follower(int user_id) {
+		return sqlSessionTemplate.selectOne("mybatis.postMapping.follower", user_id);
+	}
+	public int postCount(int user_id) {
+		return sqlSessionTemplate.selectOne("mybatis.postMapping.postCount", user_id);
+	}
 }

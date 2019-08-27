@@ -7,4 +7,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insertPostImage" parameterType="postImageDTO">
 		insert into post_image values(#{post_id},#{image_id},#{image_url})
 	</insert>
+	<select id="PostsRefImage" parameterType="int" resultType="postImageDTO">
+		select a.post_id,a.image_id,b.IMAGE_URL from
+		(select p.user_id,p.post_id,MIN(pp.IMAGE_ID) as image_id from post p left join POST_IMAGE pp on p.POST_ID=pp.POST_ID
+		where p.user_id=#{user_id} group by p.user_id,p.post_id) a
+		left join post_image b on (a.post_id =b.post_id and a.image_id=b.image_id) order by a.post_id desc
+	</select>
+	
 </mapper>

@@ -3,9 +3,8 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.memberMapping">
-	<select id="selectOne" parameterType="java.lang.String"
-		resultType="memberDTO">
-		SELECT * FROM member WHERE id = #{id}
+	<select id="selectOne" parameterType="int" resultType="userDTO">
+		SELECT * FROM sns_user WHERE user_id = #{user_id}
 	</select>
 	<select resultType="userDTO" parameterType="java.util.Map" id="userLogin">
 		 select * from sns_user where login_id=#{loginId} and password=#{password}
@@ -43,4 +42,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select resultType="String" parameterType="String" id="loginId_list"> 
 		select login_id from sns_user where tel=#{tel} 
 	</select>
+	<update parameterType="userDTO" id="changeProfile">
+		update sns_user set 
+		login_id = #{login_id}, name=#{name, jdbcType=VARCHAR}, profile_photo=#{profile_photo, jdbcType=VARCHAR}, website=#{website, jdbcType=VARCHAR}, 
+		introduction=#{introduction, jdbcType=VARCHAR}, email=#{email, jdbcType=VARCHAR}, tel=#{tel, jdbcType=VARCHAR}, gender=#{gender, jdbcType=VARCHAR}
+		where user_id = #{user_id}
+	</update>
 </mapper>

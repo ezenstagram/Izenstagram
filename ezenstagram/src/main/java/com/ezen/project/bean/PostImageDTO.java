@@ -4,6 +4,7 @@ public class PostImageDTO {
 	private int post_id ; 
 	private int image_id;
 	private String image_url; //파일 url
+	
 	public int getPost_id() {
 		return post_id;
 	}
@@ -22,4 +23,6 @@ public class PostImageDTO {
 	public void setImage_url(String image_url) {
 		this.image_url = image_url;
 	}
+	
+
 }

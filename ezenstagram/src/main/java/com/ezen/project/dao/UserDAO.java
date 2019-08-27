@@ -72,4 +72,10 @@ public class UserDAO {
 	public String emailForFind(String email) {
 		return sqlSession.selectOne("mybatis.memberMapping.emailForFind", email);
 	}
+	public UserDTO selectOne(int user_id) {
+		return sqlSession.selectOne("mybatis.memberMapping.selectOne", user_id);
+	}
+	public int changeProfile(UserDTO userDTO) {
+		return sqlSession.update("mybatis.memberMapping.changeProfile", userDTO);
+	}
 } 
