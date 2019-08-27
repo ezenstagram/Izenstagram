@@ -15,7 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.izenstargram.R;
-import com.example.izenstargram.upload.helper.PhotoHelper;
+import com.example.izenstargram.helper.PhotoHelper;
+
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

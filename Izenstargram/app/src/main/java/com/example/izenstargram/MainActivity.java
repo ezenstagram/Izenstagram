@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private ListFragment listFragment = new ListFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private SearchFragment searchFragment = new SearchFragment();
-    private UploadFragment uploadFragment = new UploadFragment();
     // menu
     BottomNavigationView bottomNavigationView;
     // user id

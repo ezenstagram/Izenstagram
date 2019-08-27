@@ -1,4 +1,4 @@
-package com.example.izenstargram.upload.model;
+package com.example.izenstargram.upload;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,8 +13,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.izenstargram.R;
-import com.example.izenstargram.upload.helper.FileUtils;
-import com.example.izenstargram.upload.helper.PhotoHelper;
+import com.example.izenstargram.helper.FileUtils;
+import com.example.izenstargram.helper.PhotoHelper;
+
 
 public class Gallery extends AppCompatActivity implements View.OnClickListener {
     //객체 선언
