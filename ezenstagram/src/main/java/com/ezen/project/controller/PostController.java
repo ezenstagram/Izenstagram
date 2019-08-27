@@ -31,16 +31,21 @@ public class PostController {
 		String reg_date = request.getParameter("reg_date");
 		int user_id = Integer.parseInt(request.getParameter("user_id"));
 
-		// DB 泥섎━
+		// DB 저장
 		PostDTO postDTO = new PostDTO();
 		postDTO.setUser_id(user_id);
 		postDTO.setContent(content);
 		postDTO.setLocation(location);
 		postDTO.setReg_date(reg_date);
-
-		String result = postService.insert(postDTO, img.getOriginalFilename(), img.getInputStream());
-
-		ModelAndView mv = new ModelAndView("jsonView"); //// �쁾�쁾 瑗� jsonView濡� �빐以섑뼆�븿
+		
+		//파일 저장용 함수들을 service에 보내기
+		String realPath="Z:";
+//				"http://192.168.0.13:8080/image/storage/";
+				//request.getSession().getServletContext().getRealPath("http://192.168.0.13:8080/image/storage/");
+		
+		String result = postService.insert(postDTO, img.getOriginalFilename(), img.getInputStream(),realPath);
+		
+		ModelAndView mv = new ModelAndView("jsonView"); //// 꼭 jsonView 로 해주기
 		mv.addObject("result", result);
 		return mv;
 
