@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences.Editor editor;
 
 
-    String[] navNames = {"list","search","like","profile"};
+    String[] navNames = {"list","search","upload","like","profile"};
 
 
     @Override
@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
                         bundle.putInt("user_id", user_id); // key , value
                         likeFragment.setArguments(bundle);
-                        replaceFragment(R.id.frame_layout, likeFragment, navNames[2]);
+                        replaceFragment(R.id.frame_layout, likeFragment, navNames[3]);
                         break;
                     case R.id.navigation_menu5: // 지윤
-                        replaceFragment(R.id.frame_layout, profileFragment, navNames[3]);
+                        replaceFragment(R.id.frame_layout, profileFragment, navNames[4]);
                         break;
                 }
                 return true;
