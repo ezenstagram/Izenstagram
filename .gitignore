@@ -14,6 +14,8 @@ target/
 .git
 .project
 /.settings
+mics.xml
+/.settings/org.eclipse.core.resources.prefs
  
 # Packages #
 ############
