@@ -2,9 +2,7 @@ package com.example.izenstargram.upload;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
@@ -18,31 +16,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.izenstargram.R;
-import com.example.izenstargram.helper.FileUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static android.app.Activity.RESULT_OK;
 
 
 public class GalleryFragment extends Fragment  {
     TextView textView;
     RecyclerView recyclerView;
     PictureAdapter adapter;
-
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     int pictureCount = 0;
 
     ArrayList<PictureInfo> pictures;
-
 
 
     @Nullable

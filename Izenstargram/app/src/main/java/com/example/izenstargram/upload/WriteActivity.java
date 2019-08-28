@@ -3,6 +3,7 @@ package com.example.izenstargram.upload;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -94,7 +95,8 @@ public class WriteActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_btn1:
                 //테스트용 user_id 임의로 설정
-                int user_id=130;
+                SharedPreferences pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
+                int user_id = pref.getInt("user_id", 0);
                 //입력값 얻어오기
                 String content = edit_content.getText().toString().trim();
                 String location = edit_location.getText().toString().trim();

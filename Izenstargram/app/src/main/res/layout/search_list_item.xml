@@ -15,7 +15,7 @@
         android:paddingLeft="5dp">
 
         <ImageView
-            android:id="@+id/img_gallery"
+            android:id="@+id/imageView"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             app:srcCompat="@mipmap/ic_launcher" />
