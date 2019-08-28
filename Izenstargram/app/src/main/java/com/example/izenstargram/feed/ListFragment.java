@@ -76,7 +76,7 @@ public class ListFragment extends Fragment {
         Log.d("[INFO]", "onResume 함수 시작");
         super.onResume();
         RequestParams params = new RequestParams();
-        params.put("user_id", 6);
+        params.put("user_id", 1);
         clear();
         client.get(url, params, response);
         recyclerView.setAdapter(adapter);
