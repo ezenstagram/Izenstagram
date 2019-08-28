@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.izenstargram.R;
 import com.example.izenstargram.helper.PhotoHelper;
@@ -73,6 +75,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
                 Intent intent = new Intent(getActivity(), ImageViewActivity.class);
 
                 intent.putExtra("strParamName", str);
+                Log.d("[INFO]","photoPath의 역할을 하는 str:"+str);
                 startActivity(intent);
             }
         };
@@ -146,6 +149,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         switch (view.getId()) {
             case R.id.button:
                 camera.takePicture(null, null, jpegCallback);
+
                 break;
         }
     }

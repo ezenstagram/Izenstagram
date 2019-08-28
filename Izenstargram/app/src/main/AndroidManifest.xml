@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.izenstargram">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -23,9 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".profile.ProfileAuthActivity"></activity>
+        <activity android:name=".profile.ProfileAuthActivity" />
         <activity android:name=".profile.ChangeProfileActivity" />
-        <activity android:name=".login.ChangePasswordActivity"></activity>
+        <activity android:name=".login.ChangePasswordActivity" />
         <activity android:name=".login.FindLoginActivity" />
         <activity android:name=".login.JoinSuccessActivity" />
         <activity android:name=".login.JoinSecondActivity" />
@@ -38,7 +38,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".upload.Gallery"></activity>
 
         <meta-data
             android:name="com.google.android.actions"
@@ -55,7 +54,7 @@
                 android:value=".UploadActivity" />
         </activity>
         <activity android:name=".upload.UploadActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

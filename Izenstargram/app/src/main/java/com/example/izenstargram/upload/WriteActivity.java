@@ -176,9 +176,9 @@ public class WriteActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        dialog.dismiss();
-        super.onDestroy();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        dialog.dismiss();
+//        super.onDestroy();
+//    }
 }
