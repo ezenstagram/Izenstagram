@@ -71,7 +71,6 @@ public class FeedService {
 	// 게시글 데이터 뽑아오기
 	public List<PostAllDTO> feedPostList(int user_id) {
 		List<PostAllDTO> list = feedDAO.feedPostList(user_id);
-
 		for (int i = 0; i < list.size(); i++) {
 			List<PostImageDTO> imglist = feedDAO.feedPostImageList(list.get(i).getPost_id());
 			list.get(i).setPostImageList(imglist);

@@ -33,7 +33,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<delete id="delCmts" parameterType="commentsDTO">
-		delete comments where POST_ID = #{post_id} and comment_id = #{comment_id}
+		delete comments where POST_ID
+		= #{post_id} and comment_id = #{comment_id}
 	</delete>
 
 	<update id="updateCmts" parameterType="commentsDTO">
@@ -49,13 +50,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		max(comment_id) as maxCi from comments where post_id = #{post_id}
 	</select>
 
-	<select id="feedPostList" parameterType="int"
+	<select id="feedPostList" parameterType="java.util.Map"
 		resultType="postAllDTO">
+		select post_id, user_id, content, location, reg_date from
+		post where user_id =#{user_id}
+		union all
 		select post_id, user_id, content, location, reg_date
-		from post p
+		from post
 		where user_id
-		in ((select follow_user_id from follow where user_id=#{user_id}), #{user_id}) order by
-		p.REG_DATE desc;
+		in (select follow_user_id from follow where user_id=#{user_id2}) order by REG_DATE
+		desc
 	</select>
 
 	<select id="feedPostImageList" parameterType="int"
