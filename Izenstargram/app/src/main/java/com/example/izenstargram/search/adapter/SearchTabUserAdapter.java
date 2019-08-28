@@ -56,7 +56,7 @@ public class SearchTabUserAdapter extends ArrayAdapter<UserDTO> {
         UserDTO item = getItem(position);
         if (item != null) {
             TextView textView = convertView.findViewById(R.id.textViewUserName);
-            ImageView imageView = convertView.findViewById(R.id.imageView);
+            ImageView imageView = convertView.findViewById(R.id.imageViewSearchUser);
             imageLoader.displayImage(item.getProfile_photo(), imageView, options);
             textView.setText("@" + item.getLogin_id());
 
