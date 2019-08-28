@@ -72,11 +72,12 @@ public class FeedService {
 	public List<PostAllDTO> feedPostList(int user_id) {
 		List<PostAllDTO> list = feedDAO.feedPostList(user_id);
 		for (int i = 0; i < list.size(); i++) {
-			List<PostImageDTO> imglist = feedDAO.feedPostImageList(list.get(i).getPost_id());
+			List<PostImageDTO> imglist = feedPostImageList(list.get(i).getPost_id());
 			list.get(i).setPostImageList(imglist);
 			List<CommentsDTO> cmtList = feedDAO.cmtList(list.get(i).getPost_id()); // 댓글
 																					// 데이터
 																					// 리스트
+		
 			list.get(i).setComment_cnt(cmtList.size());
 
 			int isLike = feedDAO.chkLikes(list.get(i).getPost_id(), user_id);
