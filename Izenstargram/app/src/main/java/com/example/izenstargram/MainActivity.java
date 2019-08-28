@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
+
     String[] navNames = {"list","search","like","profile"};
 
 
