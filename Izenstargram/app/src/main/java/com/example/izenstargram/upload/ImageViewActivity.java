@@ -27,7 +27,7 @@ public class ImageViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         Intent intent = getIntent();
-         photoPath = intent.getStringExtra("strParamName");
+        photoPath = intent.getStringExtra("strParamName");
         cameraFragment = new CameraFragment();
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -56,8 +56,10 @@ public class ImageViewActivity extends AppCompatActivity {
             case R.id.action_btn1:
                 Intent intent = new Intent(this, WriteActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intent.putExtra("photoPath",photoPath);
                 startActivity(intent);
+                finish();
                 return true;
             case R.id.home:
                 //뒤로가기 버튼임 액션바에 있는!

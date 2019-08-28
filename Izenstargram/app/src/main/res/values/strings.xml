@@ -6,4 +6,5 @@
 
     <string name="ImageActivity"></string>
     <string name="WriteActivity">새 게시물</string>
+    <string name="title_activity_gallery">GalleryActivity</string>
 </resources>
