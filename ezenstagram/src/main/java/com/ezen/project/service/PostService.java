@@ -45,7 +45,7 @@ public class PostService {
 				
 				PostImageDTO postImageDTO = new PostImageDTO();
 				postImageDTO.setImage_id(image_id);
-				postImageDTO.setImage_url(image_url);
+				postImageDTO.setImage_url(filename);
 				postImageDTO.setPost_id(post_id);
 
 				int result1 = postImageDAO.insertPostImage(postImageDTO);//�씠誘몄�瑜� �삱�졇�쓣�븣 �꽦怨듯븯�뒗 result. 理쒖쥌 json�뿉 異쒕젰�빐�빞 �븯�뒗寃껋쓣 result濡� �빐�빞�빐�꽌 1�쓣 遺숈��쓬
