@@ -39,10 +39,10 @@ public class JoinSecondActivity extends AppCompatActivity implements View.OnClic
 
     AsyncHttpClient client;
     HttpResponseIdCheck response_idCheck;
-    String URL_idCheck = "http://192.168.0.32:8080/project/InfoPresence.do";
+    String URL_idCheck = "http://192.168.0.5:8080/project/InfoPresence.do";
 
     HttpResponseJoin response_join;
-    String URL_join = "http://192.168.0.32:8080/project/user_join.do";
+    String URL_join = "http://192.168.0.5:8080/project/user_join.do";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

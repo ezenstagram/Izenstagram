@@ -36,7 +36,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
 
     AsyncHttpClient client;
     ProfileModiResponse response;
-    String URL = "http://192.168.0.32:8080/project/changeProfile.do";
+    String URL = "http://192.168.0.5:8080/project/changeProfile.do";
     int i=1;
     String photoPath = "";
     int user_id = 0;

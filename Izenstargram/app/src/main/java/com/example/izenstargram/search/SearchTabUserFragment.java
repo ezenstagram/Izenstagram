@@ -32,37 +32,49 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 
-public class SearchTabUserFragment extends Fragment {
+public class SearchTabUserFragment extends Fragment implements View.OnClickListener {
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.55:8080/project/selectUserBySearch.do";
-//selectTagNameByLetter.do
-    String letter_to_search;
+    String url = "http://192.168.0.5:8080/project/selectUserBySearch.do";
+
+
+    Button button;
+    EditText editText;
+    MenuItem mSearch;
+
     List<UserDTO> list;
     SearchTabUserAdapter adapter;
     ListView listView;
+    String letter_to_search;
     Activity activity = getActivity();
+
     ArrayList<UserDTO> userNameList = new ArrayList<>();
-    // 서치뷰
-    MenuItem mSearch;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("[INFO]", "TabUserFragment : onCreateView() 실행");
         View view = inflater.inflate(R.layout.search_tab_user_layout, container, false);
+
+
         //View viewSearchFrag = inflater.inflate(R.layout.search_layout, container, false); (작동됨)
-        //View viewSearchFrag = getLayoutInflater().inflate(R.layout.search_layout, null); //(작동됨)
+        View viewSearchFrag = getLayoutInflater().inflate(R.layout.search_layout, null); //(작동됨)
+        button = viewSearchFrag.findViewById(R.id.button);
+        editText = viewSearchFrag.findViewById(R.id.editText);
+        button.setOnClickListener(this);
         list = new ArrayList<>();
         //adapter = new SearchTabUserAdapter(getActivity().getApplicationContext(), R.layout.search_list_item, list);
-        adapter = new SearchTabUserAdapter(getActivity(), R.layout.search_list_item_user, list);
+        adapter = new SearchTabUserAdapter(getActivity(), R.layout.search_list_item, list);
         listView = view.findViewById(R.id.listViewUser);
         listView.setAdapter(adapter);
+
+
+
         // 서버
         client = new AsyncHttpClient();
         response = new HttpResponse(activity);
-        letter_to_search = SearchFragment.letter_to_search;
         return view;
     }
 
@@ -71,9 +83,10 @@ public class SearchTabUserFragment extends Fragment {
         Log.d("[INFO]", "TabUserFragment : onResume() 시작");
         super.onResume();
         adapter.clear();    // List의 데이터 삭제
-        letter_to_search = SearchFragment.letter_to_search;
         RequestParams params = new RequestParams();
-        Log.d("[INFO]", "onResume : letter_to_search= " + letter_to_search);
+        Log.d("[INFO]", "onResume : letter_to_search(1) = " + letter_to_search);
+        String letter_to_search = "h";
+        Log.d("[INFO]", "onResume : letter_to_search(2) = " + letter_to_search);
         params.put("letter_to_search", letter_to_search);
         client.post(url, params, response);
     }
@@ -115,9 +128,13 @@ public class SearchTabUserFragment extends Fragment {
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             Log.d("[INFO]", "TabUserFragment : onFailure() 진입" + statusCode);
-            //Toast.makeText(getContext(), "연결실패", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "연결실패", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+
+
 
 
 //    // Search 메뉴 구현 시작
@@ -166,4 +183,18 @@ public class SearchTabUserFragment extends Fragment {
 //            }
 //        });
 //    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.button:
+                Log.d("[INFO]", "TabUserFragment : onClick() : 버튼 눌림");
+                break;
+        }
+
+
+    }
+
+
 }

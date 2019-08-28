@@ -120,7 +120,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
              @Override
              public void onClick(View v) {
                 Fragment CommentFragment = new Fragment();
-               // replaceFragment(R.id.frame_layout, CommentFragment);
+                //replaceFragment(R.id.frame_layout, CommentFragment);
          }
          });
 

@@ -28,8 +28,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     Button button;
     EditText editText;
-    static String letter_to_search;
+    String letter_to_search;
     MenuItem mSearch;
+
 
     @Nullable
     @Override
@@ -41,8 +42,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         button = view.findViewById(R.id.button);
         button.setOnClickListener(this);
         editText = view.findViewById(R.id.editText);
-        // searchPagerAdapter = new SearchPagerAdapter(
-        //          getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+       // searchPagerAdapter = new SearchPagerAdapter(
+      //          getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
+        // 수정수정이로 수정
         searchPagerAdapter = new SearchPagerAdapter(
                 this.getChildFragmentManager(), 4); ///???
         viewPager.setAdapter(searchPagerAdapter);
@@ -50,14 +52,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
 
-        viewPager.onSaveInstanceState();
+        viewPager.onSaveInstanceState();    // 수정수정이 코드
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Log.d("[INFO]", "SEARCH : tab.getPosition() : " + tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
-                searchPagerAdapter.notifyDataSetChanged();
+                searchPagerAdapter.notifyDataSetChanged();  // 수정수정이
             }
 
             @Override
@@ -68,9 +70,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                searchPagerAdapter.notifyDataSetChanged();
+                searchPagerAdapter.notifyDataSetChanged();  //수정수정이
             }
         });
+        // 수정수정이
         TabLayout.Tab tab = tabLayout.getTabAt(0);  // 0: 검색아이콘눌렀을 때 첫 탭
         tab.select();
         return view;
@@ -86,18 +89,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        SearchView searchView = (SearchView)menu.findItem(R.id.search).getActionView();
+
+
+
     }
-
-    @Override
-    public void onClick(View v) {
-        Log.d("[INFO]", "SearchFragment : onClick() 실행됨");
-        letter_to_search = editText.getText().toString().trim();
-        editText.setText("");
-
-        // mSearch.expandActionView();
-    }
-
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
@@ -108,6 +104,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 //        }
 //        return super.onOptionsItemSelected(item);
 //    }
+
     //    // Search 메뉴 구현 시작(방법1)
 //    // 메뉴 생성하는 onCreateOptionsMenu
 //    @Override
@@ -156,4 +153,28 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 //            }
 //        });
 //    }
+
+
+
+
+
+
+    @Override
+    public void onClick(View v) {
+        Log.d("[INFO]", "SearchFragment : onClick() 실행됨");
+        letter_to_search = editText.getText().toString().trim();
+
+         //Fragment로 letter_to_search 값 전달하기......외않되
+        SearchTabTagFragment searchTabTagFragment = new SearchTabTagFragment();
+        Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
+        Log.d("[INFO]", "SearchFrag에서 letter_to_search (" + letter_to_search + ")를 TabTag로 전달하려함");
+        bundle.putString("letter_to_search", letter_to_search); // key , value
+        searchTabTagFragment.setArguments(bundle);
+        TabLayout.Tab tab = tabLayout.getTabAt(3);
+        tab.select();
+
+       // mSearch.expandActionView();
+    }
+
+
 }

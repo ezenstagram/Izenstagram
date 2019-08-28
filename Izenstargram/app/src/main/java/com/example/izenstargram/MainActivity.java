@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.izenstargram.feed.ListFragment;
 import com.example.izenstargram.like.LikeFragment;
 import com.example.izenstargram.profile.ProfileFragment;
 import com.example.izenstargram.search.SearchFragment;
