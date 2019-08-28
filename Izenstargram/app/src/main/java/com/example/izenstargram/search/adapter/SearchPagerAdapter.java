@@ -34,12 +34,11 @@ public class SearchPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return searchTabRandomFragment;
             case 2:
-                Log.d("[INFO]", "PagerAdapter - case(position2:user) 실행");
                 return searchTabUserFragment;
             case 3:
                 return searchTabTagFragment;
             default:
-                return searchTabTagFragment;//////////
+                return searchTabTagFragment;
         }
 
     }
