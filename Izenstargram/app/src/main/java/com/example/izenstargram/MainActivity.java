@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // 화면 전환
-    private void replaceFragment(int layoutId, Fragment fragment, String fra_name) {
+    public void replaceFragment(int layoutId, Fragment fragment, String fra_name) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(layoutId, fragment,fra_name);
         transaction.setTransition(FragmentTransaction.TRANSIT_NONE);

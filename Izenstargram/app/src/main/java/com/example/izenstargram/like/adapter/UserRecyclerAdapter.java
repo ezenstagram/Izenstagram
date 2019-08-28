@@ -24,10 +24,12 @@ import com.bumptech.glide.Glide;
 import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
 import com.example.izenstargram.like.bean.NotifiInfo;
+import com.example.izenstargram.profile.ProfileFragment;
 
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.UserRecyclerHolder> {
 
@@ -71,19 +73,19 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
             userRecyclerHolder.button.setVisibility(View.GONE);
             userRecyclerHolder.imageView2.setVisibility(View.VISIBLE);
             String str = "";
+            List<String> clickStrList = new ArrayList<>();
             if (notifiInfo.getMode_id() == 1) {
-                str = "<a href='#'>" + notifiInfo.getAct_login_id()+"</a>";
-                str += "님이 회원님의 게시물을 좋아합니다.";
-//                userRecyclerHolder.textView.setText(make(notifiInfo.getAct_login_id()));
-//                userRecyclerHolder.textView.setMovementMethod(LinkMovementMethod.getInstance());
+                clickStrList.add(notifiInfo.getAct_login_id());
+                str = notifiInfo.getAct_login_id() + "님이 회원님의 게시물을 좋아합니다.";
             } else if (notifiInfo.getMode_id() == 2) {
                 str = notifiInfo.getAct_login_id() + "님이 댓글에서 회원님을 태그했습니다. : " + notifiInfo.getComment_txt();
-            } else if(notifiInfo.getMode_id() == 3){
+            } else if (notifiInfo.getMode_id() == 3) {
                 userRecyclerHolder.button.setVisibility(View.VISIBLE);
                 userRecyclerHolder.imageView2.setVisibility(View.GONE);
                 str = notifiInfo.getAct_login_id() + "님이 회원님을 팔로우하기 시작했습니다.";
             }
-            userRecyclerHolder.textView.setText(Html.fromHtml(str));
+            userRecyclerHolder.textView.setText(make(str, clickStrList));
+            userRecyclerHolder.textView.setMovementMethod(LinkMovementMethod.getInstance());
             Glide.with(userRecyclerHolder.itemView.getContext())
                     .load(notifiInfo.getProfile_photo())
                     .into(userRecyclerHolder.imageView1);
@@ -93,7 +95,27 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         }
     }
 
+    private SpannableString make(String text, List<String> clickStrList) {
+        SpannableString spanString = new SpannableString(text);
 
+        spanString.setSpan(new ForegroundColorSpan(Color.parseColor("#949494")), 0, text.length(), 0);
+        for (String str : clickStrList) {
+            ClickableSpan clickableSpan = new ClickableSpan() {
+                @Override
+                public void onClick(View textView) {
+                    ((MainActivity)activity).replaceFragment(R.id.frame_layout, new ProfileFragment(), "like");
+                }
+
+                @Override
+                public void updateDrawState(TextPaint ds) {
+                    super.updateDrawState(ds);
+                }
+            };
+            spanString.setSpan(clickableSpan, text.indexOf(str), text.indexOf(str) + str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        return spanString;
+    }
 
     @Override
     public int getItemCount() {

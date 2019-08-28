@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
 import com.example.izenstargram.like.adapter.LikePagerAdapter;
+import com.example.izenstargram.profile.ProfileFragment;
 
 public class LikeFragment extends Fragment {
 
