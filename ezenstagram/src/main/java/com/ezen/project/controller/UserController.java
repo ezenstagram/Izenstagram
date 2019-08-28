@@ -1,5 +1,6 @@
 package com.ezen.project.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.project.bean.PostImageDTO;
@@ -225,7 +227,7 @@ public class UserController {
 		return mv;
 	}
 	@RequestMapping(value="changeProfile.do") 
-	public ModelAndView changeProfile(HttpServletRequest request) {
+	public ModelAndView changeProfile(MultipartFile photopath, HttpServletRequest request) throws IOException {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
 		String name = request.getParameter("name");
@@ -249,7 +251,8 @@ public class UserController {
 		userDTO.setUser_id(user_id);
 		userDTO.setProfile_photo(profile_photo);
 		
-		int result = userService.changeProfile(userDTO);
+		String realpath = "Z:";
+		int result = userService.changeProfile(userDTO, photopath.getOriginalFilename(), photopath.getInputStream(), realpath);
 		
 		mv.addObject("result", result);
 		

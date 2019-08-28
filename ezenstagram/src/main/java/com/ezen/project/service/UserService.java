@@ -1,11 +1,17 @@
 package com.ezen.project.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.FileCopyUtils;
 
 import com.ezen.project.bean.UserDTO;
 import com.ezen.project.dao.UserDAO;
@@ -66,7 +72,25 @@ public class UserService {
 		return userDAO.selectOne(string);
 	}
 	
-	public int changeProfile(UserDTO userDTO) {
-		return userDAO.changeProfile(userDTO);
+	public int changeProfile(UserDTO userDTO, String filename, InputStream inputStream, String realpath) {
+		int result = 0;
+		int user_id = userDTO.getUser_id();
+		result = userDAO.changeProfile(userDTO);
+		
+		if(result > 0) {
+			String image_url = realpath+"/"+filename;
+			File file = new File(image_url);
+			try {
+				FileCopyUtils.copy(inputStream, new FileOutputStream(file));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return result;
+
 	}
 }
