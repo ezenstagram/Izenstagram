@@ -93,7 +93,14 @@ public class FeedService {
 
 	// 게시글 이미지 데이터 뽑아오기
 	public List<PostImageDTO> feedPostImageList(int post_id) {
-		return feedDAO.feedPostImageList(post_id);
+		List<PostImageDTO> imglist = feedDAO.feedPostImageList(post_id);
+		String imgUrl = null;
+		for(int i=0; i<imglist.size(); i++) {
+				
+			imgUrl = "http://192.168.0.13:8080/image/storage/" + imglist.get(i).getImage_url(); 
+			imglist.get(i).setImage_url(imgUrl);
+		}
+		return imglist;
 	}
 
 	// 댓글 데이터 뽑아오기
