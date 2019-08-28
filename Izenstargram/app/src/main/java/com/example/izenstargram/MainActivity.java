@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
-    String[] navNames = {"list", "search", "like", "profile"};
+    String[] navNames = {"list","search","like","profile"};
 
 
     @Override
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     case R.id.navigation_menu3: // 지현
                         Intent intent = new Intent(MainActivity.this, UploadActivity.class);
                         startActivity(intent);
-                        overridePendingTransition(0, R.xml.slide_up);
+                        overridePendingTransition(0,R.xml.slide_up);
                         break;
                     case R.id.navigation_menu4: // 수정
                         Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
@@ -92,29 +92,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         ArrayList<String> permissionCheck = new ArrayList<String>();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            permissionCheck.add(Manifest.permission.CAMERA);
-        }
+            permissionCheck.add(Manifest.permission.CAMERA);}
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionCheck.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
+            permissionCheck.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);}
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            permissionCheck.add(Manifest.permission.RECORD_AUDIO);
-        }
+            permissionCheck.add(Manifest.permission.RECORD_AUDIO);}
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            permissionCheck.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
+            permissionCheck.add(Manifest.permission.READ_EXTERNAL_STORAGE);}
 
-        if (permissionCheck.size() > 0) {
+        if(permissionCheck.size() > 0) {
             String[] reqPermissionArray = new String[permissionCheck.size()];
             reqPermissionArray = permissionCheck.toArray(reqPermissionArray);
-            ActivityCompat.requestPermissions(this, reqPermissionArray, 100);
+            ActivityCompat.requestPermissions(this, reqPermissionArray,100);
         }
     }
-
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (grantResults.length > 0) {
+        if(grantResults.length > 0) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
             }
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
@@ -140,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // 화면 전환
     private void replaceFragment(int layoutId, Fragment fragment, String fra_name) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(layoutId, fragment, fra_name);
+        transaction.replace(layoutId, fragment,fra_name);
         transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -150,8 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             onBackPressed();
-            for (int i = 0; i < navNames.length; i++) {
-                Fragment currentFrag1 = fragmentManager.findFragmentByTag(navNames[i]);
+            for(int i = 0; i <navNames.length; i++){
+                Fragment currentFrag1 =  fragmentManager.findFragmentByTag(navNames[i]);
                 if (currentFrag1 != null && currentFrag1.isVisible()) {
                     bottomNavigationView.getMenu().getItem(i).setChecked(true);
                     return false;

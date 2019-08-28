@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/feedLayout">
+
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/feed_profile_Img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="top"
+            android:layout_margin="6dp" />
+
+        <TextView
+            android:id="@+id/feed_user_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/feed_profile_Img"
+            android:layout_marginLeft="30dp"
+            android:hint="테스트"
+            android:textSize="17sp" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="50dp"
+            android:id="@+id/recyclerView_img_item"
+            android:orientation="horizontal">
+
+        </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/instabtn"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@+id/recyclerView_img_item"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+
+        <ToggleButton
+            android:id="@+id/heart_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/likes"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:textOff=""
+            android:textOn=""  />
+
+
+        <ImageView
+            android:id="@+id/cmt_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="5dp"
+            android:background="@drawable/speechbubble"
+            />
+
+        <ImageView
+            android:id="@+id/send_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center_vertical"
+
+            android:background="@drawable/paperplane" />
+    </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="345dp"
+            android:layout_marginBottom="260dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/feedTxtLikes"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:id="@+id/feedTxtCmt"
+                android:layout_below="@+id/feedTxtLikes" />
+        </RelativeLayout>
+
+</RelativeLayout>
