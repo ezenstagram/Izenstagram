@@ -36,7 +36,7 @@ public class SearchTabUserFragment extends Fragment implements View.OnClickListe
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.55:8080/project/selectUserBySearch.do";
+    String url = "http://192.168.0.5:8080/project/selectUserBySearch.do";
 
 
     Button button;

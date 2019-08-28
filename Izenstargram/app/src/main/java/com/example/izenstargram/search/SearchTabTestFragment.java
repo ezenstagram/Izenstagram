@@ -30,7 +30,7 @@ public class SearchTabTestFragment extends Fragment implements View.OnClickListe
     int post_id = 3;
     String fullContent = "";
     Activity activity = getActivity();
-    String url = "http://192.168.0.55:8080/project/putTagIntoPost.do";
+    String url = "http://192.168.0.5:8080/project/putTagIntoPost.do";
     AsyncHttpClient client;
     HttpResponse response;
     String letter_to_search;
