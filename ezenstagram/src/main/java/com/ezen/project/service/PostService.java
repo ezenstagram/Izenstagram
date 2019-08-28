@@ -23,24 +23,20 @@ public class PostService {
 	@Autowired
 	private PostImageDAO postImageDAO;
 
-	public String insert(PostDTO postDTO, String filename, InputStream inputStream,String realPath) {
-		//파일을 저장할 폴더의 절대 경로를 얻어오기
-		System.out.println(realPath);//Controller 파일에서 파일을 저장할 폴더의 절대 경로를 얻어온것이다.
-		
+	public String insert(PostDTO postDTO, String filename, InputStream inputStream,String realpath) {
 		String result = "0";
 		int su = postDAO.insertPost(postDTO);
 		int post_id = postDAO.getcurrPost_id();
 		if (su > 0) {
 			
 			try {
-				String image_url = realPath+"/"+filename;
+				String image_url = realpath+"/"+filename;
 				System.out.println("image_url : " + image_url);
 				int image_id = 1;
 
 				File file = new File(image_url);
 				try {
 					FileCopyUtils.copy(inputStream, new FileOutputStream(file));
-					
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -65,7 +61,6 @@ public class PostService {
 		}
 		return result;
 	}
-	
 	public List<PostImageDTO> profilePostRefImage(int user_id) {
 		return postImageDAO.profilePostRefImage(user_id);
 	}

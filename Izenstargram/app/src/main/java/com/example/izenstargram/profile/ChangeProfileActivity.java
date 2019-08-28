@@ -2,9 +2,14 @@ package com.example.izenstargram.profile;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,9 +27,15 @@ import com.example.izenstargram.helper.RegexHelper;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -36,10 +48,15 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
 
     AsyncHttpClient client;
     ProfileModiResponse response;
-    String URL = "http://192.168.0.5:8080/project/changeProfile.do";
+    String URL = "http://192.168.0.32:8080/project/changeProfile.do";
     int i=1;
     String photoPath = "";
     int user_id = 0;
+    UserDTO userDTO;
+
+    ImageLoader imageLoader;
+    DisplayImageOptions options;
+    Bitmap adjustedBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,11 +75,12 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
         editText6 = findViewById(R.id.editText6);
         editText7 = findViewById(R.id.editText7);
         textViewChangePhoto = findViewById(R.id.textViewChangePhoto);
-
+        imageView = findViewById(R.id.CircleImageView);
+        imageLoaderInit();
         client = new AsyncHttpClient();
         response = new ProfileModiResponse(this);
         Intent fromIntent = getIntent();
-        UserDTO userDTO = (UserDTO) fromIntent.getSerializableExtra("userDTO");
+        userDTO = (UserDTO) fromIntent.getSerializableExtra("userDTO");
 
         editText2.setText(userDTO.getLogin_id());
 
@@ -96,6 +114,12 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
         } else {
             editText7.setText(userDTO.getGender());
         }
+        if(userDTO.getProfile_photo().equals("null")) {
+            imageView.setImageResource(R.drawable.ic_stub);
+        } else {
+            String photo = "http://192.168.0.13:8080/image/storage/" + userDTO.getProfile_photo();
+            imageLoader.displayImage(photo, imageView, options);
+        }
 //        editText1.setText(userDTO.getName());
 //        editText2.setText(userDTO.getLogin_id());
 //        editText3.setText(userDTO.getWebsite());
@@ -111,13 +135,26 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
         editText4.setOnTouchListener(this);
         editText5.setOnTouchListener(this);
         editText6.setOnTouchListener(this);
+        imageView.setOnClickListener(this);
+        textViewChangePhoto.setOnClickListener(this);
+
     }
-
-
-
+    private void imageLoaderInit() {
+        // ImageLoader 초기화
+        imageLoader = ImageLoader.getInstance();
+        if(!imageLoader.isInited()) {       // 초기화 되어있지 않으면
+            ImageLoaderConfiguration configuration =
+                    ImageLoaderConfiguration.createDefault(this);
+            imageLoader.init(configuration);
+        }
+        DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
+        builder.showImageOnLoading(R.drawable.ic_stub);
+        builder.showImageForEmptyUri(R.drawable.ic_empty);
+        builder.showImageOnFail(R.drawable.ic_error);
+        options = builder.build();
+    }
     @Override
     public void onClick(View v) {
-
         switch (v.getId()) {
             case R.id.textViewCancel:
                 finish();
@@ -126,12 +163,57 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
                 confirmInput();
                 break;
             case R.id.textViewChangePhoto:
-                // 코드 추가하기
+            case R.id.CircleImageView:
+                final String[] items;
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                if(userDTO.getProfile_photo().equals("null")) {
+                    items = new String[]{"사진 찍기", "라이브러리에서 선택"};
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    showCamera();
+                                    break;
+                                case 1:
+                                    showGallery();
+                                    break;
+                            }
+                        }
+                    });
+                } else {
+                    items = new String[]{"현재 사진 삭제", "사진 찍기", "라이브러리에서 선택"};
+                    builder.setItems(items, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    photoPath = "";
+                                    imageView.setImageResource(R.drawable.ic_stub);
+                                    break;
+                                case 1:
+                                    showCamera();
+                                    break;
+                                case 2:
+                                    showGallery();
+                                    break;
+                            }
+                        }
+                    });
+                }
+                Dialog dialog = builder.create();
+                dialog.show();
                 break;
         }
-
     }
-
+    public void showCamera() {
+        Intent intent = new Intent(this, ProfileCameraActivity.class);
+        startActivityForResult(intent, 100);
+    }
+    public void showGallery() {
+        Intent intent = new Intent(this, ProfileGalleryActivity.class);
+        startActivityForResult(intent, 100);
+    }
     private void confirmInput() {
         String name = editText1.getText().toString();
         String login_id = editText2.getText().toString();
@@ -144,7 +226,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
         RegexHelper regexHelper = RegexHelper.getInstance();
         String msg = null;
 
-       if(msg == null && !regexHelper.nameCheck(name)) {
+        if(msg == null && !regexHelper.nameCheck(name)) {
             msg = "이름은 영문자, 숫자, 한글, _ 로만 입력할 수 있습니다.";
         } else if(msg == null && name.length()>40) {
             msg = "이름의 길이가 깁니다.";
@@ -165,16 +247,23 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
         params.put("tel",tel);
         params.put("gender",gender);
         params.put("user_id",user_id);
-        params.put("profile_photo",photoPath);
+
+
+        String fileName = photoPath.substring( photoPath.lastIndexOf('/')+1, photoPath.length());
+        params.put("profile_photo", fileName);
+        try {
+            params.put("photopath",new File(fileName));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
         client.post(URL, params, response);
     }
-
-
+    // editText 클릭 시
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         i++;
         Intent intent = new Intent(this, ProfileAuthActivity.class);
-         if(event.getAction() == MotionEvent.ACTION_DOWN){
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
             switch (v.getId()) {
                 case R.id.editText2:
                     intent.putExtra("sepa", 2);
@@ -213,10 +302,8 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
                     break;
             }
         }
-       return false;
-
+        return false;
     }
-
     public class ProfileModiResponse extends AsyncHttpResponseHandler {
         Activity activity;
         ProgressDialog dialog;
@@ -255,17 +342,31 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
                 e.printStackTrace();
             }
         }
-
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             Toast.makeText(activity, "통신 실패", Toast.LENGTH_SHORT).show();
         }
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode==RESULT_OK) {
             switch (requestCode) {
+                case 100:
+                    String photoPath = data.getStringExtra("photoPath");
+                    this.photoPath = photoPath;
+                    String fileName = photoPath.substring( photoPath.lastIndexOf('/')+1, photoPath.length() );
+
+                    File file = new File(photoPath);
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 4;
+                    Bitmap bmp = BitmapFactory.decodeFile(photoPath, options);
+
+                    Matrix matrix = new Matrix();
+                    matrix.preRotate(90);
+                    adjustedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+
+                    imageView.setImageBitmap(adjustedBitmap);
+                    break;
                 case 102:
                     String login_id = data.getStringExtra("login_id");
                     editText2.setText(login_id);
@@ -285,4 +386,5 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
             }
         }
     }
+
 }

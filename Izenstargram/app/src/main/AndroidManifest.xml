@@ -23,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".profile.ProfileGalleryActivity"></activity>
+        <activity android:name=".profile.ProfileCameraImageActivity" />
+        <activity android:name=".profile.ProfileCameraActivity" />
         <activity android:name=".profile.ProfileAuthActivity" />
         <activity android:name=".profile.ChangeProfileActivity" />
         <activity android:name=".login.ChangePasswordActivity" />

@@ -28,7 +28,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@android:color/background_dark"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
             <Button
                 android:id="@+id/button"
@@ -43,14 +43,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:orientation="horizontal">
 
             <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/CircleImageView"
                 android:layout_width="110dp"
 
-                android:layout_height="110dp"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="10dp" />
 
             <LinearLayout
@@ -137,16 +137,17 @@
             android:id="@+id/textViewProfile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="0"
             android:textColor="@android:color/black" />
 
         <Button
             android:id="@+id/buttonModi"
             android:layout_width="match_parent"
             android:layout_height="36dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="20dp"
             android:background="@android:color/background_light"
             android:text="프로필 수정" />
 
@@ -173,6 +174,7 @@
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0.5dp"
             android:background="@android:color/background_light" />
 
     </LinearLayout>
@@ -187,62 +189,265 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <TextView
-            android:id="@+id/TextViewLogin_id2"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/background_light"
-            android:text="login_id"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@android:color/black"
-            android:textSize="20dp" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0.7dp"
+            android:background="@android:color/darker_gray"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView19"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="TextView" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0.5dp"
+                android:background="@android:color/background_light"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView20"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="TextView" />
+                <TextView
+                    android:id="@+id/TextViewLogin_id2"
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="5dp"
+                    android:background="@android:color/background_light"
+                    android:gravity="center_vertical"
+                    android:text="login_id"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="20dp" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView21"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="TextView" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/background_light"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView22"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="TextView" />
+                <TextView
+                    android:id="@+id/textView19"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="보관"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
 
-        <TextView
-            android:id="@+id/textView23"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="TextView" />
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="내 활동"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="네임 태그"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="저장됨"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textView23"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="친한 친구"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="사람 찾아보기"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0.5dp"
+                android:background="@android:color/background_light"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:text="로그아웃"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/background_dark" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayouttouch"
-        android:layout_width="204dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"></LinearLayout>
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/linearLayouttouch"
+            android:layout_width="204dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayoutReal"
+            android:layout_width="207dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0.5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/TextViewLogin_id3"
+                    android:layout_width="match_parent"
+                    android:layout_height="39dp"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textViewAct"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textViewNameTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textViewStored"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textViewBF"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+
+                <TextView
+                    android:id="@+id/textViewFindPeople"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@android:color/background_dark" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0.5dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/background_dark" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>

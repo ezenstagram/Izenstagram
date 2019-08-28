@@ -38,8 +38,4 @@
 		p:viewClass="org.springframework.web.servlet.view.JstlView"
 		p:prefix="/WEB-INF/view/" p:suffix=".jsp">
 	</bean>
-
-	
-
 </beans>
-

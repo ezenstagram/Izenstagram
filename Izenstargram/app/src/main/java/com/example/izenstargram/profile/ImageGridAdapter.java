@@ -1,19 +1,37 @@
 package com.example.izenstargram.profile;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.example.izenstargram.R;
+import com.example.izenstargram.helper.PhotoHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 public class ImageGridAdapter extends BaseAdapter {
@@ -24,6 +42,12 @@ public class ImageGridAdapter extends BaseAdapter {
     List<String> list;
     ImageLoader imageLoader;
     DisplayImageOptions options;
+
+    // 이미지
+    Bitmap bmp = null;
+    String fileName;
+    String img_URL;
+
 
     public ImageGridAdapter(Context context, int layout, List<String> list) {
         this.context = context;
@@ -72,17 +96,18 @@ public class ImageGridAdapter extends BaseAdapter {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+        //ViewHolder holder;
         if (convertView == null) {
             convertView = inf.inflate(layout, null);
-            holder = new ViewHolder();
-            holder.img = (ImageView) convertView.findViewById(R.id.imageView1);
-            convertView.setLayoutParams( new GridView.LayoutParams( 330, 330 ));
+//            holder = new ViewHolder();
+//            holder.img = (ImageView) convertView.findViewById(R.id.imageView1);
+            ImageView img = (ImageView) convertView.findViewById(R.id.imageView1);
+            convertView.setLayoutParams( new GridView.LayoutParams( 360, 360 ));
+            img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            //img.setPadding(5,5,5,5);
 
-            imageLoader.displayImage(list.get(position), holder.img, options);
-            convertView.setTag(holder);
-
-            //iv.setImageResource(img[position]);
+            String photo = "http://192.168.0.13:8080/image/storage/" + list.get(position);
+        imageLoader.displayImage( photo, img, options);
         }
         return convertView;
     }

@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     android:orientation="vertical"
     tools:context=".profile.ChangeProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:layout_marginBottom="0.7dp"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView
@@ -41,19 +44,36 @@
             android:textColor="@android:color/holo_blue_dark" />
     </LinearLayout>
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/CircleImageView"
-        android:layout_width="110dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="127dp"
+        android:background="@android:color/background_light">
 
-        android:layout_height="110dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/ic_stub" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/CircleImageView"
+            android:layout_width="100dp"
+
+            android:layout_height="10dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="157dp"
+            android:layout_marginLeft="157dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="156dp"
+            android:layout_marginRight="156dp"
+            android:layout_marginBottom="3dp" />
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_height="34dp"
+        android:layout_marginBottom="0.5dp"
+        android:background="@android:color/background_light"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView
@@ -69,6 +89,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView
@@ -90,6 +111,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView
@@ -111,6 +133,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView
@@ -131,6 +154,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView
@@ -152,13 +176,18 @@
     <TextView
         android:id="@+id/textView16"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="33dp"
+        android:layout_marginTop="0.5dp"
+        android:background="@android:color/background_light"
+        android:gravity="center_vertical"
         android:text="개인 정보"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView
@@ -179,6 +208,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView
@@ -199,6 +229,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@android:color/background_light"
         android:orientation="horizontal">
 
         <TextView

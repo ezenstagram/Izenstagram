@@ -34,7 +34,7 @@ public class TabFragment1 extends Fragment{
 
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.5:8080/project/userProfileRefPost.do";
+    String URL = "http://192.168.0.32:8080/project/userProfileRefPost.do";
     List<String> list;
     int user_id;
     GridView gv;
@@ -51,9 +51,9 @@ public class TabFragment1 extends Fragment{
         user_id = preferences.getInt("user_id", 0);
 
         RequestParams params = new RequestParams();
-        params.put("user_id", 10);
-        client.post(URL, params, response);
+        params.put("user_id", user_id);
 
+        client.post(URL, params, response);
         gv = (GridView) view.findViewById(R.id.gridView);
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,17 +61,13 @@ public class TabFragment1 extends Fragment{
                 Toast.makeText(getActivity(), "position", Toast.LENGTH_SHORT).show();
             }
         });
-
         return view;
 
     }
-
     @Override
     public void onResume() {
         super.onResume();
     }
-
-
 
     public class HttpResponse extends AsyncHttpResponseHandler {
         @Override
@@ -89,11 +85,6 @@ public class TabFragment1 extends Fragment{
                         JSONObject jsonObject = array.getJSONObject(i);
                         list.add(jsonObject.getString("image_url"));
                     }
-//                    String[] img = {
-//                            R.drawable.jobo_01, R.drawable.jobo_02, R.drawable.jobo_03, R.drawable.jobo_04, R.drawable.jobo_05, R.drawable.jobo_06,
-//                            R.drawable.jobo_07, R.drawable.jobo_08, R.drawable.jobo_09, R.drawable.jobo_10, R.drawable.jobo_11, R.drawable.jobo_12,
-//                            R.drawable.jobo_13, R.drawable.jobo_14
-//                    };
                     adapter = new ImageGridAdapter(getActivity().getApplicationContext(), R.layout.row, list);
                     gv.invalidateViews();
                     gv.setAdapter(adapter);

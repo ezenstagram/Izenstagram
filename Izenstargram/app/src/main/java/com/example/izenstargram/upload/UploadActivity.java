@@ -27,9 +27,6 @@ public class UploadActivity extends AppCompatActivity {
         }
         setSupportActionBar(toolbar);
 
-
-
-
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("갤러리"), 0, true);
         tabLayout.addTab(tabLayout.newTab().setText("사진"), 1);
