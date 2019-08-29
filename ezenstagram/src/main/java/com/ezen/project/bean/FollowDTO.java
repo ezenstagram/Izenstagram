@@ -4,6 +4,7 @@ public class FollowDTO {
 	private int user_id;  
 	private int follow_user_id;  
 	private String reg_date;
+	
 	public int getUser_id() {
 		return user_id;
 	}
@@ -22,6 +23,5 @@ public class FollowDTO {
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
-	
 	
 }

@@ -83,12 +83,22 @@ public class UserDAO {
 		map.put("user_id", user_id_owner);
 		map.put("follow_user_id", user_id);
 		
+
+		System.out.println("user_id_owner = "+user_id_owner);
+		System.out.println("user_id = "+user_id);
+		System.out.println("sign = "+sign);
 		int result = 0;
 		if(sign == 0) {
 			result = sqlSession.insert("mybatis.memberMapping.follow", map);
+
+			System.out.println("user_id_owner = "+user_id_owner);
 		} else {
 			result = sqlSession.delete("mybatis.memberMapping.unfollow", map);
+
 		}
 		return  result;
+	}
+	public List<UserDTO> followerList(int user_id) {
+		return sqlSession.selectList("mybatis.memberMapping.followerList", user_id);
 	}
 } 

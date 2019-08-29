@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
+import com.ezen.project.bean.FollowList;
 import com.ezen.project.bean.UserDTO;
 import com.ezen.project.dao.UserDAO;
 
@@ -95,5 +97,34 @@ public class UserService {
 	}
 	public int follow(int user_id, int user_id_owner, int sign) {		// user_id_owner가 로그인 한 사람
 		return  userDAO.follow(user_id, user_id_owner, sign);
+	}
+	public List<FollowList> followerList(int user_id) {
+		
+		List<UserDTO> list = userDAO.followerList(user_id);
+		System.out.println("list = "+list);
+		List<FollowList> follow= new ArrayList<FollowList>();
+		UserDTO userDTO = null;
+		FollowList followList = null;
+		boolean status_follow = false;
+		
+		if(list != null) {
+			for(int i=0; i<list.size(); i++) {
+				userDTO = list.get(i);
+				followList = new FollowList();
+				int status = userDAO.followRelaConfirm(userDTO.getUser_id(), user_id);
+				
+				if(status > 0) {
+					status_follow = true;
+				}
+				followList.setFollowStatus(status_follow);
+				followList.setName(userDTO.getName());
+				followList.setProfile_photo(userDTO.getProfile_photo());
+				followList.setUser_id(userDTO.getUser_id());
+				followList.setLogin_id(userDTO.getLogin_id());
+				follow.add(followList);
+			}
+		}
+		
+		return follow;
 	}
 }

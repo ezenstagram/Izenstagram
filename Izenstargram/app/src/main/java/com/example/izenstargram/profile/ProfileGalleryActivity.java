@@ -11,16 +11,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.izenstargram.R;
-import com.example.izenstargram.upload.ImageViewActivity;
-import com.example.izenstargram.upload.OnPictureItemClickListener;
-import com.example.izenstargram.upload.PictureAdapter;
 import com.example.izenstargram.upload.PictureInfo;
 
 import java.text.SimpleDateFormat;

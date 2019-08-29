@@ -4,15 +4,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.izenstargram.R;
-import com.example.izenstargram.upload.OnPictureItemClickListener;
 import com.example.izenstargram.upload.PictureInfo;
 
 import java.util.ArrayList;

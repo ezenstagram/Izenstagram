@@ -37,7 +37,7 @@ public class WriteActivity extends AppCompatActivity {
     //통신용 객체 선언
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.5:8080/project/post.do";
+    String URL = "http://192.168.0.32:8080/project/post.do";
     String photoPath=null;
     Intent intent = getIntent();
 

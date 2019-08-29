@@ -5,14 +5,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +20,16 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
+import com.example.izenstargram.follow.FollowListFragment;
 import com.example.izenstargram.login.LoginActivity;
+import com.example.izenstargram.profile.adapter.TabPagerAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -41,6 +46,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.MODE_PRIVATE;
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 public class ProfileFragment extends Fragment implements View.OnClickListener {
     Animation translateLeftAnim;
@@ -48,14 +54,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Animation translateLeftmainAnim;
     Animation translateRightmainAnim;
     LinearLayout slidingPanel;
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    PullRefreshLayout loading;
 
-    Button button, buttonModi;
-    TextView textViewLogin_id1, textViewLogin_id2, textViewPostCount, textViewFollower, textViewFollowing, textViewProfile, textViewLogout;
+    Button button, buttonModi, buttonFollowing;
+    TextView textViewLogin_id1, textViewLogin_id2, textViewPostCount, textViewFollower, textViewFollowing, textViewProfile, textViewLogout, textView13, textView15;
     //ImageView imageView;
-    LinearLayout linearLayout, linearLayouttouch, linearLayoutReal;
+    LinearLayout linearLayout, linearLayouttouch, linearLayoutReal, linearLayoutFriend;
     boolean isPageOpen=false;
     CircleImageView imageView;
 
@@ -66,70 +72,117 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     UserInfoResponse userInfoResponse;
     String userInfoURL = "http://192.168.0.32:8080/project/user_profileInfo.do";
 
+    FollowResponse followResponse;
+    String followURL = "";
+
+    FollowRelaResponse followRelaResponse;
+    String followRealURL = "http://192.168.0.32:8080/project/followReal.do";
     ImageLoader imageLoader;
     DisplayImageOptions options;
 
     UserDTO userDTO;
     int user_id;
+    int user_id_owner;
+
+    Bundle bundle;
+
+    ProgressBar progressBar;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.profile_layout, container, false);// attachToRoot는 일단 false로..
 
         SharedPreferences pref = getActivity().getSharedPreferences("CONFIG", MODE_PRIVATE);
-        String login_id = pref.getString("login_id", null);
-        user_id = pref.getInt("user_id", 0);
+        user_id_owner = pref.getInt("user_id", 0);
+
+        bundle = new Bundle();
+        user_id = getArguments().getInt("user_id", 0);
+
+        linearLayoutFriend =  (LinearLayout) view.findViewById(R.id.linearLayoutFriend);
+        buttonModi = (Button)view.findViewById(R.id.buttonModi);
+        button = (Button)view.findViewById(R.id.button);
 
         client = new AsyncHttpClient();
         profileInfoResponse = new ProfileInfoResponse();
         userInfoResponse = new UserInfoResponse();
+        followResponse = new FollowResponse();
+
         RequestParams params = new RequestParams();
         params.put("user_id", user_id);
         client.post(profileInfoURL, params, profileInfoResponse);
         client.post(userInfoURL, params, userInfoResponse);
 
+        followRelaResponse = new FollowRelaResponse();
+        if(user_id_owner==user_id) {
+            buttonModi.setVisibility(VISIBLE);
+            linearLayoutFriend.setVisibility(View.GONE);
+            button.setVisibility(VISIBLE);
+        } else {
+            buttonModi.setVisibility(View.GONE);
+            linearLayoutFriend.setVisibility(VISIBLE);
+            button.setVisibility(GONE);
+            params.put("user_id_owner", user_id_owner);
+            client.post(followRealURL, params, followRelaResponse);
+        }
+        loading= (PullRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
+
+        //pullrefresh 스타일 지정
+        loading.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
+
+        //pullrefresh가 시작됬을 시 호출
+        loading.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Thread - 1초 후 로딩 종료
+                Handler delayHandler = new Handler();
+                delayHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
         // 메뉴
         translateLeftAnim = AnimationUtils.loadAnimation(getContext(), R.anim.translate_left);
         translateRightAnim =AnimationUtils.loadAnimation(getContext(),R.anim.translate_right);
         translateLeftmainAnim =AnimationUtils.loadAnimation(getContext(), R.anim.translatemain_left);
         translateRightmainAnim =AnimationUtils.loadAnimation(getContext(),R.anim.translatemain_right);
 
+        progressBar = view.findViewById(R.id.progressBar);
         linearLayout = (LinearLayout) view.findViewById(R.id.linearLayout);
         linearLayouttouch = (LinearLayout) view.findViewById(R.id.linearLayouttouch);
         linearLayoutReal = (LinearLayout) view.findViewById(R.id.linearLayoutReal);
         slidingPanel = (LinearLayout) view.findViewById(R.id.slidingPanel);
-        button = (Button)view.findViewById(R.id.button);
+        buttonFollowing = (Button)view.findViewById(R.id.buttonFollowing);
         textViewLogout = view.findViewById(R.id.textViewLogout);
         textViewPostCount = view.findViewById(R.id.textViewPostCount);
         textViewFollower = view.findViewById(R.id.textViewFollower);
         textViewFollowing = view.findViewById(R.id.textViewFollowing);
-        buttonModi = (Button)view.findViewById(R.id.buttonModi);
         // imageView = view.findViewById(R.id.imageView);
         imageView = view.findViewById(R.id.CircleImageView);
         linearLayouttouch.setVisibility(GONE);
         linearLayoutReal.setVisibility(GONE);
         slidingPanel.setVisibility(GONE);
 
+        textView13 = view.findViewById(R.id.textView13);
+        textView15 = view.findViewById(R.id.textView15);
         textViewProfile = view.findViewById(R.id.textViewProfile);
         textViewLogin_id1 = view.findViewById(R.id.TextViewLogin_id1);
         textViewLogin_id2 = view.findViewById(R.id.TextViewLogin_id2);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         viewPager = (ViewPager) view.findViewById(R.id.viewPager);
 
-        textViewLogin_id1.setText(login_id);
-        textViewLogin_id2.setText(login_id);
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            //   imageView.setBackground(new ShapeDrawable(new OvalShape()));
-        }
-        if(Build.VERSION.SDK_INT >= 21) {
-            // imageView.setClipToOutline(true);
-        }
+        textView13.setOnClickListener(this);
+        textView15.setOnClickListener(this);
+        textViewFollower.setOnClickListener(this);
+        textViewFollowing.setOnClickListener(this);
         textViewLogout.setOnClickListener(this);
         buttonModi.setOnClickListener(this);
         button.setOnClickListener(this);
+        buttonFollowing.setOnClickListener(this);
         linearLayouttouch.setOnClickListener(this);
-        final  TabPagerAdapter pagerAdapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
+        final TabPagerAdapter pagerAdapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
 
         viewPager.addOnPageChangeListener(
@@ -207,6 +260,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.buttonFollowing:
+                RequestParams params = new RequestParams();
+                params.put("user_id_owner", user_id_owner);
+                params.put("user_id", user_id);
+                if(buttonFollowing.getText().toString().equals("팔로우")) {    // 팔로잉 하지 않은 상태
+                    params.put("sign", 0);
+                } else {                //  팔로우 취소
+                    params.put("sign", 1);
+                }
+                client.post(followURL, params, followResponse);
+                break;
             case R.id.button:
                 if(isPageOpen){
                     moveToRight();
@@ -254,17 +318,37 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 Dialog dialog = builder.create();
                 dialog.show();
                 break;
+            case R.id.textViewFollower:
+            case R.id.textView13:
+                FollowListFragment followListFragment = new FollowListFragment();
+                ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, followListFragment, "profile");
+                break;
+            case R.id.textViewFollowing:
+            case R.id.textView15:
+
+                break;
         }
     }
+    public void changeToFollow() {
+        buttonFollowing.setText("팔로우");
+        buttonFollowing.setTextColor(Color.WHITE);
+        buttonFollowing.setBackgroundColor(Color.rgb(0, 153, 204));
+    }
+    public void changeToFollowing() {
+        buttonFollowing.setText("팔로잉");
+        buttonFollowing.setTextColor(Color.BLACK);
+        buttonFollowing.setBackgroundColor(Color.WHITE);
+    }
+
     public void moveToLeft() {
         slidingPanel.startAnimation(translateLeftAnim);
         linearLayout.startAnimation(translateLeftmainAnim);
-        slidingPanel.setVisibility(View.VISIBLE);
+        slidingPanel.setVisibility(VISIBLE);
         button.setClickable(false);
         linearLayout.setEnabled(false);
         disableEnableControls(false, linearLayout);
-        linearLayouttouch.setVisibility(View.VISIBLE);
-        linearLayoutReal.setVisibility(View.VISIBLE);
+        linearLayouttouch.setVisibility(VISIBLE);
+        linearLayoutReal.setVisibility(VISIBLE);
     }
     public void moveToRight() {
         slidingPanel.startAnimation(translateRightAnim);
@@ -327,6 +411,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 String tel = jsonObject.getString("tel");
                 String gender = jsonObject.getString("gender");
 
+                textViewLogin_id1.setText(login_id);
+                textViewLogin_id2.setText(login_id);
+
                 String str = "";
                 if(!name.equals("null")) {
                     str += name;
@@ -341,7 +428,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     String photo = "http://192.168.0.13:8080/image/storage/" +profile_photo;
                     imageLoader.displayImage(photo, imageView, options);
                 } else {
-                    imageView.setImageResource(R.drawable.ic_empty);
+                    imageView.setImageResource(R.drawable.ic_stub);
                 }
 
                 userDTO = new UserDTO(user_id, login_id, name, password, profile_photo, website, introduction, email, tel, gender);
@@ -354,6 +441,68 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             Toast.makeText(getActivity(), "통신 실패", Toast.LENGTH_SHORT).show();
+        }
+    }
+    // 팔로우 시
+    public class FollowResponse extends AsyncHttpResponseHandler {
+        @Override
+        public void onStart() {
+            progressBar.setVisibility(VISIBLE);
+        }
+        // 통신 종료료시, 자동 호출
+        @Override
+        public void onFinish() {
+            progressBar.setVisibility(GONE);
+            buttonFollowing.setText("");
+        }
+        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            String content = new String(responseBody);
+
+            try {
+                JSONObject json = new JSONObject(content);
+                int result = json.getInt("result");
+                int sign = json.getInt("sign");
+                if(result > 0) {
+                   if(sign == 0) {      // 0이면 팔로우를 하는 것
+                       changeToFollowing();
+                   } else {
+                       changeToFollow();
+                   }
+                } else {
+                    Toast.makeText(getActivity(), "실패", Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            Toast.makeText(getActivity(), "통신실패", Toast.LENGTH_SHORT).show();
+        }
+    }
+    // 팔로우 확인
+    public class FollowRelaResponse extends AsyncHttpResponseHandler {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            String content = new String(responseBody);
+            try {
+                JSONObject json = new JSONObject(content);
+
+                int result = json.getInt("result");
+                if(result > 0) {
+                   changeToFollowing();
+                } else {
+                    changeToFollow();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+            Toast.makeText(getActivity(), "통신실패", Toast.LENGTH_SHORT).show();
         }
     }
     // 프로필 수정이 성공하면 프로필 새로고침

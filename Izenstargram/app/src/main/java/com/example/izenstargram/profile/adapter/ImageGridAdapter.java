@@ -1,4 +1,4 @@
-package com.example.izenstargram.profile;
+package com.example.izenstargram.profile.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -99,15 +99,12 @@ public class ImageGridAdapter extends BaseAdapter {
         //ViewHolder holder;
         if (convertView == null) {
             convertView = inf.inflate(layout, null);
-//            holder = new ViewHolder();
-//            holder.img = (ImageView) convertView.findViewById(R.id.imageView1);
             ImageView img = (ImageView) convertView.findViewById(R.id.imageView1);
             convertView.setLayoutParams( new GridView.LayoutParams( 360, 360 ));
             img.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            //img.setPadding(5,5,5,5);
 
             String photo = "http://192.168.0.13:8080/image/storage/" + list.get(position);
-        imageLoader.displayImage( photo, img, options);
+         imageLoader.displayImage( photo, img, options);
         }
         return convertView;
     }
