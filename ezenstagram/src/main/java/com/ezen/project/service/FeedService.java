@@ -9,12 +9,16 @@ import com.ezen.project.bean.CommentsDTO;
 import com.ezen.project.bean.LikesDTO;
 import com.ezen.project.bean.PostAllDTO;
 import com.ezen.project.bean.PostImageDTO;
+import com.ezen.project.bean.UserDTO;
 import com.ezen.project.dao.FeedDAO;
+import com.ezen.project.dao.UserDAO;
 
 @Service
 public class FeedService {
 	@Autowired
 	private FeedDAO feedDAO;
+	@Autowired
+	private UserDAO userDAO;
 
 	/** 좋아요 기능 **/
 	// 좋아요 버튼을 눌렀을 때, 특정 게시물 번호에 특정 유저가 좋아요 눌렀는지 아닌지 검사
@@ -77,9 +81,17 @@ public class FeedService {
 			List<CommentsDTO> cmtList = feedDAO.cmtList(list.get(i).getPost_id()); // 댓글
 																					// 데이터
 																					// 리스트
-		
+		    UserDTO userDTO = userDAO.user_profile(user_id);
+		    String tempProfile = userDTO.getProfile_photo();
+		    System.out.println("tempProfile = " + tempProfile);
+		   
+		    list.get(i).setUserDTO(userDTO);
+		    list.get(i).getUserDTO().setProfile_photo
+		    ("http://192.168.0.13:8080/image/storage/" + tempProfile);
+		    System.out.println("http://192.168.0.13:8080/image/storage/" + tempProfile + " : 프로파일주소입니다.");
+		    
 			list.get(i).setComment_cnt(cmtList.size());
-
+             System.out.println(list.get(i).getUserDTO().getLogin_id() + " : 로그인 아이디 입니다.");
 			int isLike = feedDAO.chkLikes(list.get(i).getPost_id(), user_id);
 			if (isLike == 1) {
 				list.get(i).setLike(true);
@@ -107,5 +119,7 @@ public class FeedService {
 	public List<CommentsDTO> getCmtData(int post_id) {
 		return feedDAO.getCmtData(post_id);
 	}
+	
+
 
 }

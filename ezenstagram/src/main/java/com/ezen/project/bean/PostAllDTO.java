@@ -11,6 +11,15 @@ public class PostAllDTO {
 	private List<PostImageDTO> postImageList;
 	private boolean isLike;
 	private int comment_cnt;
+	private UserDTO userDTO;
+
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
 
 	public int getPost_id() {
 		return post_id;
