@@ -27,8 +27,6 @@ public class SearchPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
         switch (position) {
-//            case 0:
-//                return searchTabTestFragment;
             case 0:
                 return searchTabRandomFragment;
             case 1:
@@ -38,7 +36,6 @@ public class SearchPagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return searchTabTagFragment;
         }
-
     }
 
     @Override

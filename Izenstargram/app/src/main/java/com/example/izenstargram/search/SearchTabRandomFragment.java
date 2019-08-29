@@ -94,7 +94,7 @@ public class SearchTabRandomFragment extends Fragment {
                     JSONObject temp = data.getJSONObject(i);
                     PostImageDTO postImageDTO = new PostImageDTO();
                     postImageDTO.setImage_url(temp.getString("image_url"));
-                    Log.d("[INFO]", "TabRandomFragment : image_url = " + postImageDTO.getImage_url());
+                    Log.d("[INFO]", "TabRandomFragment : image_url = (" + i + ")번째 = " + postImageDTO.getImage_url());
                     adapter.add(postImageDTO);
                 }
             } catch (JSONException e) {

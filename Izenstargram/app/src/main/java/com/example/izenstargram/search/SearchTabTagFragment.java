@@ -43,8 +43,6 @@ public class SearchTabTagFragment extends Fragment {
     ListView listView;
     Activity activity = getActivity();
     ArrayList<AllTagDTO> tagNameList = new ArrayList<>();
-    // 서치뷰
-    MenuItem mSearch;
 
     @Nullable
     @Override

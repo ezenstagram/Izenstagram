@@ -44,8 +44,6 @@ public class SearchTabUserFragment extends Fragment {
     ListView listView;
     Activity activity = getActivity();
     ArrayList<UserDTO> userNameList = new ArrayList<>();
-    // 서치뷰
-    MenuItem mSearch;
 
     @Nullable
     @Override
@@ -119,52 +117,4 @@ public class SearchTabUserFragment extends Fragment {
             //Toast.makeText(getContext(), "Tab user 연결실패", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-//    // Search 메뉴 구현 시작
-//    // 메뉴 생성하는 onCreateOptionsMenu
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//
-//        // search_menu.xml 등록
-//        MenuInflater menuInflater = inflater;
-//        menuInflater.inflate(R.menu.search_menu, menu);
-//        mSearch = menu.findItem(R.id.search);
-//
-//        // 메뉴 아이콘 클릭했을 시 확장, 취소했을 시 축소
-//        mSearch.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {  //확장
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {    //축소
-//                return false;
-//            }
-//        });
-//
-//        // menuItem 을 이용해서 SearchView 변수 생성
-//        SearchView searchView = (SearchView) mSearch.getActionView();
-//        // 확인버튼 활성화
-//        searchView.setSubmitButtonEnabled(true);
-//        // SearchView의 검색 이벤트
-//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            // 검색버튼 눌렀을 경우
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                Log.d("[INFO]", "TabUserFragment : onQueryTextSubmit (검색버튼눌림)");
-//                editText.setText(query);
-//                return true;
-//            }
-//            // 텍스트가 바뀔 때마다 호출됨
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                Log.d("[INFO]", "TabUserFragment : onQueryTextChange (텍스트바뀌고있음)");
-//                editText.setText(newText);
-//                return true;
-//            }
-//        });
-//    }
 }

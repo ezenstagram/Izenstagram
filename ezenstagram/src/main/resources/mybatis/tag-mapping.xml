@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="selectPostImageRandom" resultType="PostImageDTO">	
-		select * from (select * from post_image order by dbms_random.random) where rownum &lt;30
+		select * from (select * from post_image order by dbms_random.random) where rownum &lt;31
 	</select>
 	
 	<select id="allTagList" resultType="AllTagDTO">

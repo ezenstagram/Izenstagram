@@ -2,8 +2,12 @@ package com.example.izenstargram.search.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +18,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.izenstargram.R;
-import com.example.izenstargram.feed.model.PostImage;
 import com.example.izenstargram.upload.model.PostImageDTO;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 
 import java.util.List;
 
@@ -29,6 +33,7 @@ public class SearchTabRandomAdapter extends ArrayAdapter<PostImageDTO> {
     int resource;
     ImageLoader imageLoader;
     DisplayImageOptions options;
+
 
     public SearchTabRandomAdapter(Context context, int resource, List<PostImageDTO> objects) {
 //        this.activity = activity;
@@ -61,14 +66,17 @@ public class SearchTabRandomAdapter extends ArrayAdapter<PostImageDTO> {
 
         }
         PostImageDTO item = getItem(position);
-        if (item != null) {
-            ImageView imageView = convertView.findViewById(R.id.imageViewSearchGrid);
-            Log.d("[INFO]", "SearchTabRandomAdapter : item.getImage_url() = " + item.getImage_url());
-            imageLoader.displayImage(item.getImage_url(), imageView, options);
 
+        if (item != null) {
+            for (int i = 0; i < 1; i++) {
+                ImageView imageView = convertView.findViewById(R.id.imageViewSearchGrid);
+                convertView.setLayoutParams(new GridView.LayoutParams(360, 360));
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                Log.d("[INFO]", "새로 만든 SearchTabRandomAdapter : item.getImage_url() = " + item.getImage_url());
+                imageLoader.displayImage(item.getImage_url(), imageView, options);
+
+            }
         }
         return convertView;
     }
-
-
 }
