@@ -179,9 +179,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
             try {
                 JSONObject jsonObject = new JSONObject(new String(responseBody));
                 int result = jsonObject.getInt("result");
-                if (result > 0) {
-                    Toast.makeText(activity, "성공", Toast.LENGTH_SHORT).show();
-                } else {
+                if (result <= 0) {
                     Toast.makeText(activity, "실패", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {

@@ -5,11 +5,14 @@
     android:layout_height="wrap_content"
     android:padding="2dp">
 
-    <ImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView1"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="top"
+        android:layout_margin="6dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
