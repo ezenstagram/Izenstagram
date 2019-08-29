@@ -23,16 +23,9 @@ public class UserService {
 	private UserDAO userDAO;
 	
 	public UserDTO userLogin(String login_id, String password) {
-//		UserDTO userDTO = userDAO.userLogin(login_id, password);
-//		int user_id = 0;
-//		if(userDTO != null) {
-//			user_id = userDTO.getUser_id();
-//		}
 		return userDAO.userLogin(login_id, password);
 	}
-//	public int loginTotal(String login_id, String password) {
-//		return userDAO.loginTotal(login_id, password);
-//	}
+
 	public int userJoin(UserDTO userDTO) {
 		return userDAO.userJoin(userDTO);
 	}
@@ -40,9 +33,6 @@ public class UserService {
 	public List<String> find_loginId(String tel) {
 		return userDAO.find_loginId(tel);
 	}
-//	public int find_password(String login_id, String tel) {
-//		return userDAO.find_password(login_id, tel);
-//	}
 	public int change_password(String login_id, String password) {
 		return userDAO.change_password(login_id, password);
 	}
@@ -73,24 +63,37 @@ public class UserService {
 	}
 	
 	public int changeProfile(UserDTO userDTO, String filename, InputStream inputStream, String realpath) {
-		int result = 0;
-		int user_id = userDTO.getUser_id();
-		result = userDAO.changeProfile(userDTO);
-		
+		int result = userDAO.changeProfile(userDTO);
+	
 		if(result > 0) {
-			String image_url = realpath+"/"+filename;
-			File file = new File(image_url);
-			try {
-				FileCopyUtils.copy(inputStream, new FileOutputStream(file));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(filename != null) {
+				String image_url = realpath+"/"+filename;
+				File file = new File(image_url);
+				try {
+					FileCopyUtils.copy(inputStream, new FileOutputStream(file));
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
-			
+			System.out.println("aaa3333");
 		}
 		
 		return result;
 
+	}
+	public int changeProfileNoPhoto(UserDTO userDTO) {
+		System.out.println("11111111111");
+		
+		return userDAO.changeProfile(userDTO);
+	}
+	
+	
+	public int followRelaConfirm(int user_id, int user_id_owner) {	
+		return  userDAO.followRelaConfirm(user_id, user_id_owner);
+	}
+	public int follow(int user_id, int user_id_owner, int sign) {		// user_id_owner가 로그인 한 사람
+		return  userDAO.follow(user_id, user_id_owner, sign);
 	}
 }

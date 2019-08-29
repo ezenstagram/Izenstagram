@@ -92,26 +92,6 @@ public class UserController {
 		return mv;
 	}
 	
-	@RequestMapping(value="follow.do") 
-	public ModelAndView follow(HttpServletRequest request) {
-		ModelAndView mv = new ModelAndView("jsonView");
-		
-		int user_id = Integer.parseInt(request.getParameter("user_id"));
-		int follow_user_id = Integer.parseInt(request.getParameter("follow_user_id"));
-		
-		int count = userService.follow(user_id, follow_user_id);
-		
-		int result = 0;
-		if(count > 0) {
-			result = 1;
-		}
-		
-		mv.addObject("result", result);
-		
-		return mv;
-	}
-	// �뙏濡쒖슦 �뙏濡쒖썙 媛��닔 異붽�
-	
 	@RequestMapping(value="InfoPresence.do") 				
 	public ModelAndView InfoPresence(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
@@ -229,6 +209,10 @@ public class UserController {
 	@RequestMapping(value="changeProfile.do") 
 	public ModelAndView changeProfile(MultipartFile photopath, HttpServletRequest request) throws IOException {
 		ModelAndView mv = new ModelAndView("jsonView");
+	
+		if(photopath == null) {
+			System.out.println("photopath");
+		}
 		
 		String name = request.getParameter("name");
 		String login_id = request.getParameter("login_id");
@@ -252,10 +236,43 @@ public class UserController {
 		userDTO.setProfile_photo(profile_photo);
 		
 		String realpath = "Z:";
-		int result = userService.changeProfile(userDTO, photopath.getOriginalFilename(), photopath.getInputStream(), realpath);
+		int result =0;
+		
+		if(photopath!= null) {
+			String fname= photopath.getOriginalFilename();
+			result = userService.changeProfile(userDTO, fname, photopath.getInputStream(), realpath);
+		} else {
+			result = userService.changeProfileNoPhoto(userDTO);
+		}
 		
 		mv.addObject("result", result);
 		
+		return mv;
+	}
+	@RequestMapping(value="followReal") 
+	public ModelAndView followReal(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		int user_id = Integer.parseInt(request.getParameter("user_id"));
+		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner")); 
+
+		int result = userService.followRelaConfirm(user_id, user_id_owner);
+		
+		mv.addObject("result", result);
+	
+		return mv;
+	}
+	@RequestMapping(value="follow.do") 
+	public ModelAndView follow(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		int user_id = Integer.parseInt(request.getParameter("user_id"));
+		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner")); 
+		int sign = Integer.parseInt(request.getParameter("sign"));	// sign이 0이면 팔로우, sing이 1이면 팔로우 취소
+		int result = userService.follow(user_id, user_id_owner, sign);
+		
+		mv.addObject("result", result);
+		mv.addObject("sign", sign);
 		return mv;
 	}
 }

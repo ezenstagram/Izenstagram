@@ -64,14 +64,13 @@ public class PostService {
 	public List<PostImageDTO> profilePostRefImage(int user_id) {
 		return postImageDAO.profilePostRefImage(user_id);
 	}
+	public int postCount(int user_id) {
+		return postDAO.postCount(user_id);
+	}
 	public int following(int user_id) {
 		return postDAO.following(user_id);
 	}
 	public int follower(int user_id) {
 		return postDAO.follower(user_id);
 	}
-	public int postCount(int user_id) {
-		return postDAO.postCount(user_id);
-	}
-
 }

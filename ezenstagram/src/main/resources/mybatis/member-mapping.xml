@@ -48,4 +48,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		introduction=#{introduction, jdbcType=VARCHAR}, email=#{email, jdbcType=VARCHAR}, tel=#{tel, jdbcType=VARCHAR}, gender=#{gender, jdbcType=VARCHAR}
 		where user_id = #{user_id}
 	</update>
+		<select id="followRelaConfirm" parameterType="java.util.Map" resultType="int">
+		select count(*) from follow where user_id=#{user_id} and follow_user_id=#{follow_user_id}
+	</select>
+	<insert id="follow"  parameterType="java.util.Map">
+		insert into follow values(${user_id}, ${follow_user_id}, sysdate)
+	</insert>
+	<delete id="unfollow" parameterType="java.util.Map">
+		delete from follow where user_id=#{user_id} and follow_user_id=#{follow_user_id}
+	</delete>
 </mapper>

@@ -37,13 +37,6 @@ public class UserDAO {
 	public List<String> find_loginId(String tel) {
 		return sqlSession.selectList("mybatis.memberMapping.find_loginId", tel);
 	}
-//	public int find_password(String login_id, String tel) {
-//		Map<String, String> map = new HashMap<String, String>();
-//		map.put("login_id", login_id);
-//		map.put("tel", tel);
-//		
-//		return sqlSession.selectOne("mybatis.userMapping.find_password", map);
-//	}
 	public int change_password(String login_id, String password) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("login_id", login_id);
@@ -77,5 +70,25 @@ public class UserDAO {
 	}
 	public int changeProfile(UserDTO userDTO) {
 		return sqlSession.update("mybatis.memberMapping.changeProfile", userDTO);
+	}
+
+	public int followRelaConfirm(int user_id, int user_id_owner) {		// user_id_owner가 로그인 한 사람
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("user_id", user_id_owner);
+		map.put("follow_user_id", user_id);
+		return  sqlSession.selectOne("mybatis.memberMapping.followRelaConfirm", map);
+	}
+	public int follow(int user_id, int user_id_owner, int sign) {		// user_id_owner가 로그인 한 사람
+		Map<String, Integer> map = new HashMap<String, Integer>();
+		map.put("user_id", user_id_owner);
+		map.put("follow_user_id", user_id);
+		
+		int result = 0;
+		if(sign == 0) {
+			result = sqlSession.insert("mybatis.memberMapping.follow", map);
+		} else {
+			result = sqlSession.delete("mybatis.memberMapping.unfollow", map);
+		}
+		return  result;
 	}
 } 
