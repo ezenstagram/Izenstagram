@@ -3,7 +3,9 @@ package com.example.izenstargram.like.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.SpannableString;
@@ -29,7 +31,10 @@ import com.example.izenstargram.profile.ProfileFragment;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapter.UserRecyclerHolder> {
 
@@ -73,18 +78,20 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
             userRecyclerHolder.button.setVisibility(View.GONE);
             userRecyclerHolder.imageView2.setVisibility(View.VISIBLE);
             String str = "";
-            List<String> clickStrList = new ArrayList<>();
+            Map<String, Fragment> clickStrMap = new HashMap<>();
             if (notifiInfo.getMode_id() == 1) {
-                clickStrList.add(notifiInfo.getAct_login_id());
+                clickStrMap.put(notifiInfo.getAct_login_id(),new ProfileFragment());
                 str = notifiInfo.getAct_login_id() + "님이 회원님의 게시물을 좋아합니다.";
             } else if (notifiInfo.getMode_id() == 2) {
+                clickStrMap.put(notifiInfo.getAct_login_id(), new ProfileFragment());
                 str = notifiInfo.getAct_login_id() + "님이 댓글에서 회원님을 태그했습니다. : " + notifiInfo.getComment_txt();
             } else if (notifiInfo.getMode_id() == 3) {
+                clickStrMap.put(notifiInfo.getAct_login_id(), new ProfileFragment());
                 userRecyclerHolder.button.setVisibility(View.VISIBLE);
                 userRecyclerHolder.imageView2.setVisibility(View.GONE);
                 str = notifiInfo.getAct_login_id() + "님이 회원님을 팔로우하기 시작했습니다.";
             }
-            userRecyclerHolder.textView.setText(make(str, clickStrList));
+            userRecyclerHolder.textView.setText(make(str, clickStrMap));
             userRecyclerHolder.textView.setMovementMethod(LinkMovementMethod.getInstance());
             Glide.with(userRecyclerHolder.itemView.getContext())
                     .load(notifiInfo.getProfile_photo())
@@ -95,25 +102,20 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
         }
     }
 
-    private SpannableString make(String text, List<String> clickStrList) {
+    private SpannableString make(String text, final Map<String, Fragment> clickStrMap) {
         SpannableString spanString = new SpannableString(text);
-
         spanString.setSpan(new ForegroundColorSpan(Color.parseColor("#949494")), 0, text.length(), 0);
-        for (String str : clickStrList) {
+        Iterator iterator =  clickStrMap.keySet().iterator();
+        while (iterator.hasNext()){
+            final String keyStr = (String) iterator.next();
             ClickableSpan clickableSpan = new ClickableSpan() {
                 @Override
-                public void onClick(View textView) {
-                    ((MainActivity)activity).replaceFragment(R.id.frame_layout, new ProfileFragment(), "like");
-                }
-
-                @Override
-                public void updateDrawState(TextPaint ds) {
-                    super.updateDrawState(ds);
+                public void onClick(View widget) {
+                    ((MainActivity)activity).replaceFragment(R.id.frame_layout, clickStrMap.get(keyStr), "like");
                 }
             };
-            spanString.setSpan(clickableSpan, text.indexOf(str), text.indexOf(str) + str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spanString.setSpan(clickableSpan, text.indexOf(keyStr), text.indexOf(keyStr) + keyStr.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-
         return spanString;
     }
 
