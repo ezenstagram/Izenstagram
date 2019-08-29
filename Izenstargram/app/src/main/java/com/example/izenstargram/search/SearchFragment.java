@@ -44,7 +44,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         // searchPagerAdapter = new SearchPagerAdapter(
         //          getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         searchPagerAdapter = new SearchPagerAdapter(
-                this.getChildFragmentManager(), 4); ///???
+                this.getChildFragmentManager(), 3); ///???
         viewPager.setAdapter(searchPagerAdapter);
         viewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

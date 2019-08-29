@@ -8,13 +8,11 @@ import android.util.Log;
 
 import com.example.izenstargram.search.SearchTabRandomFragment;
 import com.example.izenstargram.search.SearchTabTagFragment;
-import com.example.izenstargram.search.SearchTabTestFragment;
 import com.example.izenstargram.search.SearchTabUserFragment;
 
 public class SearchPagerAdapter extends FragmentStatePagerAdapter {
 
     private int pageCount;
-    SearchTabTestFragment searchTabTestFragment = new SearchTabTestFragment();
     SearchTabRandomFragment searchTabRandomFragment = new SearchTabRandomFragment();
     SearchTabUserFragment searchTabUserFragment = new SearchTabUserFragment();
     SearchTabTagFragment searchTabTagFragment = new SearchTabTagFragment();
@@ -29,13 +27,13 @@ public class SearchPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 
         switch (position) {
+//            case 0:
+//                return searchTabTestFragment;
             case 0:
-                return searchTabTestFragment;
-            case 1:
                 return searchTabRandomFragment;
-            case 2:
+            case 1:
                 return searchTabUserFragment;
-            case 3:
+            case 2:
                 return searchTabTagFragment;
             default:
                 return searchTabTagFragment;

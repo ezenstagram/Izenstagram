@@ -36,26 +36,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.design.widget.TabItem
-            android:id="@+id/tabItem1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="test" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tabItem2"
+            android:id="@+id/tabItem1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="랜덤" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tabItem3"
+            android:id="@+id/tabItem2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="계정" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/tabItem4"
+            android:id="@+id/tabItem3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="태그" />
