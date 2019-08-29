@@ -54,7 +54,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Animation translateLeftmainAnim;
     Animation translateRightmainAnim;
     LinearLayout slidingPanel;
-    private TabLayout tabLayout;
+    TabLayout tabLayout;
     private ViewPager viewPager;
     PullRefreshLayout loading;
 
@@ -259,6 +259,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onClick(View v) {
+        Bundle bundle1 = new Bundle(5);
+        bundle1.putInt("user_id", user_id);
+        bundle1.putString("follower", textViewFollowing.getText().toString());
+        bundle1.putString("following", textViewFollower.getText().toString());
+        bundle1.putString("login_id", textViewLogin_id1.getText().toString());
         switch (v.getId()) {
             case R.id.buttonFollowing:
                 RequestParams params = new RequestParams();
@@ -321,11 +326,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             case R.id.textViewFollower:
             case R.id.textView13:
                 FollowListFragment followListFragment = new FollowListFragment();
+                bundle1.putInt("sepa",0);
+                followListFragment.setArguments(bundle1);
                 ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, followListFragment, "profile");
                 break;
             case R.id.textViewFollowing:
             case R.id.textView15:
                 FollowListFragment followListFragment1 = new FollowListFragment();
+                bundle1.putInt("sepa",1);
+                followListFragment1.setArguments(bundle1);
                 ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, followListFragment1, "profile");
                 break;
         }

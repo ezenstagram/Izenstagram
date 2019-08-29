@@ -115,7 +115,14 @@ public class UserService {
 			for(int i=0; i<list.size(); i++) {
 				userDTO = list.get(i);
 				followList = new FollowList();
-				int status = userDAO.followRelaConfirm(userDTO.getUser_id(), user_id);
+				int status = 0;
+				
+				if(sepa == 0) {
+					status = userDAO.followRelaConfirm(userDTO.getUser_id(), user_id);
+				} else {
+					status = 1;
+				}
+				System.out.println(status + "=status");
 				
 				if(status > 0) {
 					status_follow = true;
@@ -128,8 +135,6 @@ public class UserService {
 				follow.add(followList);
 			}
 		}
-		
 		return follow;
 	}
-	
 }

@@ -71,16 +71,16 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         searchView = view.findViewById(R.id.SearchView);
         searchView.setOnQueryTextListener(this);
 
+        int user_id = getArguments().getInt("user_id", 0);
         list = new ArrayList<>();
-        adapter1 = new FollowAdapter1(getActivity(), R.layout.follower_tab_row, list);
+        adapter1 = new FollowAdapter1(getActivity(), R.layout.follower_tab_row, list, user_id);
         listView = view.findViewById(R.id.listView);
         client = new AsyncHttpClient();
         response = new HttpResponse(getActivity(), adapter1);
-
         listView.setAdapter(adapter1);
         listView.setOnItemClickListener(this);
         RequestParams params = new RequestParams();
-        params.put("user_id", 13);
+        params.put("user_id", user_id);
         params.put("sepa", 1);
         client.post(URL,params, response);
 

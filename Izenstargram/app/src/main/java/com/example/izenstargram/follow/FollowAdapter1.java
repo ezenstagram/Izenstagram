@@ -45,13 +45,13 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
     int sign = 0;
     List<FollowDTO> objects;
 
-    public FollowAdapter1(Context context, int resource, List<FollowDTO> objects) {
+    public FollowAdapter1(Context context, int resource, List<FollowDTO> objects, int user_id) {
         super(context, resource, objects);
         activity = (Activity) context;
         this.resource = resource;
         this.objects = objects;
-        SharedPreferences pref = getContext().getSharedPreferences("CONFIG", MODE_PRIVATE);
-        user_id = pref.getInt("user_id", 0);
+
+        this.user_id = user_id;
 
         client = new AsyncHttpClient();
         response = new HttpResponse();
@@ -89,13 +89,13 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
             textViewName.setText(item.getName());
 
             if(item.isFollowStatus()) {         // 트루이면 내가 팔로우 하고 있는 상태
-                button.setText("팔로우");
-                button.setTextColor(Color.WHITE);
-                button.setBackgroundColor(Color.rgb(0, 153, 204));
-            } else {
                 button.setText("팔로잉");
                 button.setTextColor(Color.BLACK);
                 button.setBackgroundColor(Color.WHITE);
+            } else {
+                button.setText("팔로우");
+                button.setTextColor(Color.WHITE);
+                button.setBackgroundColor(Color.rgb(0, 153, 204));
             }
 
             button.setOnClickListener(new View.OnClickListener() {
