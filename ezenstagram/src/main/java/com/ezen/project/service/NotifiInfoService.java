@@ -12,6 +12,12 @@ public class NotifiInfoService {
   private NotifiInfoDAO notifiInfoDAO;
 
   public List<NotifiInfoDTO> selectList(int target_user_id) {
-    return notifiInfoDAO.selectList(target_user_id);
+    List<NotifiInfoDTO> list = notifiInfoDAO.selectList(target_user_id);
+    String url = "http://192.168.0.13:8080/image/storage/";
+    for (NotifiInfoDTO notifiInfoDTO : list) {
+      notifiInfoDTO.setPost_image(url + notifiInfoDTO.getPost_image());
+      notifiInfoDTO.setProfile_photo(url + notifiInfoDTO.getProfile_photo());
+    }
+    return list;
   }
 }
