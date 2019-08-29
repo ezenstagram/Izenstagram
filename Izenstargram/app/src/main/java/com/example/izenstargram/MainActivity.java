@@ -23,6 +23,7 @@ import com.example.izenstargram.like.LikeFragment;
 import com.example.izenstargram.profile.ProfileFragment;
 import com.example.izenstargram.search.SearchFragment;
 import com.example.izenstargram.upload.UploadActivity;
+import com.loopj.android.http.RequestParams;
 
 import java.util.ArrayList;
 
