@@ -16,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.Glide;
 import com.example.izenstargram.R;
+import com.example.izenstargram.feed.Interface.IItemClickListener;
 import com.example.izenstargram.feed.ListFragment;
 import com.example.izenstargram.feed.model.PostAll;
 import com.example.izenstargram.feed.model.PostImage;
@@ -83,7 +85,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
             viewHolder.heart_btn.setChecked(false);
         }
         response = new HttpResponse(viewHolder.heart_btn, position);
-        viewHolder.feed_user_id.setText(String.valueOf(feedPostList.get(position).getUser_id())); //글쓴사람
+        viewHolder.feedTxtLikes.setText("댓글 " + feedPostList.get(position).getComment_cnt() + "개 모두 보기"); //댓글총갯수
+        viewHolder.feedTxtCmt.setText(feedPostList.get(position).getContent()); //댓글내용
+        viewHolder.feed_login_id.setText(feedPostList.get(position).getUserDTO().getLogin_id()); //글쓴사람
+        Glide.with(viewHolder.itemView.getContext())
+                .load(feedPostList.get(position).getUserDTO().getProfile_photo())
+                .into(viewHolder.feed_profile_Img);
+
 
 
         List<PostImage> postImageList = feedPostList.get(position).getPostImageList();   // 게시글은 현재 1개
@@ -97,8 +105,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
         }
 
-        viewHolder.feedTxtLikes.setText(String.valueOf(feedPostList.get(position).getComment_cnt())); //댓글총갯수
-        viewHolder.feedTxtCmt.setText(feedPostList.get(position).getContent()); //댓글내용
+
         Log.d("[INFO]", "onBindViewHolder() 끝");
 
         /* 피드 좋아요 버튼 꾸욱 */
@@ -158,7 +165,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView feed_profile_Img; //프로필이미지
-        TextView feed_user_id; //유저아이디
+        TextView feed_login_id; //유저아이디
         RecyclerView recyclerView_img_item;  //list_layout 의 recyclerView
         TextView feedTxtLikes;
         TextView feedTxtCmt;
@@ -170,7 +177,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
             super(itemView);
             Log.d("[INFO]", "ViewHolder(View itemView) 진입");
             feed_profile_Img = itemView.findViewById(R.id.feed_profile_Img);
-            feed_user_id = itemView.findViewById(R.id.feed_user_id);
+            feed_login_id = itemView.findViewById(R.id.feed_login_id);
             recyclerView_img_item = itemView.findViewById(R.id.recyclerView_img_item);
 
             heart_btn = itemView.findViewById(R.id.heart_btn);

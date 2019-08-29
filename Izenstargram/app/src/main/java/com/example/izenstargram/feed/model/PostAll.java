@@ -1,5 +1,7 @@
 package com.example.izenstargram.feed.model;
 
+import com.example.izenstargram.profile.UserDTO;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +15,7 @@ public class PostAll implements Serializable {
     private ArrayList<PostImage> postImageList;
     private boolean isLike;
     private int comment_cnt;
+    private UserDTO userDTO;
 
     public int getPost_id() {
         return post_id;
@@ -76,5 +79,13 @@ public class PostAll implements Serializable {
 
     public void setComment_cnt(int comment_cnt) {
         this.comment_cnt = comment_cnt;
+    }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
     }
 }

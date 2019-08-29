@@ -18,6 +18,7 @@ import com.example.izenstargram.R;
 import com.example.izenstargram.feed.adapter.FeedAdapter;
 import com.example.izenstargram.feed.model.PostAll;
 import com.example.izenstargram.feed.model.PostImage;
+import com.example.izenstargram.profile.UserDTO;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -118,6 +119,7 @@ public class ListFragment extends Fragment {
                     postAll.setLike(feedItem.getBoolean("like"));
                     postAll.setComment_cnt(feedItem.getInt("comment_cnt"));
                     JSONArray tempPostImageList = feedItem.getJSONArray("postImageList");
+                    JSONObject tempUserDTO =  feedItem.getJSONObject("userDTO");
 
                     ArrayList<PostImage> imgList = new ArrayList<>();
                     for(int j=0; j<tempPostImageList.length(); j++){    //object 갯수가 3개니까 3번 돌음
@@ -129,8 +131,20 @@ public class ListFragment extends Fragment {
                         postImage.setImage_url(feedImageItem.getString("image_url"));
                         imgList.add(postImage);
                     }
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setUser_id(tempUserDTO.getInt("user_id"));
+                    userDTO.setLogin_id(tempUserDTO.getString("login_id"));
+                    userDTO.setName(tempUserDTO.getString("name"));
+                    userDTO.setPassword(tempUserDTO.getString("password"));
+                    userDTO.setProfile_photo(tempUserDTO.getString("profile_photo"));
+                    userDTO.setWebsite(tempUserDTO.getString("website"));
+                    userDTO.setIntroduction(tempUserDTO.getString("introduction"));
+                    userDTO.setEmail(tempUserDTO.getString("email"));
+                    userDTO.setGender(tempUserDTO.getString("gender"));
 
+                   // postAll.setUserDTO(tempUserDTO);
                     postAll.setPostImageList(imgList);
+                    postAll.setUserDTO(userDTO);
                     feedPostList.add(postAll);
 
                     //adapter의 데이터가 바뀔때마다
