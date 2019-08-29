@@ -36,4 +36,22 @@ public class LikeInfoController {
    
     return mv;
   }
+  
+  @RequestMapping(value = "followerNotifiInfo.do")
+  public ModelAndView followerNotifiInfo(HttpServletRequest request) throws Exception {
+    ModelAndView mv = new ModelAndView("jsonView");
+
+    int act_user_id = Integer.parseInt(request.getParameter("act_user_id"));
+
+    List<NotifiInfoDTO> list = notifiInfoService.selectListForFInfo(act_user_id);
+
+    if(list != null) {
+      mv.addObject("result", 1);
+      mv.addObject("data", list);
+    } else {
+      mv.addObject("result", 0);
+    }
+   
+    return mv;
+  }
 }

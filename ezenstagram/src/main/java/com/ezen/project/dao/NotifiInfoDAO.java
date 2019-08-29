@@ -14,8 +14,12 @@ public class NotifiInfoDAO {
   private SqlSessionTemplate sqlSessionTemplate;
 
   public List<NotifiInfoDTO> selectList(int target_user_id) {
-
     return sqlSessionTemplate.selectList("mybatis.notifiInfoMapping.selectList", target_user_id);
+  }
+
+  public List<NotifiInfoDTO> selectListForFInfo(int act_user_id) {
+    return sqlSessionTemplate.selectList("mybatis.notifiInfoMapping.selectListForFInfo",
+        act_user_id);
   }
 
 }
