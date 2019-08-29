@@ -325,7 +325,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.textViewFollowing:
             case R.id.textView15:
-
+                FollowListFragment followListFragment1 = new FollowListFragment();
+                ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, followListFragment1, "profile");
                 break;
         }
     }
