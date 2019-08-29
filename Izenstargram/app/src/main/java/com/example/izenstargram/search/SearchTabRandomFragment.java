@@ -67,7 +67,6 @@ public class SearchTabRandomFragment extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("[INFO]", "TabRandomFragment : onCreate() 실행");

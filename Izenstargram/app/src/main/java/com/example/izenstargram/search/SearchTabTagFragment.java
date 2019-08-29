@@ -108,11 +108,10 @@ public class SearchTabTagFragment extends Fragment {
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-           // Log.d("[INFO]", "TabTagFragment : onFailure() 진입" + statusCode);
+            // Log.d("[INFO]", "TabTagFragment : onFailure() 진입" + statusCode);
             //Toast.makeText(getContext(), "Tab Tag 연결실패", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
 }

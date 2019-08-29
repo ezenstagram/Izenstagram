@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.List;
+import java.util.Locale;
 
 public class SearchTabUserAdapter extends ArrayAdapter<UserDTO> {
 
@@ -66,4 +67,10 @@ public class SearchTabUserAdapter extends ArrayAdapter<UserDTO> {
         }
         return convertView;
     }
+
+
+
+
+
+
 }
