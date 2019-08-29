@@ -68,8 +68,13 @@ public class TagController {
   @RequestMapping(value = "selectPostImageRandom.do", method = RequestMethod.POST)
   public ModelAndView selectPostImageRandom(HttpServletRequest request) {
     List<PostImageDTO> list = tagService.selectPostImageRandom();
+    String image_url_full = null;
+    for (int i=0; i<list.size(); i++) {
+    	image_url_full="http://192.168.0.13:8080/image/storage/" + list.get(i).getImage_url();
+    	list.get(i).setImage_url(image_url_full);
+    }
     ModelAndView mv = new ModelAndView("jsonView");
-    mv.addObject("data", list);
+    mv.addObject("data", list);  
     return mv;
   }
 
