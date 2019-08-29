@@ -101,4 +101,7 @@ public class UserDAO {
 	public List<UserDTO> followerList(int user_id) {
 		return sqlSession.selectList("mybatis.memberMapping.followerList", user_id);
 	}
+	public List<UserDTO> followingList(int user_id) {
+		return sqlSession.selectList("mybatis.memberMapping.followingList", user_id);
+	}
 } 

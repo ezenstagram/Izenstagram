@@ -280,9 +280,11 @@ public class UserController {
 	public ModelAndView followerList(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
+		int sepa = Integer.parseInt(request.getParameter("sepa"));
 		int user_id = Integer.parseInt(request.getParameter("user_id"));
-		List<FollowList> list = userService.followerList(user_id); 
-		System.out.println("1111");
+		List<FollowList> list = userService.followerList(user_id, sepa); 
+		
+		
 		int result = 0;
 		if(list != null) {
 			result = list.size();
@@ -290,7 +292,7 @@ public class UserController {
 		} else {
 			result = 0;
 		}
-		System.out.println("222222");
+	
 		mv.addObject("result", result);
 		return mv;
 		

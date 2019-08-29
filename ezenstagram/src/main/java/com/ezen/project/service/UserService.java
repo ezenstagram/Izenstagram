@@ -98,10 +98,14 @@ public class UserService {
 	public int follow(int user_id, int user_id_owner, int sign) {		// user_id_owner가 로그인 한 사람
 		return  userDAO.follow(user_id, user_id_owner, sign);
 	}
-	public List<FollowList> followerList(int user_id) {
+	public List<FollowList> followerList(int user_id, int sepa) {
+			List<UserDTO> list = new ArrayList<UserDTO>();
+		if(sepa == 0) {
+			list = userDAO.followerList(user_id);
+		} else {
+			list = userDAO.followingList(user_id);
+		}
 		
-		List<UserDTO> list = userDAO.followerList(user_id);
-		System.out.println("list = "+list);
 		List<FollowList> follow= new ArrayList<FollowList>();
 		UserDTO userDTO = null;
 		FollowList followList = null;
@@ -127,4 +131,5 @@ public class UserService {
 		
 		return follow;
 	}
+	
 }
