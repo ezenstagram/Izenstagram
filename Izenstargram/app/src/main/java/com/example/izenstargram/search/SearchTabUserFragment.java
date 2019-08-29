@@ -113,7 +113,7 @@ public class SearchTabUserFragment extends Fragment {
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            Log.d("[INFO]", "TabUserFragment : onFailure() 진입" + statusCode);
+            //Log.d("[INFO]", "TabUserFragment : onFailure() 진입" + statusCode);
             //Toast.makeText(getContext(), "Tab user 연결실패", Toast.LENGTH_SHORT).show();
         }
     }

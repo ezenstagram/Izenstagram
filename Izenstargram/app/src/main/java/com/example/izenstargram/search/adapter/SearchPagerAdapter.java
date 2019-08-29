@@ -17,7 +17,6 @@ public class SearchPagerAdapter extends FragmentStatePagerAdapter {
     SearchTabUserFragment searchTabUserFragment = new SearchTabUserFragment();
     SearchTabTagFragment searchTabTagFragment = new SearchTabTagFragment();
 
-
     public SearchPagerAdapter(FragmentManager fm, int pageCount) {
         super(fm);
         this.pageCount = pageCount;

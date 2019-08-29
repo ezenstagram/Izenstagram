@@ -95,6 +95,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         Log.d("[INFO]", "SearchFragment : onClick() 실행됨");
         letter_to_search = editText.getText().toString().trim();
         editText.setText("");
+        searchPagerAdapter.notifyDataSetChanged();
 
         // mSearch.expandActionView();
     }
