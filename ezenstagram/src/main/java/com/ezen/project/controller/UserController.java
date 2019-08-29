@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ezen.project.bean.FollowList;
 import com.ezen.project.bean.PostImageDTO;
 import com.ezen.project.bean.UserDTO;
 import com.ezen.project.service.PostService;
@@ -267,12 +268,33 @@ public class UserController {
 		ModelAndView mv = new ModelAndView("jsonView");
 		
 		int user_id = Integer.parseInt(request.getParameter("user_id"));
-		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner")); 
+		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner"));
 		int sign = Integer.parseInt(request.getParameter("sign"));	// sign이 0이면 팔로우, sing이 1이면 팔로우 취소
 		int result = userService.follow(user_id, user_id_owner, sign);
 		
 		mv.addObject("result", result);
 		mv.addObject("sign", sign);
 		return mv;
+	}
+	@RequestMapping(value="followerList.do") 
+	public ModelAndView followerList(HttpServletRequest request) {
+		ModelAndView mv = new ModelAndView("jsonView");
+		
+		int sepa = Integer.parseInt(request.getParameter("sepa"));
+		int user_id = Integer.parseInt(request.getParameter("user_id"));
+		List<FollowList> list = userService.followerList(user_id, sepa); 
+		
+		
+		int result = 0;
+		if(list != null) {
+			result = list.size();
+			mv.addObject("list", list);
+		} else {
+			result = 0;
+		}
+	
+		mv.addObject("result", result);
+		return mv;
+		
 	}
 }

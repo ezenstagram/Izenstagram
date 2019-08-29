@@ -36,7 +36,7 @@ public class GoLoginActivity extends AppCompatActivity implements View.OnClickLi
     AsyncHttpClient client;
     TextView textView, textViewJoin;
 
-    String URL = "http://192.168.0.5:8080/project/user_login.do";
+    String URL = "http://192.168.0.32:8080/project/user_login.do";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,4 +1,4 @@
-package com.example.izenstargram.profile;
+package com.example.izenstargram.profile.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.example.izenstargram.profile.TabFragment1;
+import com.example.izenstargram.profile.TabFragment2;
 
 public class TabPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -252,10 +252,11 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
         String fileName = photoPath.substring( photoPath.lastIndexOf('/')+1, photoPath.length());
         params.put("profile_photo", fileName);
         try {
-            params.put("photopath",new File(fileName));
+            params.put("photopath",new File(photoPath));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        params.setForceMultipartEntityContentType(true);
         client.post(URL, params, response);
     }
     // editText 클릭 시
@@ -345,6 +346,8 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             Toast.makeText(activity, "통신 실패", Toast.LENGTH_SHORT).show();
+            System.out.println(statusCode);
+            System.out.println(responseBody);
         }
     }
     @Override

@@ -57,4 +57,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="unfollow" parameterType="java.util.Map">
 		delete from follow where user_id=#{user_id} and follow_user_id=#{follow_user_id}
 	</delete>
+	<select id="followerList" parameterType="int" resultType="userDTO">
+		select * from sns_user where user_id in
+		(select user_id from follow where follow_user_id=#{user_id})
+	</select>
+	<select id="followingList" parameterType="int" resultType="userDTO">
+		select * from sns_user where user_id in
+		(select follow_user_id from follow where user_id=#{user_id})
+	</select>
 </mapper>

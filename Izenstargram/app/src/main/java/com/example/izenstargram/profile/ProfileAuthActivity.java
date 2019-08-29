@@ -41,7 +41,7 @@ public class ProfileAuthActivity extends AppCompatActivity implements View.OnCli
     String auth = "";
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.5:8080/project/emailAndLogin_id.do";
+    String URL = "http://192.168.0.32:8080/project/emailAndLogin_id.do";
     SmsManager sms;             // 문자
     boolean pressCheck = false;
 

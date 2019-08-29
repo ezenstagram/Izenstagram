@@ -89,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         replaceFragment(R.id.frame_layout, likeFragment, navNames[3]);
                         break;
                     case R.id.navigation_menu5: // 지윤
+                        Bundle bundle5 = new Bundle(1);
+                        bundle5.putInt("user_id", user_id);
+                        profileFragment.setArguments(bundle5);
                         replaceFragment(R.id.frame_layout, profileFragment, navNames[4]);
                         break;
                 }
