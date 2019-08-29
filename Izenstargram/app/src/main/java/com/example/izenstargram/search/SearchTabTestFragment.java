@@ -112,7 +112,7 @@ public class SearchTabTestFragment extends Fragment implements View.OnClickListe
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             Log.d("[INFO]", "TabTest : onFailure() 진입" + statusCode);
-            Toast.makeText(getContext(), "연결실패", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getContext(), "연결실패", Toast.LENGTH_SHORT).show();
         }
     }
 }

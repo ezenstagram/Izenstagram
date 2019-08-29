@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -57,6 +58,8 @@ public class SearchTabUserAdapter extends ArrayAdapter<UserDTO> {
         if (item != null) {
             TextView textView = convertView.findViewById(R.id.textViewUserName);
             ImageView imageView = convertView.findViewById(R.id.imageViewSearchUser);
+            Log.d("[INFO]", "SearchTabUserAdapter : item.getProfile_photo() = " + item.getProfile_photo());
+            Log.d("[INFO]", "SearchTabUserAdapter : item.getLogin_id() = " + item.getLogin_id());
             imageLoader.displayImage(item.getProfile_photo(), imageView, options);
             textView.setText("@" + item.getLogin_id());
 

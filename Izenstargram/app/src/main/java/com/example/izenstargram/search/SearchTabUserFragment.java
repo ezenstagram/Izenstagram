@@ -103,6 +103,7 @@ public class SearchTabUserFragment extends Fragment {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject temp = data.getJSONObject(i);
                     UserDTO userDTO = new UserDTO();
+                    userDTO.setProfile_photo(temp.getString("profile_photo"));
                     userDTO.setLogin_id(temp.getString("login_id"));
                     adapter.add(userDTO);
                 }
@@ -115,7 +116,7 @@ public class SearchTabUserFragment extends Fragment {
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             Log.d("[INFO]", "TabUserFragment : onFailure() 진입" + statusCode);
-            //Toast.makeText(getContext(), "연결실패", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Tab user 연결실패", Toast.LENGTH_SHORT).show();
         }
     }
 

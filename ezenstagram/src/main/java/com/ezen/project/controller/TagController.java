@@ -108,6 +108,11 @@ public class TagController {
   public ModelAndView selectUserBySearch(HttpServletRequest request) {
     String letter_to_search = request.getParameter("letter_to_search");
     List<UserDTO> list = tagService.selectUserBySearch(letter_to_search);
+    String imgUrl = null;
+    for (int i=0; i<list.size(); i++) {
+    	imgUrl="http://192.168.0.13:8080/image/storage/" + list.get(i).getProfile_photo();
+    	list.get(i).setProfile_photo(imgUrl);
+    }
     ModelAndView mv = new ModelAndView("jsonView");
     mv.addObject("data", list);
     return mv;
