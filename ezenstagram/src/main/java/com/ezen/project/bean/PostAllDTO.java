@@ -12,6 +12,15 @@ public class PostAllDTO {
 	private boolean isLike;
 	private int comment_cnt;
 	private UserDTO userDTO;
+	private int likes_cnt;
+
+	public int getLikes_cnt() {
+		return likes_cnt;
+	}
+
+	public void setLikes_cnt(int likes_cnt) {
+		this.likes_cnt = likes_cnt;
+	}
 
 	public UserDTO getUserDTO() {
 		return userDTO;

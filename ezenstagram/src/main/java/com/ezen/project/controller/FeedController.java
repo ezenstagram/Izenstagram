@@ -141,4 +141,15 @@ public class FeedController {
 		return mv;
 	}
 
+	@RequestMapping(value = "cntLikes.do")
+	public ModelAndView cntLikes(HttpServletRequest request) throws Exception {
+		int post_id = Integer.parseInt(request.getParameter("post_id"));
+
+		int cntLike = feedService.cntLikes(post_id);
+
+		ModelAndView mv = new ModelAndView("jsonView");
+		mv.addObject("data", cntLike);
+		return mv;
+	}
+
 }

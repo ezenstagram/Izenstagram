@@ -73,7 +73,7 @@ public class FeedDAO {
 	}
 	
 	public int cntLikes(int post_id) {
-		return sqlSession.selectOne("mybatis.feedMapper.maxLikes", post_id);
+		return sqlSession.selectOne("mybatis.feedMapper.cntLikes", post_id);
 	}
 
 }

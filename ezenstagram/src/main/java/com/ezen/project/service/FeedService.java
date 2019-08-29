@@ -84,14 +84,16 @@ public class FeedService {
 		    UserDTO userDTO = userDAO.user_profile(user_id);
 		    String tempProfile = userDTO.getProfile_photo();
 		    System.out.println("tempProfile = " + tempProfile);
-		   
+		    int temp_cnt_like = feedDAO.cntLikes(list.get(i).getPost_id());
+		    
+		    
 		    list.get(i).setUserDTO(userDTO);
 		    list.get(i).getUserDTO().setProfile_photo
 		    ("http://192.168.0.13:8080/image/storage/" + tempProfile);
-		    System.out.println("http://192.168.0.13:8080/image/storage/" + tempProfile + " : 프로파일주소입니다.");
-		    
+		   
+		    list.get(i).setLikes_cnt(temp_cnt_like);  
 			list.get(i).setComment_cnt(cmtList.size());
-             System.out.println(list.get(i).getUserDTO().getLogin_id() + " : 로그인 아이디 입니다.");
+          
 			int isLike = feedDAO.chkLikes(list.get(i).getPost_id(), user_id);
 			if (isLike == 1) {
 				list.get(i).setLike(true);
@@ -118,6 +120,11 @@ public class FeedService {
 	// 댓글 데이터 뽑아오기
 	public List<CommentsDTO> getCmtData(int post_id) {
 		return feedDAO.getCmtData(post_id);
+	}
+	
+	//좋아요 갯수 세기
+	public int cntLikes(int post_id) {
+		return feedDAO.cntLikes(post_id);
 	}
 	
 
