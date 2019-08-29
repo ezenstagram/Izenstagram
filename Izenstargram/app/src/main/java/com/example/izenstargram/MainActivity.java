@@ -16,14 +16,13 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
 import com.example.izenstargram.feed.ListFragment;
 import com.example.izenstargram.like.LikeFragment;
 import com.example.izenstargram.profile.ProfileFragment;
 import com.example.izenstargram.search.SearchFragment;
 import com.example.izenstargram.upload.UploadActivity;
-import com.loopj.android.http.RequestParams;
+
 
 import java.util.ArrayList;
 
@@ -56,7 +55,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //        button = findViewById(R.id.button);
 //        button.setOnClickListener(this);
+        SharedPreferences pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
+        user_id = pref.getInt("user_id", 0);
+        if (user_id == 0) {
+            // 에러 화면....
+        }
 
+        Bundle list_bundle = new Bundle(1);
+        list_bundle.putInt("list_user_id", user_id);
+        listFragment.setArguments(list_bundle);
         replaceFragment(R.id.frame_layout, listFragment, navNames[0]);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -88,11 +95,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         });
-        SharedPreferences pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
-        user_id = pref.getInt("user_id", 0);
-        if (user_id == 0) {
-            // 에러 화면....
-        }
+
         ArrayList<String> permissionCheck = new ArrayList<String>();
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             permissionCheck.add(Manifest.permission.CAMERA);}

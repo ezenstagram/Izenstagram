@@ -20,21 +20,19 @@ public class FeedLikeResponse extends AsyncHttpResponseHandler {
     @Override
     public void onStart() {
       client = new AsyncHttpClient();
-
     }
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
          switch (mode){
-             case 1:
+             case 1: //좋아요 데이터가 존재하면 mode 1로 가서 데이터를 삭제하고 isLike 상태를 false 로 바꿔줌
                  String document1 = new String(responseBody);
                  try {
                      JSONObject json = new JSONObject(document1);
                      int result = json.getInt("result");
                      if(result>0) {
-                         System.out.println("삭제성공");
+
                      }else{
-                         System.out.println("삭제실패");
                      }
                  } catch (JSONException e) {
                      e.printStackTrace();
@@ -47,9 +45,9 @@ public class FeedLikeResponse extends AsyncHttpResponseHandler {
                      JSONObject json = new JSONObject(document2);
                      int result = json.getInt("result");
                      if(result>0) {
-                         System.out.println("저장성공");
+
                      }else{
-                         System.out.println("저장실패");
+
                      }
                  } catch (JSONException e) {
                      e.printStackTrace();

@@ -45,26 +45,24 @@ public class ListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("[INFO]", "onCreate(@Nullable Bundle savedInstanceState) 함수 시작");
         super.onCreate(savedInstanceState);
+
         Log.d("[INFO]", "onCreate(@Nullable Bundle savedInstanceState) 함수 끝");
     }
-
-
-
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("[INFO]", "onCreateView 함수 시작");
+
         View view = inflater.inflate(R.layout.list_layout, container, false); // attachToRoot는 일단 false로..
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        adapter = new FeedAdapter(feedPostList, activity);
+        adapter = new FeedAdapter(feedPostList, activity, getArguments().getInt("list_user_id", 0));
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         client = new AsyncHttpClient();
         response = new HttpResponse(activity);
 
-        Log.d("[INFO]", "onCreateView 함수 끝");
         return view;
     }
 
@@ -73,14 +71,14 @@ public class ListFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.d("[INFO]", "onResume 함수 시작");
+
         super.onResume();
         RequestParams params = new RequestParams();
-        params.put("user_id", 1);
+        params.put("user_id", getArguments().getInt("list_user_id", 0));
         clear();
         client.get(url, params, response);
         recyclerView.setAdapter(adapter);
-        Log.d("[INFO]", "onResume 함수 끝");
+
     }
 
     public void clear() {
@@ -102,14 +100,14 @@ public class ListFragment extends Fragment {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            Log.d("[INFO]", "onSuccess() 함수 진입");
+
             String document = new String(responseBody);
             try {
-                Log.d("[INFO]", "onSuccess() 함수 진입2");
+
                 JSONObject json = new JSONObject(document);
                 JSONArray data = json.getJSONArray("data");
                 for(int i=0; i<data.length(); i++){
-                    Log.d("[INFO]", "onSuccess() 함수 진입3");
+
                     JSONObject feedItem = data.getJSONObject(i);
                     PostAll postAll = new PostAll();
                     postAll.setPost_id(feedItem.getInt("post_id"));
@@ -120,10 +118,10 @@ public class ListFragment extends Fragment {
                     postAll.setLike(feedItem.getBoolean("like"));
                     postAll.setComment_cnt(feedItem.getInt("comment_cnt"));
                     JSONArray tempPostImageList = feedItem.getJSONArray("postImageList");
-                    Log.d("[INFO]", "tempPostImageList가 가지고 있는 object 의 크기: " + tempPostImageList.length() + "개 ");
+
                     ArrayList<PostImage> imgList = new ArrayList<>();
                     for(int j=0; j<tempPostImageList.length(); j++){    //object 갯수가 3개니까 3번 돌음
-                        Log.d("[INFO]", "onSuccess() 함수 진입4");
+
                         JSONObject feedImageItem = tempPostImageList.getJSONObject(j); //imageList에 있는 하나의 object
                         PostImage postImage = new PostImage();
                         postImage.setPost_id(feedImageItem.getInt("post_id"));
@@ -131,7 +129,7 @@ public class ListFragment extends Fragment {
                         postImage.setImage_url(feedImageItem.getString("image_url"));
                         imgList.add(postImage);
                     }
-                    Log.d("[INFO]", "onSuccess() 함수 진입5");
+
                     postAll.setPostImageList(imgList);
                     feedPostList.add(postAll);
 
