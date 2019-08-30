@@ -13,6 +13,7 @@ import org.springframework.util.FileCopyUtils;
 
 import com.ezen.project.bean.PostDTO;
 import com.ezen.project.bean.PostImageDTO;
+import com.ezen.project.bean.PostInsertResult;
 import com.ezen.project.dao.PostDAO;
 import com.ezen.project.dao.PostImageDAO;
 
@@ -22,8 +23,9 @@ public class PostService {
 	private PostDAO postDAO;
 	@Autowired
 	private PostImageDAO postImageDAO;
-
-	public String insert(PostDTO postDTO, String filename, InputStream inputStream,String realpath) {
+	
+	/** public String insert(PostDTO postDTO, String filename, InputStream inputStream,String realpath) { */
+	public PostInsertResult insert(PostDTO postDTO, String filename, InputStream inputStream,String realpath) {
 		String result = "0";
 		int su = postDAO.insertPost(postDTO);
 		int post_id = postDAO.getcurrPost_id();
@@ -59,7 +61,8 @@ public class PostService {
 				  postDAO.deletePost(post_id);
 			}
 		}
-		return result;
+		/** return result; */
+		return new PostInsertResult(post_id, result, postDTO.getContent());
 	}
 	public List<PostImageDTO> profilePostRefImage(int user_id) {
 		return postImageDAO.profilePostRefImage(user_id);

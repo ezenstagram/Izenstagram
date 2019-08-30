@@ -37,7 +37,7 @@ public class WriteActivity extends AppCompatActivity {
     //통신용 객체 선언
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.32:8080/project/post.do";
+    String URL = "http://192.168.0.55:8080/project/post.do";
     String photoPath=null;
     Intent intent = getIntent();
 
@@ -133,20 +133,20 @@ public class WriteActivity extends AppCompatActivity {
         }
 
         // onStart() : 통신 시작시
-        @Override
-        public void onStart() {
-            dialog = new ProgressDialog(activity);
-            dialog.setMessage("잠시만 기다려주세요");
-            dialog.setCancelable(false);
-            dialog.show();
-        }
+//        @Override
+//        public void onStart() {
+//            dialog = new ProgressDialog(activity);
+//            dialog.setMessage("잠시만 기다려주세요");
+//            dialog.setCancelable(false);
+//            dialog.show();
+//        }
 
         // onFinish() : 통신 종료시
-        @Override
-        public void onFinish() {
-           dialog.dismiss();
-            dialog = null;
-        }
+//        @Override
+//        public void onFinish() {
+//           dialog.dismiss();
+//            dialog = null;
+//        }
 
 
 
@@ -158,8 +158,13 @@ public class WriteActivity extends AppCompatActivity {
             try {
                 JSONObject json = new JSONObject(strJson);
                 String rt = json.getString("result");
+                /** 태그관련 새로추가  **/
+                String post_id = json.getString("post_id");
+                String content = json.getString("content");
                 if(rt.equals("1")){
                     Toast.makeText(activity,"저장성공",Toast.LENGTH_SHORT).show();
+                    registerTags(post_id, content);
+                    /** 태그관련 일단 요기까지 **/
                     finish(); //앱을 종료시키는 것
                 }else{
                     Toast.makeText(activity,"저장실패"+statusCode,Toast.LENGTH_SHORT).show();
@@ -173,10 +178,22 @@ public class WriteActivity extends AppCompatActivity {
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             Toast.makeText(activity, "통신실패"+statusCode, Toast.LENGTH_SHORT).show();
-
         }
-
     }
+        /** 태그관련 메소드 */
+        private void registerTags(String post_id, String content) {
+        String TAG_URL = "http://192.168.0.55:8080/project/putTagIntoPost.do";
+        String USER_TAG_URL = "http://192.168.0.55:8080/project/putUserTagIntoPost.do";
+
+        RequestParams params = new RequestParams();
+        params.put("post_id", post_id);
+        params.put("fullContent",content);
+
+        client.post(TAG_URL, params,response);
+        client.post(USER_TAG_URL, params,response);
+    }
+
+
 
 //    @Override
 //    protected void onDestroy() {

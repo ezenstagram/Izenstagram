@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.project.bean.PostDTO;
 import com.ezen.project.bean.PostImageDTO;
+import com.ezen.project.bean.PostInsertResult;
 import com.ezen.project.service.PostService;
 
 @Controller
@@ -39,10 +40,16 @@ public class PostController {
 		postDTO.setReg_date(reg_date);
 		
 		String realpath = "Z:";
-		String result = postService.insert(postDTO, img.getOriginalFilename(), img.getInputStream(),realpath);
-
+		/** String result = postService.insert(postDTO, img.getOriginalFilename(), img.getInputStream(),realpath); **/
 		ModelAndView mv = new ModelAndView("jsonView"); //// �쁾�쁾 瑗� jsonView濡� �빐以섑뼆�븿
-		mv.addObject("result", result);
+		/** 태그관련코드추가 */
+		PostInsertResult result = postService.insert(postDTO, img.getOriginalFilename(), img.getInputStream(),realpath);
+		
+		mv.addObject("post_id", result.getPost_id());
+		mv.addObject("content", result.getContent());
+		mv.addObject("result", result.getResult());
+		/** 태그관련코드추가 */
+		/** mv.addObject("result", result); **/
 		return mv;
 
 	}
