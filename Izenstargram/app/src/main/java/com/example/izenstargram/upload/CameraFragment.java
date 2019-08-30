@@ -74,7 +74,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
                 }
                 Intent intent = new Intent(getActivity(), ImageViewActivity.class);
 
-                intent.putExtra("strParamName", str);
+                intent.putExtra("strParamName_camera", str);
                 Log.d("[INFO]","photoPath의 역할을 하는 str:"+str);
                 startActivity(intent);
             }

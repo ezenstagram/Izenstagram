@@ -36,7 +36,7 @@ public class SearchTabRandomFragment extends Fragment {
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.55:8080/project/selectPostImageRandom.do";
+    String url = "http://192.168.0.62:8080/project/selectPostImageRandom.do";
     List<PostImageDTO> list;
     SearchTabRandomAdapter adapter;
     GridView gridView;
@@ -49,7 +49,7 @@ public class SearchTabRandomFragment extends Fragment {
         View view = inflater.inflate(R.layout.search_tab_random_layout, container, false);
         list = new ArrayList<>();
         adapter = new SearchTabRandomAdapter(getActivity(), R.layout.search_gridview_item, list);
-        gridView = view.findViewById(R.id.gridViewForSearchRandom);
+       gridView = view.findViewById(R.id.gridViewForSearchRandom);
         gridView.setAdapter(adapter);
         // 서버
         client = new AsyncHttpClient();

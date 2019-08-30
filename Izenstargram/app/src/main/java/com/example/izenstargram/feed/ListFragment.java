@@ -34,7 +34,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class ListFragment extends Fragment {
     Activity activity = getActivity();
-    String url = "http://192.168.0.5:8080/project/feedPostList.do";
+    String url = "http://192.168.0.62:8080/project/feedPostList.do";
     AsyncHttpClient client;
     HttpResponse response;
     private RecyclerView recyclerView;

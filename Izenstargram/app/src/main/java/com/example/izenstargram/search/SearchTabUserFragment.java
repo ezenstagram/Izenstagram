@@ -36,7 +36,7 @@ public class SearchTabUserFragment extends Fragment {
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.55:8080/project/selectUserBySearch.do";
+    String url = "http://192.168.0.62:8080/project/selectUserBySearch.do";
 //selectTagNameByLetter.do
     String letter_to_search;
     List<UserDTO> list;

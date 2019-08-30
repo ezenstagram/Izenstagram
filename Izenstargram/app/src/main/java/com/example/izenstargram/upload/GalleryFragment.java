@@ -61,7 +61,7 @@ public class GalleryFragment extends Fragment  {
                 PictureInfo item = adapter.getItem(position);
                 String str=item.getPath();
                 Intent intent = new Intent(getActivity(), ImageViewActivity.class);
-                intent.putExtra("strParamName",str);
+                intent.putExtra("strParamName_gallery",str);
                 startActivity(intent);
                 Toast.makeText(getContext().getApplicationContext(), "아이템 선택됨 : " + str, Toast.LENGTH_LONG).show();//getContext().를 붙임
             }

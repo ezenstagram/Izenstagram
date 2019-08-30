@@ -36,7 +36,7 @@ public class TabFragment1 extends Fragment{
 
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.32:8080/project/userProfileRefPost.do";
+    String URL = "http://192.168.0.62:8080/project/userProfileRefPost.do";
     List<String> list;
     int user_id;
     GridView gv;

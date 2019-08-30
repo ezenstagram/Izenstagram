@@ -13,13 +13,15 @@
         android:background="@drawable/stroke_down"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_picture"
-            android:layout_width="136dp"
-            android:layout_height="187dp"
+            android:layout_width="168dp"
+            android:layout_height="151dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
-            app:srcCompat="@drawable/human" />
+            android:src="@drawable/human"></de.hdodenhof.circleimageview.CircleImageView>
 
         <EditText
             android:id="@+id/edit_content"
