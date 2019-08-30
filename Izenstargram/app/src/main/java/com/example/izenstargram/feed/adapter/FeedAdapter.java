@@ -41,7 +41,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
     String url_like_save = "http://192.168.0.5:8080/project/saveLikes.do";
     String url_like_delete = "http://192.168.0.5:8080/project/delLikes.do";
 
-    static int mode = 0;
+    int mode = 0;
     public void setItems(List<PostAll> feedPostList) {
         this.feedPostList = (ArrayList<PostAll>) feedPostList;
     }
@@ -114,6 +114,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
                 params.put("user_id", user_id);
                 Log.d("[INFO] post_id", "post_id" + feedPostList.get(position).getPost_id());
                 Log.d("[INFO] post_id", "user_id" + user_id);
+                response = new HttpResponse(viewHolder.heart_btn, position); //*IMPORTANT//
                 client.post(url, params, response);
             }
         });
@@ -201,14 +202,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
                     mode = 1;
                     client.post(url_like_delete, params, feedLikeResponse); //서로 다른 response 이기 때문에
                     // 좋아요 취소
-                    heart_btn.setChecked(false);
                     Log.d("[INFO]", "좋아요 데이터 삭제");
 
                 }else{
                     //heart_btn.setChecked(true);
                     mode = 2; //-->좋아요 데이터가 없을때, 저장해주는 처리
                     client.post(url_like_save, params, feedLikeResponse);
-                    heart_btn.setChecked(true);
 
                     Log.d("[INFO]", "좋아요 데이터 저장");
 

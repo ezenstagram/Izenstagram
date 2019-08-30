@@ -81,7 +81,7 @@ public class FeedService {
 			List<CommentsDTO> cmtList = feedDAO.cmtList(list.get(i).getPost_id()); // 댓글
 																					// 데이터
 																					// 리스트
-		    UserDTO userDTO = userDAO.user_profile(user_id);
+		    UserDTO userDTO = userDAO.user_profile(list.get(i).getUser_id()); //파라미터에 글쓴사람아이디 
 		    String tempProfile = userDTO.getProfile_photo();
 		    System.out.println("tempProfile = " + tempProfile);
 		    int temp_cnt_like = feedDAO.cntLikes(list.get(i).getPost_id());
