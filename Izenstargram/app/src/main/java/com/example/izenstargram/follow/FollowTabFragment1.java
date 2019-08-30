@@ -35,17 +35,15 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
+public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemClickListener {
 
     List<FollowDTO> list;
-    SearchView searchView;
 
     ListView listView;
     FollowAdapter1 adapter1;
     AsyncHttpClient client;
     HttpResponse response;
     String URL = "http://192.168.0.32:8080/project/followerList.do";
-    static String letter_search;
     PullRefreshLayout loading;
 
     @Nullable
@@ -53,8 +51,7 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.follow_tab_fragment1, container, false);
 
-        searchView = view.findViewById(R.id.SearchView);
-        searchView.setOnQueryTextListener(this);
+
         int user_id = getArguments().getInt("user_id", 0);
 
         list = new ArrayList<>();
@@ -100,25 +97,7 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.search_menu, menu);
-        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-    }
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        letter_search = query;
-        adapter1.notifyDataSetChanged();
-        return false;
-    }
 
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        letter_search = newText;
-        adapter1.notifyDataSetChanged();
-        return false;
-    }
 
     public class HttpResponse extends AsyncHttpResponseHandler {
         Activity activity;       // ProgressDialog에서 사용

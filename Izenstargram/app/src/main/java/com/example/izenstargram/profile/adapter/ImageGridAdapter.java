@@ -104,7 +104,7 @@ public class ImageGridAdapter extends BaseAdapter {
             img.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
             String photo = "http://192.168.0.13:8080/image/storage/" + list.get(position);
-           imageLoader.displayImage( photo, img, options);
+            imageLoader.displayImage(photo, img, options);
         }
         return convertView;
     }

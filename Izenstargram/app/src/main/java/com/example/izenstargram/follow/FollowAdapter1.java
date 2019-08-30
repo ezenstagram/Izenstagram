@@ -89,11 +89,9 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
             textViewName.setText(item.getName());
 
             if(!item.getProfile_photo().equals("null")) {
-                Toast.makeText(activity, "1", Toast.LENGTH_SHORT).show();
                 String photo = "http://192.168.0.13:8080/image/storage/" +item.getProfile_photo();
                 imageLoader.displayImage(photo, imageView, options);
             } else {
-                Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();
                 imageView.setImageResource(R.drawable.ic_stub);
             }
 
@@ -159,7 +157,7 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
         }
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-           // Toast.makeText(activity, "통신 실패1111", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "통신 실패1111", Toast.LENGTH_SHORT).show();
         }
     }
 }

@@ -36,7 +36,6 @@ import cz.msebera.android.httpclient.Header;
 public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemClickListener {
 
     List<FollowDTO> list;
-    SearchView searchView;
 
     ListView listView;
     FollowAdapter1 adapter1;
@@ -91,12 +90,6 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.search_menu, menu);
-        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
     }
 
     public class HttpResponse extends AsyncHttpResponseHandler {
