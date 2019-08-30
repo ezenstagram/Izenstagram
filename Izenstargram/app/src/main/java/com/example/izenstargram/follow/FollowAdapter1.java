@@ -99,12 +99,10 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
                 button.setBackgroundResource(R.drawable.for_button_modi);
                 button.setText("팔로잉");
                 button.setTextColor(Color.BLACK);
-                //button.setBackgroundColor(Color.WHITE);
             } else {
                 button.setBackgroundResource(R.drawable.unfoll_button);
                 button.setText("팔로우");
                 button.setTextColor(Color.WHITE);
-                //button.setBackgroundColor(Color.rgb(0, 153, 204));
             }
 
             button.setOnClickListener(new View.OnClickListener() {
@@ -123,12 +121,12 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
                         if(button.getText().toString().equals("팔로우")) {
                             button.setText("팔로잉");
                             button.setTextColor(Color.BLACK);
-                            button.setBackgroundColor(Color.WHITE);
+                            button.setBackgroundResource(R.drawable.for_button_modi);
                             Toast.makeText(activity, "팔로우를 했습니다.", Toast.LENGTH_SHORT).show();
                         } else {
                             button.setText("팔로우");
                             button.setTextColor(Color.WHITE);
-                            button.setBackgroundColor(Color.rgb(0, 153, 204));
+                            button.setBackgroundResource(R.drawable.unfoll_button);
                             Toast.makeText(activity, "팔로우를 취소 했습니다.", Toast.LENGTH_SHORT).show();
                      //   }
                     }
