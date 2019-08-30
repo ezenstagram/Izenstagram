@@ -5,7 +5,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import com.ezen.project.bean.NotifiInfoDTO;
-import com.ezen.project.bean.TestMemDTO;
+import com.ezen.project.bean.NotificationDTO;
 
 @Repository
 public class NotifiInfoDAO {
@@ -20,6 +20,11 @@ public class NotifiInfoDAO {
   public List<NotifiInfoDTO> selectListForFInfo(int act_user_id) {
     return sqlSessionTemplate.selectList("mybatis.notifiInfoMapping.selectListForFInfo",
         act_user_id);
+  }
+
+  public int insert(NotificationDTO notificationDTO) {
+    return sqlSessionTemplate.insert("mybatis.notifiInfoMapping.insertNotification",
+        notificationDTO);
   }
 
 }

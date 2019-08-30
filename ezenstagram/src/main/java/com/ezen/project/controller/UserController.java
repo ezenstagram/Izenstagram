@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ezen.project.bean.FollowList;
 import com.ezen.project.bean.PostImageDTO;
 import com.ezen.project.bean.UserDTO;
+import com.ezen.project.service.NotifiInfoService;
 import com.ezen.project.service.PostService;
 import com.ezen.project.service.UserService;
 
@@ -26,8 +27,10 @@ public class UserController {
 	private UserService userService;
 	@Autowired
 	private PostService postService;
+	@Autowired
+    private NotifiInfoService notifiInfoService;
 	
-	// 濡쒓렇�씤
+	// 嚥≪뮄�젃占쎌뵥
 	@RequestMapping(value="user_login.do")		
 	public ModelAndView user_login(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
@@ -48,7 +51,7 @@ public class UserController {
 		
 		return mv;
 	}
-	// �쉶�썝媛��엯
+	// 占쎌돳占쎌뜚揶쏉옙占쎌뿯
 	@RequestMapping(value="user_join.do")
 	public ModelAndView user_join(HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView("jsonView");
@@ -145,7 +148,7 @@ public class UserController {
 		String login_id;
 		int result=0;
 		List<String> list=null;
-		int div=2;		// �쟾�솕踰덊샎吏� �씠硫붿씪�씤吏� �븞�뱶濡쒖씠�뱶�뿉�꽌 援щ텇
+		int div=2;		// 占쎌읈占쎌넅甕곕뜇�깕筌욑옙 占쎌뵠筌롫뗄�뵬占쎌뵥筌욑옙 占쎈툧占쎈굡嚥≪뮇�뵠占쎈굡占쎈퓠占쎄퐣 �뤃�됲뀋
 		
 		if(email != null) {
 			login_id = userService.emailForFind(email);
@@ -269,9 +272,9 @@ public class UserController {
 		
 		int user_id = Integer.parseInt(request.getParameter("user_id"));
 		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner"));
-		int sign = Integer.parseInt(request.getParameter("sign"));	// sign이 0이면 팔로우, sing이 1이면 팔로우 취소
+		int sign = Integer.parseInt(request.getParameter("sign"));	// sign�씠 0�씠硫� �뙏濡쒖슦, sing�씠 1�씠硫� �뙏濡쒖슦 痍⑥냼
 		int result = userService.follow(user_id, user_id_owner, sign);
-		
+		notifiInfoService.insert(3, user_id_owner, user_id_owner, null);
 		mv.addObject("result", result);
 		mv.addObject("sign", sign);
 		return mv;

@@ -11,6 +11,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectListForFInfo" parameterType="int"
 		resultType="notifiInfoDTO">
 		select * from notifi_info WHERE act_user_id in(select
-		follow_user_id from follow where user_id = #{act_user_id}) and mode_id in (1,3)
+		follow_user_id from follow where user_id = #{act_user_id}) and mode_id
+		in (1,3)
 	</select>
+	<insert id="insertNotification" parameterType="notificationDTO">
+		INSERT INTO NOTIFICATION VALUES (notifi_seq.nextval,
+		#{mode_id},
+		#{target_id}, #{target_sub_id}, #{act_user_id},
+		#{target_user_id}, 0, sysdate)
+	</insert>
 </mapper>

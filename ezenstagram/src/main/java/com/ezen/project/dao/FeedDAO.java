@@ -75,5 +75,9 @@ public class FeedDAO {
 	public int cntLikes(int post_id) {
 		return sqlSession.selectOne("mybatis.feedMapper.cntLikes", post_id);
 	}
+	
+	public int getCommentId(CommentsDTO commentsDTO) {
+      return sqlSession.selectOne("mybatis.feedMapper.getCommentId", commentsDTO);
+    }
 
 }

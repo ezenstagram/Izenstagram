@@ -15,11 +15,14 @@ import com.ezen.project.bean.PostAllDTO;
 import com.ezen.project.bean.PostDTO;
 import com.ezen.project.bean.PostImageDTO;
 import com.ezen.project.service.FeedService;
+import com.ezen.project.service.NotifiInfoService;
 
 @Controller
 public class FeedController {
 	@Autowired
 	private FeedService feedService;
+	@Autowired
+    private NotifiInfoService notifiInfoService;
 
 	@RequestMapping(value = "chkLikes.do")
 	public ModelAndView chkLikes(HttpServletRequest request) throws Exception {
@@ -40,6 +43,7 @@ public class FeedController {
 		likesDTO.setPost_id(post_id);
 		likesDTO.setUser_id(user_id);
 		mv.addObject("result", feedService.saveLikes(likesDTO));
+		notifiInfoService.insert(1, post_id, user_id, null);
 		return mv;
 	}
 

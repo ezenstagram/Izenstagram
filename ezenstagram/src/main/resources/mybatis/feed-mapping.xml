@@ -80,5 +80,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select count(post_id) from likes where post_id =#{post_id}
     </select>
 
+	<select id="getCommentId" parameterType="commentsDTO"
+		resultType="int">
+		select max(comment_id) from comments
+		where post_id = #{post_id} and user_id = #{user_id} and comment_cmt =
+		#{comment_cmt}
+	</select>
 
 </mapper>

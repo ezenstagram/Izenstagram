@@ -34,5 +34,8 @@ public class PostDAO {
 	public int postCount(int user_id) {
 		return sqlSessionTemplate.selectOne("mybatis.postMapping.postCount", user_id);
 	}
+	public int getPostWriter(int post_id) {
+      return sqlSessionTemplate.selectOne("mybatis.postMapping.getPostWriter", post_id);
+    }
 
 }

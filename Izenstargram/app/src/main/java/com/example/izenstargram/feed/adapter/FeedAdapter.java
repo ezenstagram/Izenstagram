@@ -42,9 +42,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
     FeedLikeResponse feedLikeResponse; //좋아요 데이터 저장 혹은 삭제용 response
     ArrayList<PostAll> feedPostList; //itemGroup
     Context context;
-    String url = "http://192.168.0.5:8080/project/chkLikes.do";
-    String url_like_save = "http://192.168.0.5:8080/project/saveLikes.do";
-    String url_like_delete = "http://192.168.0.5:8080/project/delLikes.do";
+    String url = "http://192.168.0.13:8080/project/chkLikes.do";
+    String url_like_save = "http://192.168.0.13:8080/project/saveLikes.do";
+    String url_like_delete = "http://192.168.0.13:8080/project/delLikes.do";
 
     static int mode = 0;
     public void setItems(List<PostAll> feedPostList) {

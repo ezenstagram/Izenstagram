@@ -23,4 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="postCount" parameterType="int" resultType="int">
 		select count(post_id) from post where user_id=#{user_id}
 	</select>
+	<select id="getPostWriter" parameterType="int" resultType="int">
+		select user_id from post where post_id=#{post_id}
+	</select>
 </mapper>
