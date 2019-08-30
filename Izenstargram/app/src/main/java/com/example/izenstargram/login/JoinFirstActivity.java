@@ -6,12 +6,16 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -96,6 +100,12 @@ public class JoinFirstActivity extends AppCompatActivity implements View.OnClick
         linearLayout2.setVisibility(View.GONE);
 
         editTextAuth = findViewById(R.id.editTextAuth);
+
+
+        String str = "이미 계정이 있으신가요? 로그인";
+        SpannableStringBuilder ssb = new SpannableStringBuilder(str);
+        ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#0099cc")), 14, 17, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(ssb);
 
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);

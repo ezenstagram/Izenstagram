@@ -56,7 +56,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     LinearLayout slidingPanel;
     TabLayout tabLayout;
     private ViewPager viewPager;
-    PullRefreshLayout loading;
 
     Button button, buttonModi, buttonFollowing;
     TextView textViewLogin_id1, textViewLogin_id2, textViewPostCount, textViewFollower, textViewFollowing, textViewProfile, textViewLogout, textView13, textView15;
@@ -124,25 +123,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             params.put("user_id_owner", user_id_owner);
             client.post(followRealURL, params, followRelaResponse);
         }
-        loading= (PullRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
 
-        //pullrefresh 스타일 지정
-        loading.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
-
-        //pullrefresh가 시작됬을 시 호출
-        loading.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //Thread - 1초 후 로딩 종료
-                Handler delayHandler = new Handler();
-                delayHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loading.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
         // 메뉴
         translateLeftAnim = AnimationUtils.loadAnimation(getContext(), R.anim.translate_left);
         translateRightAnim =AnimationUtils.loadAnimation(getContext(),R.anim.translate_right);
@@ -261,8 +242,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         Bundle bundle1 = new Bundle(5);
         bundle1.putInt("user_id", user_id);
-        bundle1.putString("follower", textViewFollowing.getText().toString());
-        bundle1.putString("following", textViewFollower.getText().toString());
+        bundle1.putString("following", textViewFollowing.getText().toString());
+        bundle1.putString("follower", textViewFollower.getText().toString());
         bundle1.putString("login_id", textViewLogin_id1.getText().toString());
         switch (v.getId()) {
             case R.id.buttonFollowing:

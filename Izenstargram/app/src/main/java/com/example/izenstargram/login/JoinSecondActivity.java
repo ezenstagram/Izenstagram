@@ -5,8 +5,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +57,11 @@ public class JoinSecondActivity extends AppCompatActivity implements View.OnClic
         editText2 = findViewById(R.id.editText2);
         editText3 = findViewById(R.id.editText3);
         textView = findViewById(R.id.textView);
+
+        String str = "이미 계정이 있으신가요? 로그인";
+        SpannableStringBuilder ssb = new SpannableStringBuilder(str);
+        ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#0099cc")), 14, 17, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textView.setText(ssb);
 
         client = new AsyncHttpClient();
         response_idCheck = new HttpResponseIdCheck(this);

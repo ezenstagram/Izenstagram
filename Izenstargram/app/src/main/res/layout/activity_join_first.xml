@@ -51,6 +51,9 @@
                             android:id="@+id/editText1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/layer_list"
                             android:ems="10"
                             android:hint="전화번호"
                             android:inputType="phone" />
@@ -59,7 +62,7 @@
                             android:id="@+id/button1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/holo_blue_dark"
+                            android:background="@drawable/button_corner"
                             android:text="다음"
                             android:textColor="@android:color/background_light" />
 
@@ -75,6 +78,9 @@
                             android:id="@+id/editText2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/layer_list"
                             android:ems="10"
                             android:hint="이메일 주소"
                             android:inputType="textEmailAddress" />
@@ -83,8 +89,9 @@
                             android:id="@+id/button2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@android:color/holo_blue_dark"
-                            android:text="다음" />
+                            android:background="@drawable/button_corner"
+                            android:text="다음"
+                            android:textColor="@android:color/background_light" />
 
                     </LinearLayout>
 
@@ -148,6 +155,9 @@
             android:id="@+id/editTextAuth"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/layer_list"
             android:ems="10"
             android:hint="인증 코드"
             android:inputType="textPersonName" />
@@ -156,7 +166,7 @@
             android:id="@+id/button3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/holo_blue_dark"
+            android:background="@drawable/button_corner"
             android:text="다음"
             android:textColor="@android:color/background_light" />
 

@@ -24,7 +24,8 @@
             android:id="@+id/button1"
             android:layout_width="335dp"
             android:layout_height="wrap_content"
-            android:background="#B1BFFA"
+            android:background="@drawable/button_corner"
+
             android:text="새 계정 만들기"
             android:textColor="@android:color/background_light" />
 
@@ -41,7 +42,7 @@
             android:id="@+id/button2"
             android:layout_width="335dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/background_light"
+            android:background="#00FF0000"
             android:text="로그인"
             android:textColor="#647FF2" />
     </LinearLayout>

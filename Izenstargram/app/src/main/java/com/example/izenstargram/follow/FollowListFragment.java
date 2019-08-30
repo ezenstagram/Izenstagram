@@ -7,14 +7,12 @@ import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.izenstargram.R;
-import com.loopj.android.http.AsyncHttpClient;
 
 public class FollowListFragment extends Fragment {
     TabLayout tabLayout;

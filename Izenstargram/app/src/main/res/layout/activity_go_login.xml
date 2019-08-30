@@ -6,54 +6,67 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".login.GoLoginActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="189dp"
-        android:background="@drawable/title" />
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="아이디"
-        android:inputType="textPersonName"
-        android:singleLine="true" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="비밀번호"
-        android:inputType="textPassword"
-        android:singleLine="true" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="189dp"
+            android:background="@drawable/title" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:text="비밀번호를 잊으셨나요?"
-        android:textColor="#118DB6" />
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/layer_list"
+            android:ems="10"
+            android:hint="아이디"
+            android:inputType="textPersonName|textNoSuggestions"
+            android:singleLine="true" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="#B1BFFA"
-        android:text="로그인"
-        android:textColor="@android:color/background_light" />
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/layer_list"
+            android:ems="10"
+            android:hint="비밀번호"
+            android:inputType="textPassword|textNoSuggestions"
+            android:singleLine="true" />
 
-    <TextView
-        android:id="@+id/textViewJoin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="계정이 없으신가요? 가입하기." />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="비밀번호를 잊으셨나요?"
+            android:textColor="#118DB6" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:background="#B1BFFA"
+            android:text="로그인"
+            android:textColor="@android:color/background_light" />
+
+        <TextView
+            android:id="@+id/textViewJoin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="계정이 없으신가요? 가입하기." />
+    </LinearLayout>
 
 </LinearLayout>

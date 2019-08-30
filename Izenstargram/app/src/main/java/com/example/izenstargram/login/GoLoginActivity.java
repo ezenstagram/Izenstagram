@@ -10,7 +10,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,6 +51,11 @@ public class GoLoginActivity extends AppCompatActivity implements View.OnClickLi
         button = findViewById(R.id.button);
         textView = findViewById(R.id.textView);
         textViewJoin = findViewById(R.id.textViewJoin);
+
+        String str = "계정이 없으신가요? 가입하기";
+        SpannableStringBuilder ssb = new SpannableStringBuilder(str);
+        ssb.setSpan(new ForegroundColorSpan(Color.parseColor("#0099cc")), 11, 15, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        textViewJoin.setText(ssb);
 
         response = new HttpResponse(this);
         client = new AsyncHttpClient();

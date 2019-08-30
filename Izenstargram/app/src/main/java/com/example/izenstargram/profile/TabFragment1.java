@@ -3,6 +3,7 @@ package com.example.izenstargram.profile;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.izenstargram.R;
 import com.example.izenstargram.profile.adapter.ImageGridAdapter;
 import com.loopj.android.http.AsyncHttpClient;
@@ -37,6 +39,7 @@ public class TabFragment1 extends Fragment{
     List<String> list;
     int user_id;
     GridView gv;
+    PullRefreshLayout loading;
 
     @Nullable
     @Override
@@ -49,7 +52,7 @@ public class TabFragment1 extends Fragment{
         SharedPreferences preferences = getActivity().getSharedPreferences("CONFIG", Context.MODE_PRIVATE);
         user_id = preferences.getInt("user_id", 0);
 
-        RequestParams params = new RequestParams();
+        final RequestParams params = new RequestParams();
         params.put("user_id", user_id);
 
         client.post(URL, params, response);
@@ -60,6 +63,30 @@ public class TabFragment1 extends Fragment{
                 Toast.makeText(getActivity(), "position", Toast.LENGTH_SHORT).show();
             }
         });
+
+        loading= (PullRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
+
+        //pullrefresh 스타일 지정
+        loading.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
+
+        //pullrefresh가 시작됬을 시 호출
+        loading.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Thread - 1초 후 로딩 종료
+
+                client.post(URL, params, response);
+                Handler delayHandler = new Handler();
+                delayHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
+
         return view;
 
     }

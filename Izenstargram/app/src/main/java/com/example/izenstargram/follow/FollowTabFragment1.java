@@ -53,24 +53,6 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.follow_tab_fragment1, container, false);
 
-        loading= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        //pullrefresh 스타일 지정
-        loading.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
-        //pullrefresh가 시작됬을 시 호출
-        loading.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                //Thread - 1초 후 로딩 종료
-                Handler delayHandler = new Handler();
-                delayHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        loading.setRefreshing(false);
-                    }
-                }, 1000);
-            }
-        });
-
         searchView = view.findViewById(R.id.SearchView);
         searchView.setOnQueryTextListener(this);
         int user_id = getArguments().getInt("user_id", 0);
@@ -81,14 +63,38 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
         client = new AsyncHttpClient();
         response = new HttpResponse(getActivity(), adapter1);
 
-
-
         listView.setAdapter(adapter1);
         listView.setOnItemClickListener(this);
-        RequestParams params = new RequestParams();
+        final RequestParams params = new RequestParams();
         params.put("user_id", user_id);
         params.put("sepa", 0);
         client.post(URL,params, response);
+
+        loading= (PullRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+        //pullrefresh 스타일 지정
+        loading.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
+        //pullrefresh가 시작됬을 시 호출
+        loading.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //Thread - 1초 후 로딩 종료
+                list.clear();
+                client.post(URL,params, response);
+
+                Handler delayHandler = new Handler();
+                delayHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loading.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
+
+
+
+
+
 
         return view;
     }
