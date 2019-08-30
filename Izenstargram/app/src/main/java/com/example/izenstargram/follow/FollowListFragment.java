@@ -20,6 +20,12 @@ public class FollowListFragment extends Fragment {
     TabItem tabItem1, tabItem2;
     TextView textViewLogin_id;
 
+//    String following = getArguments().getString("following", "0");
+//      String follower = getArguments().getString("follower", "0");
+
+    public static String following = "";
+    public static String follower = "";
+
     int sepa;
     @Nullable
     @Override
@@ -27,8 +33,6 @@ public class FollowListFragment extends Fragment {
         View view = inflater.inflate(R.layout.follow_fragment_layout, container, false);
 
         int user_id = getArguments().getInt("user_id", 0);
-        String follower = getArguments().getString("follower", "0");
-        String following = getArguments().getString("following", "0");
         String login_id = getArguments().getString("login_id", "0");
         sepa = getArguments().getInt("sepa", 0);
 

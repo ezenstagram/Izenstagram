@@ -79,14 +79,12 @@ public class UserService {
 					e.printStackTrace();
 				}
 			}
-			System.out.println("aaa3333");
 		}
 		
 		return result;
 
 	}
 	public int changeProfileNoPhoto(UserDTO userDTO) {
-		System.out.println("11111111111");
 		
 		return userDAO.changeProfile(userDTO);
 	}
@@ -99,34 +97,39 @@ public class UserService {
 		return  userDAO.follow(user_id, user_id_owner, sign);
 	}
 	public List<FollowList> followerList(int user_id, int sepa) {
-			List<UserDTO> list = new ArrayList<UserDTO>();
+		List<UserDTO> list = new ArrayList<UserDTO>();
 		if(sepa == 0) {
-			list = userDAO.followerList(user_id);
+			list = userDAO.followerList(user_id);		
 		} else {
 			list = userDAO.followingList(user_id);
 		}
-		
 		List<FollowList> follow= new ArrayList<FollowList>();
-		UserDTO userDTO = null;
-		FollowList followList = null;
-		boolean status_follow = false;
 		
 		if(list != null) {
+			UserDTO userDTO = null;
+			FollowList followList = null;
+			
 			for(int i=0; i<list.size(); i++) {
+				boolean status_follow = false;
 				userDTO = list.get(i);
 				followList = new FollowList();
 				int status = 0;
 				
 				if(sepa == 0) {
 					status = userDAO.followRelaConfirm(userDTO.getUser_id(), user_id);
+//					System.out.println("status"+status);
 				} else {
 					status = 1;
 				}
-				System.out.println(status + "=status");
-				
+//				System.out.println(status + "=status");
+				System.out.println(status_follow + "3=status_follow");
 				if(status > 0) {
+					System.out.println("if=" +status + "=status");
 					status_follow = true;
+					status = 0;
 				}
+				
+				System.out.println("status_follow"+status_follow);
 				followList.setFollowStatus(status_follow);
 				followList.setName(userDTO.getName());
 				followList.setProfile_photo(userDTO.getProfile_photo());

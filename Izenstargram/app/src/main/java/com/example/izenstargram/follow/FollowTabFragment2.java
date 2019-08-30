@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +33,7 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemClickListener, SearchView.OnQueryTextListener {
+public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemClickListener {
 
     List<FollowDTO> list;
     SearchView searchView;
@@ -42,16 +43,12 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
     AsyncHttpClient client;
     HttpResponse response;
     String URL = "http://192.168.0.32:8080/project/followerList.do";
-    static String letter_search;
     PullRefreshLayout loading;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.follow_tab_fragment2, container, false);
-
-        searchView = view.findViewById(R.id.SearchView);
-        searchView.setOnQueryTextListener(this);
 
         int user_id = getArguments().getInt("user_id", 0);
         list = new ArrayList<>();
@@ -85,9 +82,6 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
                 }, 1000);
             }
         });
-
-
-
         return view;
     }
     @Override
@@ -103,19 +97,6 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.search_menu, menu);
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-    }
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        letter_search = query;
-        adapter1.notifyDataSetChanged();
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        letter_search = newText;
-        adapter1.notifyDataSetChanged();
-        return false;
     }
 
     public class HttpResponse extends AsyncHttpResponseHandler {
@@ -143,23 +124,32 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             String strJson = new String(responseBody);
+            Log.d("[INFO", "호출호추울");
             try {
                 JSONObject json = new JSONObject(strJson);
-                JSONArray array = json.getJSONArray("list");
-                for(int i=0; i<array.length(); i++) {
-                    JSONObject jsonObject = array.getJSONObject(i);
-                    Boolean followStatus = jsonObject.getBoolean("followStatus");
-                    int user_id = jsonObject.getInt("user_id");
-                    String name = jsonObject.getString("name");
-                    String profile_photo = jsonObject.getString("profile_photo");
-                    String login_id = jsonObject.getString("login_id");
+                int result = json.getInt("result");
+                if(result > 0 ) {
+                    JSONArray array = json.getJSONArray("list");
+                    for(int i=0; i<array.length(); i++) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        Boolean followStatus = jsonObject.getBoolean("followStatus");
+                        int user_id = jsonObject.getInt("user_id");
+                        String name = jsonObject.getString("name");
+                        String profile_photo = jsonObject.getString("profile_photo");
+                        String login_id = jsonObject.getString("login_id");
 
-                    FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
-                    adapter1.add(followDTO);
+                        FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
+                        adapter1.add(followDTO);
+                    }
+                } else {
+                       adapter1.clear();
                 }
+                FollowListFragment.following = list.size()+"";
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
         }
 
         @Override

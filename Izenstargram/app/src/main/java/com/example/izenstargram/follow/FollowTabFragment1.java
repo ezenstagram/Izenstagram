@@ -79,7 +79,7 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
             public void onRefresh() {
                 //Thread - 1초 후 로딩 종료
                 list.clear();
-                client.post(URL,params, response);
+               client.post(URL,params, response);
 
                 Handler delayHandler = new Handler();
                 delayHandler.postDelayed(new Runnable() {
@@ -90,12 +90,6 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
                 }, 1000);
             }
         });
-
-
-
-
-
-
         return view;
     }
     @Override
@@ -165,6 +159,7 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
                     FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
                     adapter1.add(followDTO);
                 }
+                FollowListFragment.follower = list.size()+"";
             } catch (JSONException e) {
                 e.printStackTrace();
             }

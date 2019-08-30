@@ -1,9 +1,11 @@
 package com.example.izenstargram.follow;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Picture;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,9 +43,9 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
     AsyncHttpClient client;
     String URL = "http://192.168.0.32:8080/project/follow.do";
     int user_id;
-    int result = 0;
     int sign = 0;
     List<FollowDTO> objects;
+    boolean check = false;
 
     public FollowAdapter1(Context context, int resource, List<FollowDTO> objects, int user_id) {
         super(context, resource, objects);
@@ -83,10 +85,17 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
             TextView textViewName  = convertView.findViewById(R.id.textViewName);
             final Button button = convertView.findViewById(R.id.button);
 
-            String photo = "http://192.168.0.13:8080/image/storage/" +item.getProfile_photo();
-            imageLoader.displayImage(photo, imageView, options);
             textViewLogin.setText(item.getLogin_id());
             textViewName.setText(item.getName());
+
+            if(!item.getProfile_photo().equals("null")) {
+                Toast.makeText(activity, "1", Toast.LENGTH_SHORT).show();
+                String photo = "http://192.168.0.13:8080/image/storage/" +item.getProfile_photo();
+                imageLoader.displayImage(photo, imageView, options);
+            } else {
+                Toast.makeText(activity, "2", Toast.LENGTH_SHORT).show();
+                imageView.setImageResource(R.drawable.ic_stub);
+            }
 
             if(item.isFollowStatus()) {         // 트루이면 내가 팔로우 하고 있는 상태
                 button.setText("팔로잉");
@@ -110,19 +119,18 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
                         params.put("sign", 1);
                     }
                     client.post(URL, params, response);
-
-                    if(button.getText().toString().equals("팔로우")) {
-                        params.put("sign", 0);
-                        button.setText("팔로잉");
-                        button.setTextColor(Color.BLACK);
-                        button.setBackgroundColor(Color.WHITE);
-                        Toast.makeText(activity, "팔로우를 했습니다.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        params.put("sign", 1);
-                        button.setText("팔로우");
-                        button.setTextColor(Color.WHITE);
-                        button.setBackgroundColor(Color.rgb(0, 153, 204));
-                        Toast.makeText(activity, "팔로우를 취소 했습니다.", Toast.LENGTH_SHORT).show();
+                   // if(check) {
+                        if(button.getText().toString().equals("팔로우")) {
+                            button.setText("팔로잉");
+                            button.setTextColor(Color.BLACK);
+                            button.setBackgroundColor(Color.WHITE);
+                            Toast.makeText(activity, "팔로우를 했습니다.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            button.setText("팔로우");
+                            button.setTextColor(Color.WHITE);
+                            button.setBackgroundColor(Color.rgb(0, 153, 204));
+                            Toast.makeText(activity, "팔로우를 취소 했습니다.", Toast.LENGTH_SHORT).show();
+                     //   }
                     }
 
                 }
@@ -130,24 +138,19 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
         }
         return convertView;
     }
-    public void changeToFollow() {
-
-    }
-    public void changeToFollowing() {
-
-    }
     public class HttpResponse extends AsyncHttpResponseHandler {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             String content = new String(responseBody);
-
             try {
                 JSONObject json = new JSONObject(content);
-                result = json.getInt("result");
+                int result = json.getInt("result");
                 sign = json.getInt("sign");
                 if (result > 0) {
+                    check = true;
                 } else {
+                    check = false;
                     Toast.makeText(activity, "실패", Toast.LENGTH_SHORT).show();
                 }
             } catch (JSONException e) {
@@ -156,7 +159,7 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
         }
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+           // Toast.makeText(activity, "통신 실패1111", Toast.LENGTH_SHORT).show();
         }
     }
 }

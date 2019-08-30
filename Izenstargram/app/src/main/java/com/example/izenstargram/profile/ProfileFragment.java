@@ -86,6 +86,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     Bundle bundle;
 
     ProgressBar progressBar;
+
+    FollowListFragment followListFragment = new FollowListFragment();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -240,11 +242,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
     @Override
     public void onClick(View v) {
-        Bundle bundle1 = new Bundle(5);
+        Bundle bundle1 = new Bundle(3);
         bundle1.putInt("user_id", user_id);
-        bundle1.putString("following", textViewFollowing.getText().toString());
-        bundle1.putString("follower", textViewFollower.getText().toString());
         bundle1.putString("login_id", textViewLogin_id1.getText().toString());
+//        bundle1.putString("following", textViewFollowing.getText().toString());
+//        bundle1.putString("follower", textViewFollower.getText().toString());
+        FollowListFragment.following = textViewFollowing.getText().toString();
+        FollowListFragment.follower = textViewFollower.getText().toString();
         switch (v.getId()) {
             case R.id.buttonFollowing:
                 RequestParams params = new RequestParams();
@@ -306,17 +310,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.textViewFollower:
             case R.id.textView13:
-                FollowListFragment followListFragment = new FollowListFragment();
                 bundle1.putInt("sepa",0);
                 followListFragment.setArguments(bundle1);
                 ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, followListFragment, "profile");
                 break;
             case R.id.textViewFollowing:
             case R.id.textView15:
-                FollowListFragment followListFragment1 = new FollowListFragment();
                 bundle1.putInt("sepa",1);
-                followListFragment1.setArguments(bundle1);
-                ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, followListFragment1, "profile");
+                followListFragment.setArguments(bundle1);
+                ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, followListFragment, "profile");
                 break;
         }
     }
