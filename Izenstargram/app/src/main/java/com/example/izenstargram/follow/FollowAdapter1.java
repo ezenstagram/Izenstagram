@@ -84,7 +84,7 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
             TextView textViewLogin  = convertView.findViewById(R.id.textViewLogin);
             TextView textViewName  = convertView.findViewById(R.id.textViewName);
             final Button button = convertView.findViewById(R.id.button);
-
+            button.setFocusable(false);
             textViewLogin.setText(item.getLogin_id());
             textViewName.setText(item.getName());
 
@@ -96,13 +96,15 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
             }
 
             if(item.isFollowStatus()) {         // 트루이면 내가 팔로우 하고 있는 상태
+                button.setBackgroundResource(R.drawable.for_button_modi);
                 button.setText("팔로잉");
                 button.setTextColor(Color.BLACK);
-                button.setBackgroundColor(Color.WHITE);
+                //button.setBackgroundColor(Color.WHITE);
             } else {
+                button.setBackgroundResource(R.drawable.unfoll_button);
                 button.setText("팔로우");
                 button.setTextColor(Color.WHITE);
-                button.setBackgroundColor(Color.rgb(0, 153, 204));
+                //button.setBackgroundColor(Color.rgb(0, 153, 204));
             }
 
             button.setOnClickListener(new View.OnClickListener() {

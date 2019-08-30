@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,7 @@ public class TabFragment1 extends Fragment{
         client = new AsyncHttpClient();
         response = new HttpResponse();
 
-        SharedPreferences preferences = getActivity().getSharedPreferences("CONFIG", Context.MODE_PRIVATE);
-        user_id = preferences.getInt("user_id", 0);
-
+        user_id = getArguments().getInt("user_id", 0);
         final RequestParams params = new RequestParams();
         params.put("user_id", user_id);
 
@@ -60,7 +59,7 @@ public class TabFragment1 extends Fragment{
         gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "position", Toast.LENGTH_SHORT).show();
+
             }
         });
 

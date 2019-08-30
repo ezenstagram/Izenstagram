@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     String userInfoURL = "http://192.168.0.32:8080/project/user_profileInfo.do";
 
     FollowResponse followResponse;
-    String followURL = "";
+    String followURL = "http://192.168.0.32:8080/project/follow.do";
 
     FollowRelaResponse followRelaResponse;
     String followRealURL = "http://192.168.0.32:8080/project/followReal.do";
@@ -82,6 +82,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     UserDTO userDTO;
     int user_id;
     int user_id_owner;
+    int sign;
 
     Bundle bundle;
 
@@ -96,7 +97,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         SharedPreferences pref = getActivity().getSharedPreferences("CONFIG", MODE_PRIVATE);
         user_id_owner = pref.getInt("user_id", 0);
 
-        bundle = new Bundle();
+        //bundle = new Bundle();
         user_id = getArguments().getInt("user_id", 0);
 
         linearLayoutFriend =  (LinearLayout) view.findViewById(R.id.linearLayoutFriend);
@@ -165,18 +166,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         button.setOnClickListener(this);
         buttonFollowing.setOnClickListener(this);
         linearLayouttouch.setOnClickListener(this);
-        final TabPagerAdapter pagerAdapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());
-        viewPager.setAdapter(pagerAdapter);
 
-        viewPager.addOnPageChangeListener(
-                new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         // viewPager.onSaveInstanceState();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                pagerAdapter.notifyDataSetChanged();
+                //pagerAdapter.notifyDataSetChanged();
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {}
@@ -240,6 +237,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         builder.cacheOnDisk(true);
         options = builder.build();
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        final TabPagerAdapter pagerAdapter = new TabPagerAdapter(getChildFragmentManager(), tabLayout.getTabCount(), user_id);
+        viewPager.setAdapter(pagerAdapter);
+
+        viewPager.addOnPageChangeListener(
+                new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+    }
+
     @Override
     public void onClick(View v) {
         Bundle bundle1 = new Bundle(3);
@@ -254,10 +263,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 RequestParams params = new RequestParams();
                 params.put("user_id_owner", user_id_owner);
                 params.put("user_id", user_id);
-                if(buttonFollowing.getText().toString().equals("팔로우")) {    // 팔로잉 하지 않은 상태
-                    params.put("sign", 0);
+                if(buttonFollowing.getText().toString().equals("팔로우")) {    // 팔로잉 하지 않은 상태, 팔로우 할꺼
+                    sign = 0;
+                    params.put("sign", sign);
+
                 } else {                //  팔로우 취소
-                    params.put("sign", 1);
+                    sign = 1;
+                    params.put("sign", sign);
                 }
                 client.post(followURL, params, followResponse);
                 break;
@@ -323,14 +335,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         }
     }
     public void changeToFollow() {
+        buttonFollowing.setBackgroundResource(R.drawable.unfoll_button);
         buttonFollowing.setText("팔로우");
         buttonFollowing.setTextColor(Color.WHITE);
-        buttonFollowing.setBackgroundColor(Color.rgb(0, 153, 204));
+
     }
     public void changeToFollowing() {
+        buttonFollowing.setBackgroundResource(R.drawable.for_button_modi);
         buttonFollowing.setText("팔로잉");
         buttonFollowing.setTextColor(Color.BLACK);
-        buttonFollowing.setBackgroundColor(Color.WHITE);
     }
 
     public void moveToLeft() {
@@ -441,12 +454,18 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         @Override
         public void onStart() {
             progressBar.setVisibility(VISIBLE);
+            buttonFollowing.setText("");
         }
         // 통신 종료료시, 자동 호출
         @Override
         public void onFinish() {
             progressBar.setVisibility(GONE);
-            buttonFollowing.setText("");
+            if(sign == 0){
+              //  changeToFollow();
+            } else {
+               // changeToFollowing();
+            }
+
         }
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             String content = new String(responseBody);

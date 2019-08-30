@@ -19,7 +19,9 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
+import com.example.izenstargram.profile.ProfileFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -56,6 +58,7 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         client = new AsyncHttpClient();
         response = new HttpResponse(getActivity(), adapter1);
         listView.setAdapter(adapter1);
+        listView.setFocusable(false);
         listView.setOnItemClickListener(this);
         final RequestParams params = new RequestParams();
         params.put("user_id", user_id);
@@ -89,7 +92,12 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle bundle = new Bundle(1);
 
+        bundle.putInt("user_id",list.get(position).getUser_id());
+        fragment.setArguments(bundle);
+        ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, fragment, "profile");
     }
 
     public class HttpResponse extends AsyncHttpResponseHandler {

@@ -150,10 +150,10 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
-            android:background="@android:color/background_light"
+            android:background="@drawable/for_button_modi"
+            android:stateListAnimator="@null"
             android:text="프로필 수정"
-            android:visibility="visible"
-           />
+            android:visibility="visible" />
 
         <LinearLayout
             android:id="@+id/linearLayoutFriend"
@@ -163,7 +163,7 @@
             android:layout_marginTop="15dp"
             android:layout_marginRight="20dp"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -186,7 +186,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@android:color/holo_blue_dark"
+                    android:background="@drawable/unfoll_button"
                     android:text="팔로우"
                     android:textColor="@android:color/background_light" />
 
@@ -198,7 +198,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="1"
-                android:background="@android:color/background_light"
+                android:background="@drawable/for_button_modi"
                 android:text="메시지" />
         </LinearLayout>
 

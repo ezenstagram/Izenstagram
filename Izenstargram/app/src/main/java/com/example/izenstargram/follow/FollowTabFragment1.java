@@ -15,7 +15,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
+import com.example.izenstargram.profile.ProfileFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -45,7 +47,6 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.follow_tab_fragment1, container, false);
 
-
         int user_id = getArguments().getInt("user_id", 0);
 
         list = new ArrayList<>();
@@ -55,6 +56,7 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
         response = new HttpResponse(getActivity(), adapter1);
 
         listView.setAdapter(adapter1);
+        listView.setFocusable(false);
         listView.setOnItemClickListener(this);
         final RequestParams params = new RequestParams();
         params.put("user_id", user_id);
@@ -89,7 +91,12 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
     }
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle bundle = new Bundle(1);
 
+        bundle.putInt("user_id",list.get(position).getUser_id());
+        fragment.setArguments(bundle);
+        ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, fragment, "profile");
     }
 
 
