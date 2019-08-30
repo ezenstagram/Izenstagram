@@ -2,10 +2,8 @@ package com.example.izenstargram.feed.adapter;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import cz.msebera.android.httpclient.Header;
 
 
@@ -48,10 +46,7 @@ public class FeedLikeResponse extends AsyncHttpResponseHandler {
                      e.printStackTrace();
                  }
                  break;
-
          }
-
-
     }
 
 
@@ -59,12 +54,6 @@ public class FeedLikeResponse extends AsyncHttpResponseHandler {
     public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
 
     }
-
-
-
-
-
-
 
     class HttpResponse extends  AsyncHttpResponseHandler{
 

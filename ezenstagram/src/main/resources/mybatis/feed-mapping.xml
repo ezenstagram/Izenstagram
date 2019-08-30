@@ -55,10 +55,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select post_id, user_id, content, location, reg_date from
 		post where user_id =#{user_id}
 		union all
-		select post_id, user_id, content, location, reg_date
+		select post_id, user_id,
+		content, location, reg_date
 		from post
 		where user_id
-		in (select follow_user_id from follow where user_id=#{user_id2}) order by REG_DATE
+		in (select
+		follow_user_id from follow where user_id=#{user_id2}) order by
+		REG_DATE
 		desc
 	</select>
 
@@ -76,15 +79,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where post_id = #{post_id}
 	</select>
 
-    <select id="cntLikes" parameterType="int" resultType="int">
+	<select id="cntLikes" parameterType="int" resultType="int">
 		select count(post_id) from likes where post_id =#{post_id}
 	</select>
 
 	<select id="getCommentId" parameterType="commentsDTO"
 		resultType="int">
 		select max(comment_id) from comments
-		where post_id = #{post_id} and user_id = #{user_id} and comment_cmt =
+		where post_id =
+		#{post_id} and user_id = #{user_id} and comment_cmt =
 		#{comment_cmt}
 	</select>
+
+	<select id="feedPostOne" parameterType="int"
+		resultType="postAllDTO">
+		select post_id, user_id, content, location, reg_date from
+		post where
+		post_id=#{post_id} order by REG_DATE desc
+	</select>
+
 
 </mapper>

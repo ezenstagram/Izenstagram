@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
 import com.example.izenstargram.feed.model.PostAll;
 import com.example.izenstargram.feed.model.PostImage;
@@ -31,6 +32,7 @@ import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
+    MainActivity mainActivity = new MainActivity();
     int user_id;
     AsyncHttpClient client;
     HttpResponse response; //좋아요 유무 확인용, response 는 0 혹은 1
@@ -47,32 +49,24 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
     }
 
     public FeedAdapter(ArrayList<PostAll> feedPostList, Context context, int user_id) {
-        Log.d("[INFO]", "FeedAdapter(ArrayList<PostAll> feedPostList, Context context) 생성자 시작");
         this.feedPostList = feedPostList;
         this.context = context;
         this.user_id = user_id;
-        Log.d("[INFO]", "FeedAdapter(ArrayList<PostAll> feedPostList, Context context) 생성자 끝");
     }
 
 
     @Override
-    //this view will be called whenever our viewHolder is created(Rayout_xml(한줄화면)inflate 시킬때)
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) { //parent, i : viewType
-        Log.d("[INFO]", "onCreateViewHolder() 시작");
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item, viewGroup, false); //itemGroup 의 xml inflate
         ViewHolder viewHolder = new ViewHolder(view);
         client = new AsyncHttpClient();
         feedLikeResponse = new FeedLikeResponse(viewHolder, mode);
 
-
-        Log.d("[INFO]", "onCreateViewHolder() 끝");
         return viewHolder;
     }
 
     @Override //다른 뷰에 보여질 때마다 데이터를 viewHolder 에 bind 시킴
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        Log.d("[INFO]", "onBindViewHolder() 시작");
-
 
         if(feedPostList.get(position).isLike()){
             viewHolder.heart_btn.setChecked(true);
@@ -96,13 +90,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
         viewHolder.recyclerView_img_item.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         viewHolder.recyclerView_img_item.setAdapter(imgItemAdapter);
         viewHolder.recyclerView_img_item.setNestedScrollingEnabled(false);
-        if (feedPostList.get(position).getPostImageList() != null) { //이미지가 있을 때,
-            Log.d("[COUNT]", "첫번째 게시글 갯수: (1개여야야함)" + postImageList.get(0).getImage_id());
 
-        }
-
-
-        Log.d("[INFO]", "onBindViewHolder() 끝");
 
         /* 피드 좋아요 버튼 꾸욱 */
         viewHolder.heart_btn.setOnClickListener(new View.OnClickListener() {
@@ -112,8 +100,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
                 RequestParams params = new RequestParams();
                 params.put("post_id", feedPostList.get(position).getPost_id());
                 params.put("user_id", user_id);
-                Log.d("[INFO] post_id", "post_id" + feedPostList.get(position).getPost_id());
-                Log.d("[INFO] post_id", "user_id" + user_id);
                 response = new HttpResponse(viewHolder.heart_btn, position); //*IMPORTANT//
                 client.post(url, params, response);
             }
@@ -123,8 +109,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
         viewHolder.cmt_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Fragment CommentFragment = new Fragment();
-                //replaceFragment(R.id.frame_layout, CommentFragment);
+                System.out.println("댓글기능 구현 시작");
+
             }
         });
 
@@ -133,20 +119,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
     @Override
     public int getItemCount() {
-        Log.d("[INFO]", "getItemCount() 시작");
-        Log.d("[INFO]", "getItemCount() 갯수 : " + feedPostList.size());
 
         return (feedPostList != null ? feedPostList.size() : 0);
-
     }
-
-
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView feed_profile_Img; //프로필이미지
         TextView feed_login_id; //유저아이디
-        RecyclerView recyclerView_img_item;  //list_layout 의 recyclerView
+        RecyclerView recyclerView_img_item;  //피드 사진을 위한 뷰
         TextView feed_cnt_likes; //좋아요 갯수
         TextView feed_txt_content; //피드 포스트 글내용
         TextView feed_txt_comment; //댓글내용
@@ -160,15 +141,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
             feed_profile_Img = itemView.findViewById(R.id.feed_profile_Img);
             feed_login_id = itemView.findViewById(R.id.feed_login_id);
             recyclerView_img_item = itemView.findViewById(R.id.recyclerView_img_item);
-
             heart_btn = itemView.findViewById(R.id.heart_btn);
-
 
             cmt_btn =itemView.findViewById(R.id.cmt_btn);
             feed_cnt_likes = itemView.findViewById(R.id.feed_cnt_likes);
             feed_txt_content = itemView.findViewById(R.id.feed_txt_content);
             feed_txt_comment = itemView.findViewById(R.id.feed_txt_comment);
-
 
         }
     }
@@ -185,32 +163,22 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            Log.d("[INFO]", "좋아요 유무 확인 처리");
             String document = new String(responseBody);
             RequestParams params =  new RequestParams();
             params.put("post_id", feedPostList.get(position).getPost_id());
             params.put("user_id", user_id);
-            Log.d("[INFO] post_id", "post_id" + feedPostList.get(position).getPost_id());
-            Log.d("[INFO] post_id", "user_id" + user_id);
+
             try {
                 JSONObject json = new JSONObject(document);
                 int data = json.getInt("data");
 
-                Log.d("[INFO] data = ",  String.valueOf(data));
-                if(data>0){  //좋아요 데이터가 존재할 때, 없애주는 처리
-                    // heart_btn.setChecked(false);
+                if(data>0){  //-->좋아요 데이터가 존재할 때, 없애주는 처리
                     mode = 1;
                     client.post(url_like_delete, params, feedLikeResponse); //서로 다른 response 이기 때문에
-                    // 좋아요 취소
-                    Log.d("[INFO]", "좋아요 데이터 삭제");
 
                 }else{
-                    //heart_btn.setChecked(true);
                     mode = 2; //-->좋아요 데이터가 없을때, 저장해주는 처리
                     client.post(url_like_save, params, feedLikeResponse);
-
-                    Log.d("[INFO]", "좋아요 데이터 저장");
-
                 }
 
             } catch (JSONException e) {
@@ -221,7 +189,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            Toast.makeText(context, "좋아요 데이터 확인 유무 실패", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "좋아요 데이터 검사 실패", Toast.LENGTH_SHORT).show();
         }
     }
 }

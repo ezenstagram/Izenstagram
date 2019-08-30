@@ -1,5 +1,4 @@
 package com.example.izenstargram;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,6 +22,9 @@ import com.example.izenstargram.profile.ProfileFragment;
 import com.example.izenstargram.search.SearchFragment;
 import com.example.izenstargram.upload.UploadActivity;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 
 import java.util.ArrayList;
 
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int user_id;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+    ImageLoader imageLoader;
 
 
     String[] navNames = {"list","search","upload","like","profile"};
@@ -65,15 +68,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         list_bundle.putInt("list_user_id", user_id);
         listFragment.setArguments(list_bundle);
         replaceFragment(R.id.frame_layout, listFragment, navNames[0]);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
                 switch (menuItem.getItemId()) {
                     case R.id.navigation_menu1: // 민경
-                        replaceFragment(R.id.frame_layout, listFragment, navNames[0]);
+                       replaceFragment(R.id.frame_layout, listFragment, navNames[0]);
                         break;
+
                     case R.id.navigation_menu2: // 은경
                         replaceFragment(R.id.frame_layout, searchFragment, navNames[1]);
                         break;
@@ -114,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             reqPermissionArray = permissionCheck.toArray(reqPermissionArray);
             ActivityCompat.requestPermissions(this, reqPermissionArray,100);
         }
+        imageLoaderInit();
     }
     public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -130,16 +134,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // 퍼미션 체크
-    private void permissionCheck() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            } else {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
-            }
-        } else {
+    private void imageLoaderInit() {
+        // 이미지로더 초기화
+        imageLoader = ImageLoader.getInstance();
+        if (!imageLoader.isInited()) {
+            ImageLoaderConfiguration configuration = ImageLoaderConfiguration.createDefault(this);
+            imageLoader.init(configuration);
         }
     }
+
 
     // 화면 전환
     public void replaceFragment(int layoutId, Fragment fragment, String fra_name) {

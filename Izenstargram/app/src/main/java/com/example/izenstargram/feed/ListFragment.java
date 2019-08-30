@@ -46,7 +46,6 @@ public class ListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d("[INFO]", "onCreate(@Nullable Bundle savedInstanceState) 함수 시작");
         super.onCreate(savedInstanceState);
-
         Log.d("[INFO]", "onCreate(@Nullable Bundle savedInstanceState) 함수 끝");
     }
 

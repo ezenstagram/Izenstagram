@@ -71,13 +71,17 @@ public class FeedDAO {
 	public List<CommentsDTO> getCmtData(int post_id) {
 		return sqlSession.selectList("mybatis.feedMapper.getCmtData", post_id);
 	}
-	
+
 	public int cntLikes(int post_id) {
 		return sqlSession.selectOne("mybatis.feedMapper.cntLikes", post_id);
 	}
-	
+
 	public int getCommentId(CommentsDTO commentsDTO) {
-      return sqlSession.selectOne("mybatis.feedMapper.getCommentId", commentsDTO);
-    }
+		return sqlSession.selectOne("mybatis.feedMapper.getCommentId", commentsDTO);
+	}
+
+	public PostAllDTO feedPostOne(int post_id) {
+		return sqlSession.selectOne("mybatis.feedMapper.feedPostOne", post_id);
+	}
 
 }
