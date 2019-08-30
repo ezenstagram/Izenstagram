@@ -1,6 +1,7 @@
 package com.example.izenstargram.search;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -32,12 +34,12 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 
 
-public class SearchTabUserFragment extends Fragment {
+public class SearchTabUserFragment extends Fragment implements AdapterView.OnItemClickListener {
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.62:8080/project/selectUserBySearch.do";
-//selectTagNameByLetter.do
+    String url = "http://192.168.0.55:8080/project/selectUserBySearch.do";
+    //selectTagNameByLetter.do
     String letter_to_search;
     List<UserDTO> list;
     SearchTabUserAdapter adapter;
@@ -48,7 +50,7 @@ public class SearchTabUserFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "TabUserFragment : onCreateView() 실행");
+        // Log.d("[INFO]", "TabUserFragment : onCreateView() 실행");
         View view = inflater.inflate(R.layout.search_tab_user_layout, container, false);
         //View viewSearchFrag = inflater.inflate(R.layout.search_layout, container, false); (작동됨)
         //View viewSearchFrag = getLayoutInflater().inflate(R.layout.search_layout, null); //(작동됨)
@@ -57,6 +59,7 @@ public class SearchTabUserFragment extends Fragment {
         adapter = new SearchTabUserAdapter(getActivity(), R.layout.search_list_item_user, list);
         listView = view.findViewById(R.id.listViewUser);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
         // 서버
         client = new AsyncHttpClient();
         response = new HttpResponse(activity);
@@ -66,34 +69,58 @@ public class SearchTabUserFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.d("[INFO]", "TabUserFragment : onResume() 시작");
+        //Log.d("[INFO]", "TabUserFragment : onResume() 시작");
         super.onResume();
         adapter.clear();    // List의 데이터 삭제
         letter_to_search = SearchFragment.letter_to_search;
         RequestParams params = new RequestParams();
-        Log.d("[INFO]", "onResume : letter_to_search= " + letter_to_search);
+        // Log.d("[INFO]", "onResume : letter_to_search= " + letter_to_search);
         params.put("letter_to_search", letter_to_search);
         client.post(url, params, response);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "TabUserFragment : onCreate() 실행");
+        // Log.d("[INFO]", "TabUserFragment : onCreate() 실행");
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        UserDTO item = adapter.getItem(position);
+        //Log.d("[INFO]", "TabUserFragment : onItemClick() : position=" + position);
+        String login_id = item.getLogin_id();
+        Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" + login_id);
+        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
+        intent.putExtra("login_id", login_id);
+        startActivity(intent);
+        // startActivityForResult(intent, 100);///////
+    }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch (requestCode) {
+//            case 100:
+//                // 결과값이 "성공"일 경우만 처리
+//                if(resultCode == RESULT_OK) {
+//                    RequestParams params = new RequestParams();
+//                    params.put("login_id", login_id);
+//                    client.post(userInfoURL, params, userInfoResponse);
+//                }
+//                break;
+//        }
+//    }
 
 
     class HttpResponse extends AsyncHttpResponseHandler {
         Activity activity = getActivity();
 
         public HttpResponse(Activity activity) {
-            Log.d("[INFO]", "TabUserFragment : HttpResponse() ");
             this.activity = activity;
         }
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            Log.d("[INFO]", "TabUserFragment : onSuccess() 실행");
             String strJson = new String(responseBody);
             try {
                 JSONObject json = new JSONObject(strJson);
@@ -106,7 +133,7 @@ public class SearchTabUserFragment extends Fragment {
                     adapter.add(userDTO);
                 }
             } catch (JSONException e) {
-                Toast.makeText(getContext(), "실패", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), "실패", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }

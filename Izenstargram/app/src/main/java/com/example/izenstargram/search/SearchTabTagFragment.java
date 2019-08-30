@@ -1,15 +1,19 @@
 package com.example.izenstargram.search;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,18 +35,20 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 
-public class SearchTabTagFragment extends Fragment {
+public class SearchTabTagFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.62:8080/project/selectTagNameByLetter.do";
+    String url = "http://192.168.0.55:8080/project/selectTagNameByLetter.do";
     String letter_to_search;
     List<AllTagDTO> list;
     SearchTabTagAdapter adapter;
     ListView listView;
     Activity activity = getActivity();
     ArrayList<AllTagDTO> tagNameList = new ArrayList<>();
+
+
 
     @Nullable
     @Override
@@ -55,15 +61,17 @@ public class SearchTabTagFragment extends Fragment {
         adapter = new SearchTabTagAdapter(getActivity(), R.layout.search_list_item_tag, list);
         listView = view.findViewById(R.id.listViewTag);
         listView.setAdapter(adapter);
+        listView.setOnItemClickListener(this);
         // 서버
         client = new AsyncHttpClient();
         response = new HttpResponse(activity);
+
         return view;
     }
 
     @Override
     public void onResume() {
-        Log.d("[INFO]", "TabTagFragment : onResume() 시작");
+        //Log.d("[INFO]", "TabTagFragment : onResume() 시작");
         super.onResume();
         adapter.clear();    // List의 데이터 삭제
         letter_to_search = SearchFragment.letter_to_search;
@@ -71,13 +79,46 @@ public class SearchTabTagFragment extends Fragment {
         Log.d("[INFO]", "onResume : letter_to_search= " + letter_to_search);
         params.put("letter_to_search", letter_to_search);
         client.post(url, params, response);
+
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "TabTagFragment : onCreate() 실행");
+        //Log.d("[INFO]", "TabTagFragment : onCreate() 실행");
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        AllTagDTO item = adapter.getItem(position);
+        //Log.d("[INFO]", "TabTagFragment : onItemClick() : position=" + position);
+        int tag_id = item.getTag_id();
+        Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_id=" + tag_id);
+        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
+        intent.putExtra("tag_id", tag_id);
+        startActivity(intent);
+        //startActivityForResult(intent, 100);///////
+    }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch (requestCode) {
+//            case 100:
+//                // 결과값이 "성공"일 경우만 처리
+//                if(resultCode == RESULT_OK) {
+//                    RequestParams params = new RequestParams();
+//                    params.put("login_id", login_id);
+//                    client.post(userInfoURL, params, userInfoResponse);
+//                }
+//                break;
+//        }
+//    }
+
+
+
+
+
 
     class HttpResponse extends AsyncHttpResponseHandler {
         Activity activity = getActivity();
@@ -96,14 +137,17 @@ public class SearchTabTagFragment extends Fragment {
                 JSONArray data = json.getJSONArray("data");
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject temp = data.getJSONObject(i);
-                    AllTagDTO userDTO = new AllTagDTO();
-                    userDTO.setTag_name(temp.getString("tag_name"));
-                    adapter.add(userDTO);
+                    AllTagDTO allTagDTO = new AllTagDTO();
+                    allTagDTO.setTag_id(temp.getInt("tag_id"));
+                    allTagDTO.setTag_name(temp.getString("tag_name"));
+                    adapter.add(allTagDTO);
+
                 }
             } catch (JSONException e) {
                 Toast.makeText(getContext(), "실패", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
+
         }
 
         @Override

@@ -35,7 +35,7 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_layout, container, false);
-        Log.d("[INFO]", "SEARCH : onCreateView() ");
+
         searchView = (SearchView) view.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(this);
         viewPager = view.findViewById(R.id.viewPager);
@@ -53,7 +53,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("[INFO]", "SEARCH : tab.getPosition() : " + tab.getPosition());
                 viewPager.setCurrentItem(tab.getPosition());
                 searchPagerAdapter.notifyDataSetChanged();
             }
@@ -91,7 +90,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        Log.d("[INFO]", "SearchFragment : onQueryTextSubmit() 실행됨");
         letter_to_search = query;
         searchPagerAdapter.notifyDataSetChanged();
         return false;
@@ -99,12 +97,8 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        Log.d("[INFO]", "SearchFragment : onQueryTextSubmit() 실행됨");
         letter_to_search = newText;
         searchPagerAdapter.notifyDataSetChanged();
         return false;
     }
-
-
-
 }

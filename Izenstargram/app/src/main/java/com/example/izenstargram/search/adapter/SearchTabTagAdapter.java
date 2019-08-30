@@ -26,6 +26,7 @@ public class SearchTabTagAdapter extends ArrayAdapter<AllTagDTO> {
         this.resource = resource;
     }
 
+
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         if (convertView == null) {
@@ -36,12 +37,17 @@ public class SearchTabTagAdapter extends ArrayAdapter<AllTagDTO> {
         if (item != null) {
             TextView textView = convertView.findViewById(R.id.textViewTagName);
 
+            item.getTag_id();////////////
             textView.setText("#" + item.getTag_name());
 
+
         }
+
+
         return convertView;
     }
 
 
 
 }
+

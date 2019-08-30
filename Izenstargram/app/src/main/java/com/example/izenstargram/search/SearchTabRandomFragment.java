@@ -1,6 +1,7 @@
 package com.example.izenstargram.search;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -31,26 +32,27 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 
-public class SearchTabRandomFragment extends Fragment {
+public class SearchTabRandomFragment extends Fragment implements AdapterView.OnItemClickListener{
 
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.62:8080/project/selectPostImageRandom.do";
+    String url = "http://192.168.0.55:8080/project/selectPostImageRandom.do";
     List<PostImageDTO> list;
     SearchTabRandomAdapter adapter;
     GridView gridView;
     Activity activity = getActivity();
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "TabRandomFragment : onCreateView() 실행");
         View view = inflater.inflate(R.layout.search_tab_random_layout, container, false);
         list = new ArrayList<>();
         adapter = new SearchTabRandomAdapter(getActivity(), R.layout.search_gridview_item, list);
-       gridView = view.findViewById(R.id.gridViewForSearchRandom);
+        gridView = view.findViewById(R.id.gridViewForSearchRandom);
         gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(this);
         // 서버
         client = new AsyncHttpClient();
         response = new HttpResponse(activity);
@@ -59,7 +61,6 @@ public class SearchTabRandomFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.d("[INFO]", "TabRandomFragment : onResume() 시작");
         super.onResume();
         adapter.clear();    // List의 데이터 삭제
         RequestParams params = new RequestParams();
@@ -69,22 +70,46 @@ public class SearchTabRandomFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "TabRandomFragment : onCreate() 실행");
         super.onCreate(savedInstanceState);
     }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+        PostImageDTO item = adapter.getItem(position);
+        //Log.d("[INFO]", "TabRandomFragment : onItemClick() : position=" + position);
+        int post_id = item.getPost_id();
+        Log.d("[INFO]", "SearchTabRandomFragment : post_id = " + post_id);
+        Intent intent = new Intent(getActivity(), SearchRandomClickActivity.class);
+        intent.putExtra("post_id", post_id);
+        startActivity(intent);
+        //startActivityForResult(intent, 100);///////
+    }
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        switch (requestCode) {
+//            case 100:
+//                // 결과값이 "성공"일 경우만 처리
+//                if(resultCode == RESULT_OK) {
+//                    RequestParams params = new RequestParams();
+//                    params.put("login_id", login_id);
+//                    client.post(userInfoURL, params, userInfoResponse);
+//                }
+//                break;
+//        }
+//    }
+
 
 
     class HttpResponse extends AsyncHttpResponseHandler {
         Activity activity = getActivity();
 
         public HttpResponse(Activity activity) {
-            Log.d("[INFO]", "TabRandomFragment : HttpResponse() ");
             this.activity = activity;
         }
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            Log.d("[INFO]", "TabRandomFragment : onSuccess() 실행");
             String strJson = new String(responseBody);
             try {
                 JSONObject json = new JSONObject(strJson);
@@ -92,19 +117,19 @@ public class SearchTabRandomFragment extends Fragment {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject temp = data.getJSONObject(i);
                     PostImageDTO postImageDTO = new PostImageDTO();
+                    postImageDTO.setPost_id(temp.getInt("post_id"));
                     postImageDTO.setImage_url(temp.getString("image_url"));
-                    Log.d("[INFO]", "TabRandomFragment : image_url = (" + i + ")번째 = " + postImageDTO.getImage_url());
+                    //Log.d("[INFO]", "TabRandomFragment : image_url = (" + i + ")번째 = " + postImageDTO.getImage_url());
                     adapter.add(postImageDTO);
                 }
             } catch (JSONException e) {
-                Toast.makeText(getContext(), "실패", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            Log.d("[INFO]", "TabRandomFragment : onFailure() 진입" + statusCode);
+            //Log.d("[INFO]", "TabRandomFragment : onFailure() 진입" + statusCode);
             //Toast.makeText(getContext(), "Tab user 연결실패", Toast.LENGTH_SHORT).show();
         }
     }
