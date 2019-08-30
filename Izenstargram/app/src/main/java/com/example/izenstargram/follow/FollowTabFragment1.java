@@ -7,17 +7,11 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -138,7 +132,6 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
                     FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
                     adapter1.add(followDTO);
                 }
-                FollowListFragment.follower = list.size()+"";
             } catch (JSONException e) {
                 e.printStackTrace();
             }

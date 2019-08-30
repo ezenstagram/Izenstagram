@@ -137,7 +137,6 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
                 } else {
                        adapter1.clear();
                 }
-                FollowListFragment.following = list.size()+"";
 
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -47,7 +47,7 @@ public class NotifiInfoService {
     commentsDTO.setPost_id(target_id);
     commentsDTO.setUser_id(act_user_id);
     commentsDTO.setComment_cmt(comment_cmt);
-    if(mode_id == 3) {
+    if(mode_id == 2) {
       int target_sub_id = feedDAO.getCommentId(commentsDTO);
       notificationDTO.setTarget_sub_id(target_sub_id);
     }
