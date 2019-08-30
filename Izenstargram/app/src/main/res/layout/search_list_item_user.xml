@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -12,22 +13,43 @@
         android:layout_height="60dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingLeft="5dp">
+        android:paddingLeft="15dp">
 
-        <ImageView
-            android:id="@+id/imageViewSearchUser"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageViewSearchUserCircle"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp" />
 
-        <TextView
-            android:id="@+id/textViewUserName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="5dp"
-            android:text="TextView"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="5dp">
+
+            <TextView
+                android:id="@+id/textViewUserName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp"
+                android:text="TextView"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="#1A1819" />
+
+            <TextView
+                android:id="@+id/textViewUserExp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingLeft="7dp"
+                android:paddingBottom="5dp"
+                android:text="TextView"
+                tools:text="설명~~" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </LinearLayout>
