@@ -40,6 +40,15 @@ public class NotifiInfoService {
   }
 
   public int insert(int mode_id, Integer target_id, int act_user_id, String comment_cmt) {
+    NotificationDTO notificationDTO = makeDTO(mode_id, target_id, act_user_id, comment_cmt);
+    return notifiInfoDAO.insert(notificationDTO);
+  }
+  public int delete(int mode_id, Integer target_id, int act_user_id, String comment_cmt) {
+    NotificationDTO notificationDTO = makeDTO(mode_id, target_id, act_user_id, comment_cmt);
+    return notifiInfoDAO.delete(notificationDTO);
+  }
+  
+  private NotificationDTO makeDTO(int mode_id, Integer target_id, int act_user_id, String comment_cmt) {
     NotificationDTO notificationDTO = new NotificationDTO();
     notificationDTO.setMode_id(mode_id);
     notificationDTO.setTarget_id(target_id);
@@ -54,6 +63,6 @@ public class NotifiInfoService {
     notificationDTO.setAct_user_id(act_user_id);
     int target_user_id = (mode_id != 3) ? postDAO.getPostWriter(target_id) : target_id;
     notificationDTO.setTarget_user_id(target_user_id);
-    return notifiInfoDAO.insert(notificationDTO);
+    return notificationDTO;
   }
 }

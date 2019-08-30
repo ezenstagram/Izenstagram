@@ -26,5 +26,10 @@ public class NotifiInfoDAO {
     return sqlSessionTemplate.insert("mybatis.notifiInfoMapping.insertNotification",
         notificationDTO);
   }
+  
+  public int delete(NotificationDTO notificationDTO) {
+    return sqlSessionTemplate.insert("mybatis.notifiInfoMapping.deleteNotification",
+        notificationDTO);
+  }
 
 }
