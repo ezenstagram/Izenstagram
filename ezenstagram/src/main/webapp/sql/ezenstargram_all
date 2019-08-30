@@ -1,0 +1,264 @@
+--sns_user
+-- user 테이블 생성
+create table sns_user (
+    user_id number primary key,                 -- 소스 안에서만 사용하는 id
+    login_id varchar2(15) not null,             -- 로그인 할때 사용하는 id & 사용자 이름. 한글 입력 불가
+    name varchar2(30) not null,                 -- 이름. 한글 입력 가능
+    password varchar2(15) not null,             -- 비밀번호
+    profile_photo varchar2(256),                -- 프로필 사진
+    website varchar2(50),                       -- 웹 사이트
+    introduction varchar2(2000),                -- 자기소개
+    email varchar2(50),                         -- 이메일
+    tel varchar2(25) not null,                  -- 전화
+    gender varchar2(100)                        -- 성별
+);
+-- sns_user 테이블 삭제
+drop table sns_user;
+-- 시퀀스 객체 생성 (user_id)
+create sequence seq_user_id nocache nocycle;
+-- 시퀀스 객체 삭제 (user_id)
+drop sequence seq_user_id;
+-- 데이터 저장
+insert into sns_user values(
+    seq_user_id.nextval, 'hong4', '길동', 'hong1234', 'what', '1 ', ' 1',  
+    'hong@naver.com', '01012341234', '남'
+);
+insert into sns_user values(
+    seq_user_id.nextval, 'hong5', '길동', 'hong1234', 'what', '1 ', ' 1',  
+    'hong@naver.com', '01012341234', '남'
+);
+-- 데이터 검색
+select * from sns_user;
+select * from sns_user where user_id = 1;
+
+-- 데이터 수정
+update sns_user set login_id='hong', name='hohoho', password='112233', profile_photo='    ',
+    website='', introduction='', email='ho@naver.com', tel='01022222222', gender='여';
+
+-- 데이터 삭제
+delete from sns_user where user_id=1;
+-----------------------------------------------------------------------------------------------------------------------------
+--post_storage
+create table post_storage (
+    post_id number not null,        -- 저장하려는 게시물 번호
+    user_id number not null,        -- 저장을 한 사용자 id
+    req_date date,                  -- 저장 날짜
+    
+    foreign key(post_id) references post(post_id)   -- 게시물이 삭제되면 저장 항목에서도 삭제
+    on Delete cascade,
+    foreign key(user_id) references sns_user(user_id)   -- 계정이 삭제되면 게시물도 삭제  
+    on Delete cascade
+);
+
+-- 테이블 삭제
+drop table post_storage;
+
+-- 게시물 저장
+insert into post_storage values(1, 1, sysdate);
+-- 게시물 저장 취소
+delete from post_storage where post_id = 1 and user_id=1;
+
+-- 저장 항목 보기
+select * from post_storage where user_id = 1 order by req_date;
+
+-- 저장
+commit;
+-----------------------------------------------------------------------------------------------------------------------------
+--follow
+-- 팔로워 테이블
+create table follow(
+   user_id number not null,  
+   follow_user_id number not null,  
+   reg_date date, -- 팔로우 날짜
+   foreign key(user_id) references sns_user(user_id) on delete cascade 
+);
+commit;
+--확인용
+select post_id, user_id, content, location, reg_date from
+		post where user_id =2
+		union all
+		select post_id, user_id, content, location, reg_date
+		from post
+		where user_id
+		in (select follow_user_id from follow where user_id=2) order by REG_DATE
+		desc;
+--팔로워 테이블 삭제
+drop table follow;
+-- 팔로우
+insert into follow values(1, 2, sysdate);
+insert into follow values(2, 1, sysdate);
+select * from follow;
+-- 내가 팔로잉 한 사람 수
+select count(*) from follow where user_id=3;
+
+-- 나를 팔로우한 사람 수
+select count(*) from follow where follow_user_id=3;
+
+-- 팔로우 취소
+delete from follow where user_id=11 and follow_user_id=13;
+-----------------------------------------------------------------------------------------------------------------------------
+--notification
+create table notification(
+    notifi_id number primary key,
+    mode_id	number, -- 1:게시물좋아요 2:태그 3:팔로우
+    target_id	number, -- 1,2: 글번호 3: 회원id
+    target_sub_id   number, -- 2: comment_id
+    act_user_id	number, -- 행동을 한사람
+    target_user_id	number, -- 행동을 당한사람
+    delete_flg	CHAR(1) CONSTRAINT notification_del_ck  CHECK (delete_flg = 0 OR delete_flg = 1), -- 삭제flag(삭제:1)
+    reg_date	date -- 날짜(30일간만 보관)
+);
+select * from notification;
+
+create SEQUENCE notifi_seq nocache nocycle;
+
+INSERT INTO NOTIFICATION (notifi_id, MODE_ID, TARGET_ID, target_sub_id, act_USER_ID, TARGET_USER_ID, DELETE_FLG, REG_DATE) 
+VALUES (notifi_seq.nextval,3, 1,null, 1, 4, '0', sysdate);
+
+select * from notification order by notifi_id desc;
+select * from notification where delete_flg = '0' order by notifi_id desc;
+--notification 삭제
+drop table notification;
+
+-- 한달이 지나면 삭제
+delete from NOTIFICATION where reg_date < sysdate - 30;
+
+drop table notification;
+-----------------------------------------------------------------------------------------------------------------------------
+--notifi_info(view)
+CREATE OR REPLACE VIEW notifi_info AS
+SELECT
+    noti.notifi_id,
+    noti.mode_id,
+    CASE
+        WHEN noti.mode_id in (1,2) THEN (select IMAGE_URL from post_image where post_id = noti.target_id and image_id=1)
+        ELSE null END AS post_image,
+    CASE
+        WHEN noti.mode_id in (2) THEN (select comment_cmt from comments where post_id=noti.target_id and comment_id=noti.target_sub_id)
+        ELSE null END AS comment_txt,
+    CASE
+        WHEN noti.mode_id in (3) THEN (select 1 from follow where user_id = noti.TARGET_USER_ID and follow_user_id = noti.act_user_id)
+        ELSE 0 END AS follow_flg,
+    noti.target_id,
+    noti.target_sub_id,
+    noti.act_user_id,
+    su.login_id as act_login_id,
+    su.profile_photo,
+    noti.target_user_id,
+    (select login_id from sns_user where user_id = noti.target_user_id) as target_login_id,
+    noti.delete_flg,
+    noti.reg_date
+FROM
+    notification noti
+    LEFT JOIN sns_user su ON noti.act_user_id = su.user_id
+order by noti.notifi_id desc;
+
+drop view notiinfo;
+
+
+select * from notifi_info WHERE target_user_id = 2 and delete_flg = 0;
+update notification set delete_flg ='1' where notifi_id=4;
+-----------------------------------------------------------------------------------------------------------------------------
+--post
+--시퀀스 객체 생성(게시용)
+create sequence seq_post_id start with 1 increment by 1 nocache nocycle;	
+--시퀀스 객체 삭제
+drop SEQUENCE seq_post_id;
+--post 테이블 생성
+create table post(
+    post_id number not null primary key,
+    user_id varchar2(100) not null, --아이디/닉네임
+    content varchar2(500), --인스타 내용
+    location varchar2(150), --위치
+    reg_date date not null --업로드 날짜
+);
+--user_id를 number로 바꾸기
+ALTER  table post modify user_id number;
+
+--외래키를 사용하기 때문에, 부모를 죽이려면 자식을 먼저 죽여야 하는 번거로움이 있음(원래대로 라면, 자식이 남아있어서 오류남.)
+--따라서, 아예 외래키를 사용하는 image 테이블을 생성할때, on delete cascade를 사용해야함.
+--post_id로만 사용가능
+delete from POST  where POST_ID=7;
+--게시물 목록 확인용 
+select * from post order by POST_ID;
+--현재 post_id 값 확인용
+select  seq_post_id.currval from dual;
+select max (post_id)from post ;
+select LAST_NUMBER from user_sequences where SEQUENCE_NAME =  'SEQ_POST_ID';
+--데이터 삽입
+insert into post values (seq_post_id.nextval,1,'오늘 정말 덥다' ,'서울시 양천구',sysdate);
+insert into post values (seq_post_id.nextval,2,'오늘 정말 덥다' ,'경기도 용인',sysdate);
+insert into post values (seq_post_id.nextval,3,'오늘 정말 덥다' ,'서울시 동작구',sysdate);
+insert into post values (seq_post_id.nextval,4,'오늘 정말 덥다' ,'서울시 강남구',sysdate);
+insert into post values (seq_post_id.nextval,5,'오늘 정말 덥다' ,'서울 거주-->나중에 알려줘^0^',sysdate);
+insert into post values (seq_post_id.nextval,6,'새로운 글 씁니다.' ,'서울시 양천구',sysdate);
+insert into post values (seq_post_id.nextval,9,'새로운 글 씁니다.' ,'서울시 양천구',sysdate);
+
+--테이블 삭제
+drop table post CASCADE CONSTRAINTS;
+-----------------------------------------------------------------------------------------------------------------------------
+--post_image
+--이미지 게시용 테이블 생성
+create table post_image(
+    post_id number not null REFERENCES post (post_id) on delete CASCADE,
+    image_id number not null,
+    image_url varchar(1000)
+);
+--이미지 테이블에 데이터 삽입
+insert into post_image values((select max (post_id)from post),3,'img34.jpg');
+insert into post_image values( 1,3,'img03.jpg');
+select * from post_image post_id;
+
+--이미지 테이블 삭제
+drop table post_image;
+-----------------------------------------------------------------------------------------------------------------------------
+--post_all_hashtag
+-- 전체태그 테이블 생성
+create table post_all_hashtag(
+    tag_id number primary key,  -- 태그번호
+    tag_name varchar2(300) not null unique  --태그내용(같은 태그가 중복저장되지 않도록 설정)
+);
+-- 전체태그 테이블 삭제 
+drop table post_all_hashtag purge;
+-- 시퀀스 객체 생성
+create sequence seq_tag_id increment by 1 nocache nocycle;
+-- 시퀀스 객체 삭제
+drop sequence seq_tag_id;
+-- 태그리스트에 태그 추가
+insert into post_all_hashtag values (seq_tag_id.nextval, '태그당');
+-- 태그리스트에서 태그 삭제
+delete from post_all_hashtag where tag_id=10;
+-- 전체 태그 리스트 확인
+select * from post_all_hashtag order by tag_id asc;
+-----------------------------------------------------------------------------------------------------------------------------
+--post_user_tag
+--------------- @사람 태그 테이블
+-- 사람태그 테이블 생성
+create table post_user_tag(
+    post_id number not null REFERENCES post (post_id) on delete CASCADE, --글번호(게시글 삭제시 사람태그들도 삭제)
+    user_id number --유저번호
+);
+-- 게시글에 사람태그 추가
+insert into post_user_tag values(9,2);
+insert into post_user_tag values(post_id.currval, 2);
+-- 게시글당 태그된 사람들 확인
+select * from post_user_tag order by post_id asc;
+-- 사람태그 테이블 삭제
+drop table post_user_tag purge;
+commit;
+-----------------------------------------------------------------------------------------------------------------------------
+--post_linked_hashtag
+--------------- #내용 태그 테이블 
+-- 내용태그 테이블 생성
+create table post_linked_hashtag(
+    post_id number not null REFERENCES post (post_id) on delete CASCADE, -- 글번호
+    tag_id  number --태그번호
+);
+-- 게시글에 내용태그 추가
+insert into post_linked_hashtag values(16,2);
+insert into post_linked_hashtag values( post_id.currval, 1);
+-- 게시글당 태그된 내용들 확인
+select * from post_linked_hashtag;
+-- 내용태그 테이블 삭제
+drop table post_linked_hashtag purge;
+-----------------------------------------------------------------------------------------------------------------------------

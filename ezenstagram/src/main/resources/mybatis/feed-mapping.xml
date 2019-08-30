@@ -77,8 +77,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
     <select id="cntLikes" parameterType="int" resultType="int">
-      select count(post_id) from likes where post_id =#{post_id}
-    </select>
+		select count(post_id) from likes where post_id =#{post_id}
+	</select>
 
 	<select id="getCommentId" parameterType="commentsDTO"
 		resultType="int">
