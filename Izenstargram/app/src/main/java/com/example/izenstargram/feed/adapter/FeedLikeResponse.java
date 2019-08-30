@@ -30,7 +30,7 @@ public class FeedLikeResponse extends AsyncHttpResponseHandler {
                  try {
                      JSONObject json = new JSONObject(document1);
                      int result = json.getInt("result");
-                     if(result>0) {
+                     if(result>0) { //삭제 처리완료
 
                      }else{
                      }

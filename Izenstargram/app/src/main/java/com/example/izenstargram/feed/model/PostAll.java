@@ -16,6 +16,7 @@ public class PostAll implements Serializable {
     private boolean isLike;
     private int comment_cnt;
     private UserDTO userDTO;
+    private int likes_cnt;
 
     public int getPost_id() {
         return post_id;
@@ -87,5 +88,13 @@ public class PostAll implements Serializable {
 
     public void setUserDTO(UserDTO userDTO) {
         this.userDTO = userDTO;
+    }
+
+    public int getLikes_cnt() {
+        return likes_cnt;
+    }
+
+    public void setLikes_cnt(int likes_cnt) {
+        this.likes_cnt = likes_cnt;
     }
 }

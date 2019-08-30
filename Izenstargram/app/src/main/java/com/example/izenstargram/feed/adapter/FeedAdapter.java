@@ -3,8 +3,6 @@ package com.example.izenstargram.feed.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,11 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import com.bumptech.glide.Glide;
 import com.example.izenstargram.R;
-import com.example.izenstargram.feed.Interface.IItemClickListener;
-import com.example.izenstargram.feed.ListFragment;
 import com.example.izenstargram.feed.model.PostAll;
 import com.example.izenstargram.feed.model.PostImage;
 import com.loopj.android.http.AsyncHttpClient;
@@ -42,9 +37,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
     FeedLikeResponse feedLikeResponse; //좋아요 데이터 저장 혹은 삭제용 response
     ArrayList<PostAll> feedPostList; //itemGroup
     Context context;
-    String url = "http://192.168.0.13:8080/project/chkLikes.do";
-    String url_like_save = "http://192.168.0.13:8080/project/saveLikes.do";
-    String url_like_delete = "http://192.168.0.13:8080/project/delLikes.do";
+    String url = "http://192.168.0.5:8080/project/chkLikes.do";
+    String url_like_save = "http://192.168.0.5:8080/project/saveLikes.do";
+    String url_like_delete = "http://192.168.0.5:8080/project/delLikes.do";
 
     static int mode = 0;
     public void setItems(List<PostAll> feedPostList) {
@@ -85,8 +80,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
             viewHolder.heart_btn.setChecked(false);
         }
         response = new HttpResponse(viewHolder.heart_btn, position);
-        viewHolder.feedTxtLikes.setText("댓글 " + feedPostList.get(position).getComment_cnt() + "개 모두 보기"); //댓글총갯수
-        viewHolder.feedTxtCmt.setText(feedPostList.get(position).getContent()); //댓글내용
+        viewHolder.feed_cnt_likes.setText("좋아요 " + feedPostList.get(position).getLikes_cnt() + "개");
+        viewHolder.feed_txt_comment.setText("댓글 " + feedPostList.get(position).getComment_cnt() + "개 모두 보기"); //댓글총갯수
+        viewHolder.feed_txt_content.setText(feedPostList.get(position).getContent()); //댓글내용
         viewHolder.feed_login_id.setText(feedPostList.get(position).getUserDTO().getLogin_id()); //글쓴사람
         Glide.with(viewHolder.itemView.getContext())
                 .load(feedPostList.get(position).getUserDTO().getProfile_photo())
@@ -113,40 +109,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
             @Override
             public void onClick(View v) {
                 //좋아요 토글 체크유무저장
-            boolean chk_heart = viewHolder.heart_btn.isChecked();
-
-            if(chk_heart==true){ //이때 데이터 저장
-
                 RequestParams params = new RequestParams();
                 params.put("post_id", feedPostList.get(position).getPost_id());
                 params.put("user_id", user_id);
                 Log.d("[INFO] post_id", "post_id" + feedPostList.get(position).getPost_id());
                 Log.d("[INFO] post_id", "user_id" + user_id);
                 client.post(url, params, response);
-
-            }
-            if(chk_heart==false){ //이때 데이터 삭제
-
-                RequestParams params = new RequestParams();
-                params.put("post_id", feedPostList.get(position).getPost_id());
-                params.put("user_id", user_id);
-                client.post(url, params, response);
-
-            }
-
-
-
             }
         });
 
         /* 피드 댓글 기능 */
-         viewHolder.cmt_btn.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-               // Fragment CommentFragment = new Fragment();
+        viewHolder.cmt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Fragment CommentFragment = new Fragment();
                 //replaceFragment(R.id.frame_layout, CommentFragment);
-         }
-         });
+            }
+        });
 
 
     }
@@ -167,8 +146,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
         CircleImageView feed_profile_Img; //프로필이미지
         TextView feed_login_id; //유저아이디
         RecyclerView recyclerView_img_item;  //list_layout 의 recyclerView
-        TextView feedTxtLikes;
-        TextView feedTxtCmt;
+        TextView feed_cnt_likes; //좋아요 갯수
+        TextView feed_txt_content; //피드 포스트 글내용
+        TextView feed_txt_comment; //댓글내용
         ToggleButton heart_btn;
         ImageView cmt_btn;
 
@@ -182,17 +162,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
             heart_btn = itemView.findViewById(R.id.heart_btn);
 
-            if(mode==1){
-                heart_btn.setChecked(false);
-            }else if(mode==2){
-                heart_btn.setChecked(true);
-            }
-
 
             cmt_btn =itemView.findViewById(R.id.cmt_btn);
-
-            feedTxtLikes = itemView.findViewById(R.id.feedTxtLikes);
-            feedTxtCmt = itemView.findViewById(R.id.feedTxtCmt);
+            feed_cnt_likes = itemView.findViewById(R.id.feed_cnt_likes);
+            feed_txt_content = itemView.findViewById(R.id.feed_txt_content);
+            feed_txt_comment = itemView.findViewById(R.id.feed_txt_comment);
 
 
         }
@@ -200,8 +174,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
 
     class HttpResponse extends AsyncHttpResponseHandler{
-       ToggleButton heart_btn;
-       int position;
+        ToggleButton heart_btn;
+        int position;
 
         public HttpResponse(ToggleButton heart_btn, int position) {
             this.heart_btn = heart_btn;
@@ -210,7 +184,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            Log.d("[INFO]", "좋아요 유무 확인하는 처리에 들어가나?");
+            Log.d("[INFO]", "좋아요 유무 확인 처리");
             String document = new String(responseBody);
             RequestParams params =  new RequestParams();
             params.put("post_id", feedPostList.get(position).getPost_id());
@@ -222,17 +196,17 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
                 int data = json.getInt("data");
 
                 Log.d("[INFO] data = ",  String.valueOf(data));
-                if(data>0){  //좋아요 데이터가 존재할 시, 하트체크해제 + 데이터 저장 취소
-                   // heart_btn.setChecked(false);
+                if(data>0){  //좋아요 데이터가 존재할 때, 없애주는 처리
+                    // heart_btn.setChecked(false);
                     mode = 1;
                     client.post(url_like_delete, params, feedLikeResponse); //서로 다른 response 이기 때문에
-                     // 좋아요 취소
+                    // 좋아요 취소
                     heart_btn.setChecked(false);
                     Log.d("[INFO]", "좋아요 데이터 삭제");
 
                 }else{
-                    //heart_btn.setChecked(true); //좋아요 데이터가 존재하지 않을 시, 데이터 저장
-                    mode = 2; //-->좋아요 저장
+                    //heart_btn.setChecked(true);
+                    mode = 2; //-->좋아요 데이터가 없을때, 저장해주는 처리
                     client.post(url_like_save, params, feedLikeResponse);
                     heart_btn.setChecked(true);
 
@@ -251,9 +225,4 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
             Toast.makeText(context, "좋아요 데이터 확인 유무 실패", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
-    
 }
-

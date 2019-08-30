@@ -117,6 +117,7 @@ public class ListFragment extends Fragment {
                     postAll.setLocation(feedItem.getString("location"));
                     postAll.setReg_date(feedItem.getString("reg_date"));
                     postAll.setLike(feedItem.getBoolean("like"));
+                    postAll.setLikes_cnt(feedItem.getInt("likes_cnt"));
                     postAll.setComment_cnt(feedItem.getInt("comment_cnt"));
                     JSONArray tempPostImageList = feedItem.getJSONArray("postImageList");
                     JSONObject tempUserDTO =  feedItem.getJSONObject("userDTO");

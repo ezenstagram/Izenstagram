@@ -38,12 +38,7 @@ public class PostImgAapter extends RecyclerView.Adapter<PostImgAapter.ViewHolder
         Glide.with(viewHolder.itemView.getContext())
                 .load(postImageList.get(position).getImage_url())
                 .into(viewHolder.coreImg);
-           viewHolder.setItemClickListener(new IItemClickListener(){
-               @Override
-               public void onItemClickListener(View view, int position) {
-                   Toast.makeText(context, ""+ postImageList.get(position).getImage_url(), Toast.LENGTH_SHORT).show();
-               }
-           });
+
     }
 
     @Override
@@ -51,7 +46,7 @@ public class PostImgAapter extends RecyclerView.Adapter<PostImgAapter.ViewHolder
         return postImageList != null ? postImageList.size() : 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
        ImageView coreImg;
        IItemClickListener itemClickListener;
 
@@ -62,12 +57,8 @@ public class PostImgAapter extends RecyclerView.Adapter<PostImgAapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             coreImg = itemView.findViewById(R.id.coreImg);
-            itemView.setOnClickListener(this);
+
         }
 
-        @Override  //make ViewHolder implement android.view.View.OnClickListener
-        public void onClick(View view) {
-              itemClickListener.onItemClickListener(view, getAdapterPosition());
-        }
     }
 }
