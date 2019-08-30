@@ -155,5 +155,17 @@ public class FeedController {
 		mv.addObject("data", cntLike);
 		return mv;
 	}
+	
+	
+	@RequestMapping(value = "feedPostOne.do")
+	public ModelAndView feedPostOne(HttpServletRequest request) throws Exception {
+		int post_id = Integer.parseInt(request.getParameter("post_id"));
+		int user_id = Integer.parseInt(request.getParameter("user_id"));    
+		
+		PostAllDTO postOne = feedService.feedPostOne(post_id, user_id);
+		ModelAndView mv = new ModelAndView("jsonView");
+		mv.addObject("data", postOne);
+		return mv;
+	}
 
 }
