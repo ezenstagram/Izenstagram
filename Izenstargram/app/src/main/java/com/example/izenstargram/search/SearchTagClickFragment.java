@@ -1,8 +1,6 @@
-
 package com.example.izenstargram.search;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,12 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
 import com.example.izenstargram.feed.model.PostImage;
-import com.example.izenstargram.search.adapter.SearchTabRandomAdapter;
+import com.example.izenstargram.search.adapter.SearchTagClickAdapter;
 import com.example.izenstargram.upload.model.PostImageDTO;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -34,28 +31,38 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.HttpResponse;
 
-public class SearchTabRandomFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class SearchTagClickFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.62:8080/project/selectPostImageRandom.do";
+    String url = "http://192.168.0.62:8080/project/selectPostImageByTagId.do";
     List<PostImageDTO> list;
-    SearchTabRandomAdapter adapter;
+    SearchTagClickAdapter adapter;
     GridView gridView;
     Activity activity;
 
+    int user_id;
+    int tag_id;
+    String tag_name;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_tab_random_layout, container, false);
+        View view = inflater.inflate(R.layout.search_tag_click_layout, container, false);
         activity = getActivity();
+        if(getArguments() != null) {
+            tag_id = getArguments().getInt("tag_id", 0);
+            tag_name = getArguments().getString("tag_name");
+        }
+        user_id = getArguments().getInt("user_id", 0);
+
         list = new ArrayList<>();
-        adapter = new SearchTabRandomAdapter(getActivity(), R.layout.search_gridview_item, list);
-        gridView = view.findViewById(R.id.gridViewForSearchRandom);
+        adapter = new SearchTagClickAdapter(getActivity(), R.layout.search_gridview_item_2, list);
+        gridView = view.findViewById(R.id.gridViewForSearchTagClick);
         gridView.setAdapter(adapter);
         gridView.setOnItemClickListener(this);
+
         // 서버
         client = new AsyncHttpClient();
         response = new HttpResponse(activity);
@@ -67,9 +74,10 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
         super.onResume();
         adapter.clear();    // List의 데이터 삭제
         RequestParams params = new RequestParams();
-        client.post(url, response);
+        Log.d("[INFO]", "새로 만든 SearchTagClickAdapter : tag_id = " + tag_id);
+        params.put("tag_id", tag_id);
+        client.post(url, params, response);
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,23 +86,23 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
         PostImageDTO item = adapter.getItem(position);
         int post_id = item.getPost_id();
-        Log.d("[INFO]", "SearchTabRandomFragment : post_id = " + post_id);
-        Fragment fragment = new SearchRandomClickFragment();
+        Log.d("[INFO]", "SearchTagClickFragment : post_id = " + post_id);
+        Fragment fragment = new SearchTagClickClickFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("post_id", post_id);
         fragment.setArguments(bundle);
         ((MainActivity) activity).replaceFragment(R.id.frame_layout, fragment, "search");
+
     }
 
-
-    class HttpResponse extends AsyncHttpResponseHandler {
+    class HttpResponse extends AsyncHttpResponseHandler{
         Activity activity = getActivity();
 
-        public HttpResponse(Activity activity) {
-            this.activity = activity;
-        }
+        public HttpResponse(Activity activity)
+        {this.activity = activity;}
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -107,7 +115,7 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
                     PostImageDTO postImageDTO = new PostImageDTO();
                     postImageDTO.setPost_id(temp.getInt("post_id"));
                     postImageDTO.setImage_url(temp.getString("image_url"));
-                    //Log.d("[INFO]", "TabRandomFragment : image_url = (" + i + ")번째 = " + postImageDTO.getImage_url());
+                    Log.d("[INFO]", "TabTagClickFragment : image_url = " + temp.getString("image_url"));
                     adapter.add(postImageDTO);
                 }
             } catch (JSONException e) {
@@ -123,4 +131,3 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
     }
 
 }
-

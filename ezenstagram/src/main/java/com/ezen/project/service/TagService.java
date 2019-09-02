@@ -157,10 +157,10 @@ public class TagService {
     return tagDAO.insertUserTag(post_id, user_id);
   }
 
-  // (확인용) 전체 태그 리스트 출력시키기
-  public List<AllTagDTO> allTagList() {
-    return tagDAO.allTagList();
-  }
+//  // (확인용) 전체 태그 리스트 출력시키기
+//  public List<AllTagDTO> allTagList() {
+//    return tagDAO.allTagList();
+//  }
 
   // (@검색화면 첫화면) 랜덤으로 게시글들의 이미지 출력시키기
   public List<PostImageDTO> selectPostImageRandom() {
@@ -174,9 +174,14 @@ public class TagService {
 
   // (@검색화면에서 태그 입력시) 특정 태그 tag_name을 가진 모든 게시글 수 출력(optional)
 
-  // (@검색화면에서 태그 선택시) 선택된 tag_id를 가진 모든 게시글 post_id 들 출력시키기(사진보이기용)
-  public List<LinkedTagDTO> selectPostIdByTagId(int tag_id) {
-    return tagDAO.selectPostIdByTagId(tag_id);
+//  // (@검색화면에서 태그 선택시) 선택된 tag_id를 가진 모든 게시글 post_id 들 출력시키기(사진보이기용)
+//  public List<LinkedTagDTO> selectPostIdByTagId(int tag_id) {
+//    return tagDAO.selectPostIdByTagId(tag_id);
+//  }
+  
+  // 다시...(@검색화면에서 태그 선택시) 선택된 tag_id를 가진 모든 게시글들의 image_url을 출력하기
+  public List<PostImageDTO> selectPostImageByTagId(int tag_id){
+	  return tagDAO.selectPostImageByTagId(tag_id);
   }
 
   // (@검색화면에서 유저 입력시) '특정 글자'가 포함된 모든 user name 출력시키기
@@ -186,9 +191,6 @@ public class TagService {
   }
 
   // (@검색화면에서 유저 입력시) '특정 글자'가 포함된 모든 user의 설명글 출력시키기(optional)
-
-  // (@검색화면에서 유저 선택시) 선택된 user의 프로필화면 출력
-
 
 
   // // 특정 게시글 post_id에 포함된 전체 해시태그리스트 출력(x)

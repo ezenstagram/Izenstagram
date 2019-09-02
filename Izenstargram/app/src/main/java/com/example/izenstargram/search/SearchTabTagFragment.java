@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
 import com.example.izenstargram.search.adapter.SearchTabTagAdapter;
 import com.example.izenstargram.search.model.AllTagDTO;
@@ -40,12 +41,12 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.55:8080/project/selectTagNameByLetter.do";
+    String url = "http://192.168.0.62:8080/project/selectTagNameByLetter.do";
     String letter_to_search;
     List<AllTagDTO> list;
     SearchTabTagAdapter adapter;
     ListView listView;
-    Activity activity = getActivity();
+    Activity activity;
     ArrayList<AllTagDTO> tagNameList = new ArrayList<>();
 
 
@@ -56,6 +57,7 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
         View view = inflater.inflate(R.layout.search_tab_tag_layout, container, false);
 //View viewSearchFrag = inflater.inflate(R.layout.search_layout, container, false); (작동됨)
         //View viewSearchFrag = getLayoutInflater().inflate(R.layout.search_layout, null); //(작동됨)
+        activity = getActivity();
         list = new ArrayList<>();
         //adapter = new SearchTabTagAdapter(getActivity().getApplicationContext(), R.layout.search_list_item, list);
         adapter = new SearchTabTagAdapter(getActivity(), R.layout.search_list_item_tag, list);
@@ -94,30 +96,17 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
         AllTagDTO item = adapter.getItem(position);
         //Log.d("[INFO]", "TabTagFragment : onItemClick() : position=" + position);
         int tag_id = item.getTag_id();
+        String tag_name = item.getTag_name();
         Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_id=" + tag_id);
-//        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
-//        intent.putExtra("tag_id", tag_id);
-//        startActivity(intent);
-        //startActivityForResult(intent, 100);///////
+        Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_name=" + tag_name);
+        Fragment fragment = new SearchTagClickFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("tag_id", tag_id);
+        bundle.putString("tag_name", tag_name);
+        fragment.setArguments(bundle);
+        ((MainActivity) activity).replaceFragment(R.id.frame_layout, fragment, "search");
+
     }
-
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            case 100:
-//                // 결과값이 "성공"일 경우만 처리
-//                if(resultCode == RESULT_OK) {
-//                    RequestParams params = new RequestParams();
-//                    params.put("login_id", login_id);
-//                    client.post(userInfoURL, params, userInfoResponse);
-//                }
-//                break;
-//        }
-//    }
-
-
-
-
 
 
     class HttpResponse extends AsyncHttpResponseHandler {

@@ -65,9 +65,16 @@ public class TagDAO {
     return sqlSessionTemplate.selectList("mybatis.tagMapping.tagListByLetter", letter_to_search); 
   }
   
-  public List<LinkedTagDTO> selectPostIdByTagId(int tag_id){
-    return sqlSessionTemplate.selectList("mybatis.tagMapping.selectPostIdByTagId", tag_id);
+//  public List<LinkedTagDTO> selectPostIdByTagId(int tag_id){
+//    return sqlSessionTemplate.selectList("mybatis.tagMapping.selectPostIdByTagId", tag_id);
+//  }
+  
+  // 다시...
+  public List<PostImageDTO> selectPostImageByTagId(int tag_id){
+	  return sqlSessionTemplate.selectList("mybatis.tagMapping.selectPostImageByTagId", tag_id);
   }
+  // 다시....
+  
   
   public List<UserDTO> selectUserBySearch(String letter_to_search){
     return sqlSessionTemplate.selectList("mybatis.tagMapping.selectUserBySearch", letter_to_search);

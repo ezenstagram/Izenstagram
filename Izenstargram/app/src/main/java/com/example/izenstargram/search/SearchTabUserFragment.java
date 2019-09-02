@@ -38,7 +38,7 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.55:8080/project/selectUserBySearch.do";
+    String url = "http://192.168.0.62:8080/project/selectUserBySearch.do";
     //selectTagNameByLetter.do
     String letter_to_search;
     List<UserDTO> list;
@@ -90,26 +90,11 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
         UserDTO item = adapter.getItem(position);
         //Log.d("[INFO]", "TabUserFragment : onItemClick() : position=" + position);
         String login_id = item.getLogin_id();
-//        Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" +
-////        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
-////        intent.putExtra("login_id", login_id);
-////        startActivity(intent);login_id);
-        // startActivityForResult(intent, 100);///////
+        Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" + login_id);
+
+
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        switch (requestCode) {
-//            case 100:
-//                // 결과값이 "성공"일 경우만 처리
-//                if(resultCode == RESULT_OK) {
-//                    RequestParams params = new RequestParams();
-//                    params.put("login_id", login_id);
-//                    client.post(userInfoURL, params, userInfoResponse);
-//                }
-//                break;
-//        }
-//    }
 
 
     class HttpResponse extends AsyncHttpResponseHandler {
@@ -145,3 +130,7 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
         }
     }
 }
+
+
+
+

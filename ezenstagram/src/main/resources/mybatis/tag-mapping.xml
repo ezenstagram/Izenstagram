@@ -36,13 +36,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="selectPostIdByTagId" parameterType="int" resultType="LinkedTagDTO">
 		select * from post_linked_hashtag where tag_id=#{tag_id} order by post_id desc
 	</select>
+	
+	<!-- 두개더하기.. -->
+	<select id="selectPostImageByTagId" parameterType="int" resultType="PostImageDTO">
+		select * from post_image where post_id in (select post_id from post_linked_hashtag where tag_id=#{tag_id}) order by post_id desc
+	</select>
+	<!-- 두개더하기.. -->
 
 	<select id="selectUserBySearch" parameterType="java.lang.String" resultType="UserDTO">
 		select * from sns_user where login_id like #{letter_to_search} || '%' order by login_id asc
 	</select>
 	
-	<select id="selectPostImageRandom" resultType="PostImageDTO">	
-		select * from (select * from post_image order by dbms_random.random) where rownum &lt;31
+	<select id="selectPostImageRandom" resultType="PostImageDTO">			
+		select * from (select * from post_image order by dbms_random.random) where rownum &lt;16
 	</select>
 	
 	<select id="allTagList" resultType="AllTagDTO">

@@ -64,7 +64,7 @@ public class TagController {
 		return mv;
 	}
 
-	// (@검색) 첫화면:랜덤으로 게시 사진들출력
+	// (@랜덤탭) 랜덤으로 게시물 사진 출력 
 	@RequestMapping(value = "selectPostImageRandom.do", method = RequestMethod.POST)
 	public ModelAndView selectPostImageRandom(HttpServletRequest request) {
 		List<PostImageDTO> list = tagService.selectPostImageRandom();
@@ -80,7 +80,7 @@ public class TagController {
 		return mv;
 	}
 
-	// (@검색) '특정 글자'가 포함된 모든 tag_name 출력시키기
+	// (@태그탭:검색시) '특정 글자'가 포함된 모든 tag_name 출력시키기
 	@RequestMapping(value = "selectTagNameByLetter.do", method = RequestMethod.POST)
 	public ModelAndView selectTagNameByLetter(HttpServletRequest request) {
 		String letter_to_search = request.getParameter("letter_to_search");
@@ -90,27 +90,44 @@ public class TagController {
 		return mv;
 	}
 
-	// (@검색) 특정 #tag_name으로 검색한 경우 해당되는 모든 게시물들 사진출력
-	@RequestMapping(value = "selectPostIdByTagName.do", method = RequestMethod.POST)
-	public ModelAndView selectPostIdByTagName(HttpServletRequest request) {
-		String tag_name = request.getParameter("tag_name");
-		ModelAndView mv = new ModelAndView("jsonView");
-		Integer integer_tag_id = tagService.getTagIdByName(tag_name);
-		int tag_id = 0;
-		int result = 0;
-		List<LinkedTagDTO> list;
-		if (integer_tag_id == null) {
-			tag_id = 0;
-			mv.addObject("result", result);
-		} else {
-			tag_id = integer_tag_id;
-			list = tagService.selectPostIdByTagId(tag_id);
-			mv.addObject("data", list);
+//	// (@태그탭에서 선택시) 특정 #tag_name을 선택한 경우 해당되는 모든 게시물들 사진출력
+//	@RequestMapping(value = "selectPostIdByTagName.do", method = RequestMethod.POST)
+//	public ModelAndView selectPostIdByTagName(HttpServletRequest request) {
+//		String tag_name = request.getParameter("tag_name");
+//		ModelAndView mv = new ModelAndView("jsonView");
+//		Integer integer_tag_id = tagService.getTagIdByName(tag_name);
+//		int tag_id = 0;
+//		int result = 0;
+//		List<LinkedTagDTO> list;
+//		if (integer_tag_id == null) {
+//			tag_id = 0;
+//			mv.addObject("result", result);
+//		} else {
+//			tag_id = integer_tag_id;
+//			list = tagService.selectPostIdByTagId(tag_id);
+//			mv.addObject("data", list);
+//		}
+//		return mv;
+//	}
+	
+	// (@태그탭:태그 선택시) 특정 #tag_id로 검색한 경우 해당되는 모든 게시물의 사진 출력하기
+	@RequestMapping(value="selectPostImageByTagId.do", method= RequestMethod.POST)
+	public ModelAndView selectPostImageByTagId(HttpServletRequest request) {
+		int tag_id = Integer.parseInt(request.getParameter("tag_id"));
+		List<PostImageDTO> list = tagService.selectPostImageByTagId(tag_id);
+		String image_url_full = null;
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i).getImage_url() != null) {
+				image_url_full = "http://192.168.0.13:8080/image/storage/" + list.get(i).getImage_url();
+				list.get(i).setImage_url(image_url_full);
+			}
 		}
-		return mv;
+		ModelAndView mv = new ModelAndView("jsonView");
+		mv.addObject("data", list);
+		return mv;		
 	}
 
-	// (@검색) '특정 글자'가 포함된 모든 user_name 출력시키기
+	// (@유저탭:검색시) '특정 글자'가 포함된 모든 user_name 출력시키기
 	@RequestMapping(value = "selectUserBySearch.do", method = RequestMethod.POST)
 	public ModelAndView selectUserBySearch(HttpServletRequest request) {
 		String letter_to_search = request.getParameter("letter_to_search");
