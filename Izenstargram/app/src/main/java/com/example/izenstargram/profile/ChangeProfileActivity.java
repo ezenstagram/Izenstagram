@@ -120,14 +120,6 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
             String photo = "http://192.168.0.13:8080/image/storage/" + userDTO.getProfile_photo();
             imageLoader.displayImage(photo, imageView, options);
         }
-//        editText1.setText(userDTO.getName());
-//        editText2.setText(userDTO.getLogin_id());
-//        editText3.setText(userDTO.getWebsite());
-//        editText4.setText(userDTO.getIntroduction());
-//        editText5.setText(userDTO.getEmail());
-//        editText6.setText(userDTO.getTel());
-//        editText7.setText(userDTO.getGender());
-
         textViewCancel.setOnClickListener(this);
         textViewOK.setOnClickListener(this);
         textViewChangePhoto.setOnClickListener(this);

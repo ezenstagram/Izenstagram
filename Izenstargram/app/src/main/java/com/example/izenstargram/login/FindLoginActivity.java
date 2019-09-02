@@ -68,7 +68,7 @@ public class FindLoginActivity extends AppCompatActivity implements View.OnClick
     boolean pressCheck = false;
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.13:8080/project/User_id_emailandtel.do";
+    String URL = "http://192.168.0.62:8080/project/User_id_emailandtel.do";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

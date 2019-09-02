@@ -405,17 +405,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             String content = new String(responseBody);
             try {
                 JSONObject json = new JSONObject(content);
-                JSONObject jsonObject = json.getJSONObject("userDTO");
-                int user_id = jsonObject.getInt("user_id");
-                String login_id = jsonObject.getString("login_id");
-                String name = jsonObject.getString("name");
-                String password = jsonObject.getString("password");
-                String profile_photo = jsonObject.getString("profile_photo");
-                String website = jsonObject.getString("website");
-                String introduction = jsonObject.getString("introduction");
-                String email = jsonObject.getString("email");
-                String tel = jsonObject.getString("tel");
-                String gender = jsonObject.getString("gender");
+                int user_id = json.getInt("user_id");
+                String login_id = json.getString("login_id");
+                String name = json.getString("name");
+                String password = json.getString("password");
+                String profile_photo = json.getString("profile_photo");
+                String website = json.getString("website");
+                String introduction = json.getString("introduction");
+                String email = json.getString("email");
+                String tel = json.getString("tel");
+                String gender = json.getString("gender");
 
                 textViewLogin_id1.setText(login_id);
                 textViewLogin_id2.setText(login_id);

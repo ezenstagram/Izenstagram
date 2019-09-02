@@ -4,7 +4,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="mybatis.memberMapping">
 	<select id="selectOne" parameterType="int" resultType="userDTO">
-		SELECT * FROM sns_user WHERE user_id = #{user_id}
+		SELECT * from sns_user where user_id = #{user_id}
 	</select>
 	<select resultType="userDTO" parameterType="java.util.Map" id="userLogin">
 		 select * from sns_user where login_id=#{loginId} and password=#{password}
@@ -58,11 +58,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete from follow where user_id=#{user_id} and follow_user_id=#{follow_user_id}
 	</delete>
 	<select id="followerList" parameterType="int" resultType="userDTO">
-		select * from sns_user where user_id in
-		(select user_id from follow where follow_user_id=#{user_id})
+		select su.* from follow ff left join sns_user su on ff.user_id = su.user_id where ff.follow_user_id=#{user_id} order by ff.reg_date desc
 	</select>
 	<select id="followingList" parameterType="int" resultType="userDTO">
-		select * from sns_user where user_id in
-		(select follow_user_id from follow where user_id=#{user_id})
+		select su.* from follow ff left join sns_user su on ff.follow_user_id = su.user_id where ff.user_id=#{user_id} order by ff.reg_date desc
 	</select>
 </mapper>

@@ -20,8 +20,6 @@ public class FollowListFragment extends Fragment {
     TabItem tabItem1, tabItem2;
     TextView textViewLogin_id;
 
-//    String following = getArguments().getString("following", "0");
-//      String follower = getArguments().getString("follower", "0");
 
     public static String following = "";
     public static String follower = "";

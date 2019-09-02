@@ -117,19 +117,15 @@ public class UserService {
 				
 				if(sepa == 0) {
 					status = userDAO.followRelaConfirm(userDTO.getUser_id(), user_id);
-//					System.out.println("status"+status);
 				} else {
 					status = 1;
 				}
-//				System.out.println(status + "=status");
-				System.out.println(status_follow + "3=status_follow");
 				if(status > 0) {
 					System.out.println("if=" +status + "=status");
 					status_follow = true;
 					status = 0;
 				}
 				
-				System.out.println("status_follow"+status_follow);
 				followList.setFollowStatus(status_follow);
 				followList.setName(userDTO.getName());
 				followList.setProfile_photo(userDTO.getProfile_photo());

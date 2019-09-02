@@ -29,6 +29,7 @@ public class ProfileCameraImageActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         Intent intent = getIntent();
         photoPath = intent.getStringExtra("strParamName");
 

@@ -1,21 +1,27 @@
 package com.example.izenstargram.follow;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
@@ -35,7 +41,7 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemClickListener {
+public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     List<FollowDTO> list;
 
@@ -43,9 +49,13 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
     FollowAdapter1 adapter1;
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.32:8080/project/followerList.do";
+    String URL = "http://192.168.0.62:8080/project/followerList.do";
     PullRefreshLayout loading;
 
+    Button buttonOrder;
+    TextView textViewOrder;
+
+    String[] items;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,6 +67,10 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         listView = view.findViewById(R.id.listView);
         client = new AsyncHttpClient();
         response = new HttpResponse(getActivity(), adapter1);
+
+        buttonOrder = view.findViewById(R.id.buttonOrder);
+        textViewOrder = view.findViewById(R.id.textViewOrder);
+
         listView.setAdapter(adapter1);
         listView.setFocusable(false);
         listView.setOnItemClickListener(this);
@@ -84,6 +98,8 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
                 }, 1000);
             }
         });
+
+        buttonOrder.setOnClickListener(this);
         return view;
     }
     @Override
@@ -100,6 +116,66 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, fragment, "profile");
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonOrder:
+                items = new String[]{"기본", "팔로우한 날짜: 최신순", "팔로우한 날짜: 오래된순"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("정렬 기준");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case 0:
+                                textViewOrder.setText(items[0]);
+                                order(0);
+                                break;
+                            case 1:
+                                textViewOrder.setText(items[1]);
+                                order(0);
+                                break;
+                            case 2:
+                                textViewOrder.setText(items[2]);
+                                order(1);
+                                break;
+                        }
+                    }
+                });
+                Dialog dialog = builder.create();
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+
+                dialog.show();
+
+                break;
+        }
+    }
+    public void order(int sepa) {
+        List<FollowDTO> arrayList =new ArrayList<>();
+
+        if(sepa==0) {
+            for(int i=0; i<list.size(); i++) {
+                arrayList.add(list.get(i));
+            }
+        } else {
+            for(int i=list.size()-1; 0<=i; i--) {
+                arrayList.add(list.get(i));
+            }
+        }
+        adapter1.clear();
+        for(int i=0; i<arrayList.size(); i++) {
+
+            Boolean followStatus = arrayList.get(i).isFollowStatus();
+            int user_id = arrayList.get(i).getUser_id();
+            String name = arrayList.get(i).getName();
+            String profile_photo = arrayList.get(i).getProfile_photo();
+            String login_id = arrayList.get(i).getLogin_id();
+
+            FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
+            adapter1.add(followDTO);
+        }
+    }
     public class HttpResponse extends AsyncHttpResponseHandler {
         Activity activity;       // ProgressDialog에서 사용
         FollowAdapter1 adapter1;   // List에 데이터 저장할 때 사용
@@ -125,7 +201,6 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             String strJson = new String(responseBody);
-            Log.d("[INFO", "호출호추울");
             try {
                 JSONObject json = new JSONObject(strJson);
                 int result = json.getInt("result");

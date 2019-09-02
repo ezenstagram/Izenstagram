@@ -180,8 +180,16 @@ public class UserController {
 		
 		UserDTO userDTO = userService.selectOne(user_id);
 		
-	
-		mv.addObject("userDTO", userDTO);
+		mv.addObject("user_id", userDTO.getUser_id());
+		mv.addObject("login_id", userDTO.getLogin_id());
+		mv.addObject("name", userDTO.getName());
+		mv.addObject("password", userDTO.getPassword());
+		mv.addObject("profile_photo", userDTO.getProfile_photo());
+		mv.addObject("website", userDTO.getWebsite());
+		mv.addObject("introduction", userDTO.getIntroduction());
+		mv.addObject("email", userDTO.getEmail());
+		mv.addObject("tel", userDTO.getTel());
+		mv.addObject("gender", userDTO.getGender());
 		
 		return mv;
 	}
@@ -274,11 +282,7 @@ public class UserController {
 		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner"));
 		int sign = Integer.parseInt(request.getParameter("sign"));	// sign�씠 0�씠硫� �뙏濡쒖슦, sing�씠 1�씠硫� �뙏濡쒖슦 痍⑥냼
 		int result = userService.follow(user_id, user_id_owner, sign);
-		if(sign == 0) {
-		  notifiInfoService.insert(3, user_id_owner, user_id_owner, null);
-		} else {
-		  notifiInfoService.delete(3, user_id_owner, user_id_owner, null);
-		}
+		notifiInfoService.insert(3, user_id_owner, user_id_owner, null);
 		mv.addObject("result", result);
 		mv.addObject("sign", sign);
 		return mv;
@@ -302,6 +306,6 @@ public class UserController {
 	
 		mv.addObject("result", result);
 		return mv;
-		
 	}
+
 }

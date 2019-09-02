@@ -90,10 +90,10 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
         UserDTO item = adapter.getItem(position);
         //Log.d("[INFO]", "TabUserFragment : onItemClick() : position=" + position);
         String login_id = item.getLogin_id();
-        Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" + login_id);
-        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
-        intent.putExtra("login_id", login_id);
-        startActivity(intent);
+//        Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" +
+////        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
+////        intent.putExtra("login_id", login_id);
+////        startActivity(intent);login_id);
         // startActivityForResult(intent, 100);///////
     }
 

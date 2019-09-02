@@ -41,7 +41,7 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
     DisplayImageOptions options;
     HttpResponse response;
     AsyncHttpClient client;
-    String URL = "http://192.168.0.32:8080/project/follow.do";
+    String URL = "http://192.168.0.62:8080/project/follow.do";
     int user_id;
     int sign = 0;
     List<FollowDTO> objects;

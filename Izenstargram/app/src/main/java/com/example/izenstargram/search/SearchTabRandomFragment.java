@@ -79,9 +79,9 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
         //Log.d("[INFO]", "TabRandomFragment : onItemClick() : position=" + position);
         int post_id = item.getPost_id();
         Log.d("[INFO]", "SearchTabRandomFragment : post_id = " + post_id);
-        Intent intent = new Intent(getActivity(), SearchRandomClickActivity.class);
-        intent.putExtra("post_id", post_id);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), SearchRandomClickActivity.class);
+//        intent.putExtra("post_id", post_id);
+//        startActivity(intent);
         //startActivityForResult(intent, 100);///////
     }
 

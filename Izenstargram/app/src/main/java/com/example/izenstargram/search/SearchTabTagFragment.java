@@ -95,9 +95,9 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
         //Log.d("[INFO]", "TabTagFragment : onItemClick() : position=" + position);
         int tag_id = item.getTag_id();
         Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_id=" + tag_id);
-        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
-        intent.putExtra("tag_id", tag_id);
-        startActivity(intent);
+//        Intent intent = new Intent(getActivity(), SearchUserClickActivity.class);
+//        intent.putExtra("tag_id", tag_id);
+//        startActivity(intent);
         //startActivityForResult(intent, 100);///////
     }
 
