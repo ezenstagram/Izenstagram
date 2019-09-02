@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.izenstargram.R;
 import com.example.izenstargram.helper.PhotoHelper;
+import com.example.izenstargram.upload.adapter.TabPagerAdapter;
 
 
 import java.io.FileNotFoundException;
@@ -29,6 +30,7 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
     ImageButton button; //촬영용 버튼
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
+    TabPagerAdapter tabPagerAdapter;
     String str;
     int cameraId;
     boolean capture;
@@ -72,8 +74,8 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
                 }
                 finally {
                 }
-                Intent intent = new Intent(getActivity(), ImageViewActivity.class);
 
+                Intent intent = new Intent(getActivity(), ImageViewActivity.class);
                 intent.putExtra("strParamName_camera", str);
                 Log.d("[INFO]","photoPath의 역할을 하는 str:"+str);
                 startActivity(intent);

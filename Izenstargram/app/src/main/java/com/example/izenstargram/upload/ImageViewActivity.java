@@ -6,15 +6,22 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.media.Image;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.izenstargram.R;
+import com.example.izenstargram.upload.adapter.TabPagerAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -25,17 +32,21 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class ImageViewActivity extends AppCompatActivity {
+public class ImageViewActivity extends AppCompatActivity implements View.OnClickListener {
     CameraFragment cameraFragment; //액티비티에서 프래그먼트를 호출하기위해
+    GalleryFragment galleryFragment;
     Bitmap adjustedBitmap,adjustedBitmap1;
     String photoPath_gallery, photoPath_camera;
-    String profile_photo_name;
+    TabPagerAdapter adapter;
 
+
+    Button button_back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_view);
+
         //뒤로가기 버튼 액션바에 추가하기
         ActionBar actionBar = getSupportActionBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -64,7 +75,8 @@ public class ImageViewActivity extends AppCompatActivity {
         ImageView img = (ImageView) findViewById(R.id.img);
         img.setImageBitmap(adjustedBitmap1);
 
-
+        button_back = findViewById(R.id.button_back);
+        button_back.setOnClickListener(this);
 
     }
 
@@ -72,6 +84,18 @@ public class ImageViewActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
+    }
+    public void replaceFragment1(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.cameraFragment, fragment);
+        fragmentTransaction.commit();
+    }
+    public void replaceFragment2(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.galleryFragment, fragment);
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -82,22 +106,41 @@ public class ImageViewActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 if (photoPath_camera!=null){
-                    intent.putExtra("photoPath",photoPath_camera);
+                    intent.putExtra("strParamName_camera",photoPath_camera);
                 }
                 if(photoPath_gallery!=null){
-                    intent.putExtra("photoPath",photoPath_gallery);
+                    intent.putExtra("strParamName_gallery",photoPath_gallery);
                 }
-
                 startActivity(intent);
                 finish();
                 return true;
             case R.id.home:
-                //뒤로가기 버튼임 액션바에 있는!
-                //작동 나중에 생각하기//
-                Intent intent1 = new Intent(this, UploadActivity.class);
-                startActivity(intent1);
+                if(adapter.getItem(adapter.getItemPosition(1)).equals(1)){
+                    replaceFragment1(cameraFragment);
+                }
+                if(adapter.getItem(adapter.getItemPosition(0)).equals(0)){
+                   replaceFragment2(galleryFragment);
+                }
+
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.button_back:
+                if(adapter.getItem(1).equals(1)){
+                    replaceFragment1(cameraFragment);
+                }
+                if(adapter.getItem(adapter.getItemPosition(0)).equals(0)){
+                    replaceFragment2(galleryFragment);
+                }
+
+                break;
         }
     }
 }

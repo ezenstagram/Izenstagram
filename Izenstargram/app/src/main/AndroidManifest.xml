@@ -53,8 +53,9 @@
             android:name=".upload.ImageViewActivity"
             android:label="@string/ImageActivity">
             <meta-data
-                android:name="android.support.ParentFilter"
-                android:value=".UploadActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".upload.UploadActivity" />
+
         </activity>
         <activity android:name=".upload.UploadActivity" />
         <activity android:name=".MainActivity" />

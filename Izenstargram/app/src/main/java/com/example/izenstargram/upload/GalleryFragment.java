@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.izenstargram.R;
 import com.example.izenstargram.helper.FileUtils;
+import com.example.izenstargram.upload.adapter.TabPagerAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class GalleryFragment extends Fragment  {
     TextView textView;
     RecyclerView recyclerView;
     PictureAdapter adapter;
+    TabPagerAdapter tabPagerAdapter;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     int pictureCount = 0;
@@ -55,13 +57,16 @@ public class GalleryFragment extends Fragment  {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new PictureAdapter();
         recyclerView.setAdapter(adapter);
+
         adapter.setOnItemClickListener(new OnPictureItemClickListener() {
             @Override
             public void onItemClick(PictureAdapter.ViewHolder holder, View view, int position) {
+
                 PictureInfo item = adapter.getItem(position);
                 String str=item.getPath();
                 Intent intent = new Intent(getActivity(), ImageViewActivity.class);
                 intent.putExtra("strParamName_gallery",str);
+
                 startActivity(intent);
                 Toast.makeText(getContext().getApplicationContext(), "아이템 선택됨 : " + str, Toast.LENGTH_LONG).show();//getContext().를 붙임
             }
@@ -79,26 +84,28 @@ public class GalleryFragment extends Fragment  {
         ArrayList<PictureInfo> result = new ArrayList<>();
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         String[] projection = { MediaStore.MediaColumns.DATA, MediaStore.MediaColumns.DISPLAY_NAME, MediaStore.MediaColumns.DATE_ADDED };
-
         Cursor cursor = getContext().getContentResolver().query(uri, projection, null, null, MediaStore.MediaColumns.DATE_ADDED + " desc");
         int columnDataIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
         int columnNameIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME);
         int columnDateIndex = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATE_ADDED);
 
         pictureCount = 0;
-        while (cursor.moveToNext()) {
-            String path = cursor.getString(columnDataIndex);
-            String displayName = cursor.getString(columnNameIndex);
-            String outDate = cursor.getString(columnDateIndex);
-            String addedDate = dateFormat.format(new Date(new Long(outDate).longValue() * 1000L));
+        if (cursor.moveToFirst()) {
+            do {
+                String path = cursor.getString(columnDataIndex);
+                String displayName = cursor.getString(columnNameIndex);
+                String outDate = cursor.getString(columnDateIndex);
+                String addedDate = dateFormat.format(new Date(new Long(outDate).longValue() * 1000L));
 
-            if (!TextUtils.isEmpty(path)) {
-                PictureInfo info = new PictureInfo(path, displayName, addedDate);
-                result.add(info);
-            }
+                if (!TextUtils.isEmpty(path)) {
+                    PictureInfo info = new PictureInfo(path, displayName, addedDate);
+                    result.add(info);
+                }
 
-            pictureCount++;
+                pictureCount++;
+            }while (cursor.moveToNext());
         }
+
 
         textView.setText(pictureCount + " 개");
         Log.d("MainActivity", "Picture count : " + pictureCount);
