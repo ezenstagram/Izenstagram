@@ -53,6 +53,7 @@ public class FeedController {
 		int user_id = Integer.parseInt(request.getParameter("user_id"));
 		ModelAndView mv = new ModelAndView("jsonView");
 		mv.addObject("result", feedService.delLikes(post_id, user_id));
+		notifiInfoService.delete(1, post_id, user_id, null);
 		return mv;
 	}
 
