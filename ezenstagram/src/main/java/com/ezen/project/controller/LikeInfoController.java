@@ -27,16 +27,16 @@ public class LikeInfoController {
 
     List<NotifiInfoDTO> list = notifiInfoService.selectList(target_user_id);
 
-    if(list != null) {
+    if (list != null) {
       mv.addObject("result", 1);
       mv.addObject("data", list);
     } else {
       mv.addObject("result", 0);
     }
-   
+
     return mv;
   }
-  
+
   @RequestMapping(value = "followerNotifiInfo.do")
   public ModelAndView followerNotifiInfo(HttpServletRequest request) throws Exception {
     ModelAndView mv = new ModelAndView("jsonView");
@@ -45,13 +45,22 @@ public class LikeInfoController {
 
     List<NotifiInfoDTO> list = notifiInfoService.selectListForFInfo(act_user_id);
 
-    if(list != null) {
+    if (list != null) {
       mv.addObject("result", 1);
       mv.addObject("data", list);
     } else {
       mv.addObject("result", 0);
     }
-   
+
+    return mv;
+  }
+
+  @RequestMapping(value = "selectNewCnt.do")
+  public ModelAndView selectNewCnt(HttpServletRequest request) throws Exception {
+    ModelAndView mv = new ModelAndView("jsonView");
+
+    int target_user_id = Integer.parseInt(request.getParameter("target_user_id"));
+    mv.addObject("result", notifiInfoService.selectNewCnt(target_user_id));
     return mv;
   }
 }

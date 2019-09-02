@@ -29,6 +29,7 @@ public class LikeFragment extends Fragment {
         View view = inflater.inflate(R.layout.like_layout, container, false);
         viewPager = view.findViewById(R.id.viewPager);
         tabLayout = view.findViewById(R.id.tabLayout);
+        ((MainActivity) getActivity()).delBadgeView();
 
         likePagerAdapter = new LikePagerAdapter(
                 this.getChildFragmentManager(), 2);

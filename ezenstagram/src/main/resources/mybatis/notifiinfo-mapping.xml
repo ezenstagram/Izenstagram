@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		INSERT INTO NOTIFICATION VALUES (notifi_seq.nextval,
 		#{mode_id},
 		#{target_id}, #{target_sub_id}, #{act_user_id},
-		#{target_user_id}, 0, sysdate)
+		#{target_user_id}, 0, 1, sysdate)
 	</insert>
 	<update id="deleteNotification" parameterType="notificationDTO">
 		update
@@ -27,4 +27,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		act_user_id = #{act_user_id}
 		and target_user_id = #{target_user_id}
 	</update>
+	<update id="updateNewFlgNotification" parameterType="int">
+		update
+		notification set new_flg ='0' where target_user_id = #{target_user_id}
+	</update>
+	<select id="selectNewCnt" parameterType="int" resultType="int">
+		select count(*) from notifi_info WHERE target_user_id =
+		#{target_user_id} and delete_flg = 0 and new_flg = 1
+	</select>
 </mapper>

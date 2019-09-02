@@ -26,6 +26,7 @@ public class NotifiInfoService {
       notifiInfoDTO.setPost_image(url + notifiInfoDTO.getPost_image());
       notifiInfoDTO.setProfile_photo(url + notifiInfoDTO.getProfile_photo());
     }
+    notifiInfoDAO.updateNewFlgNotification(target_user_id);
     return list;
   }
 
@@ -64,5 +65,9 @@ public class NotifiInfoService {
     int target_user_id = (mode_id != 3) ? postDAO.getPostWriter(target_id) : target_id;
     notificationDTO.setTarget_user_id(target_user_id);
     return notificationDTO;
+  }
+  
+  public int selectNewCnt(int target_user_id) {
+    return notifiInfoDAO.selectNewCnt(target_user_id);
   }
 }

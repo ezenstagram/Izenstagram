@@ -28,8 +28,18 @@ public class NotifiInfoDAO {
   }
   
   public int delete(NotificationDTO notificationDTO) {
-    return sqlSessionTemplate.insert("mybatis.notifiInfoMapping.deleteNotification",
+    return sqlSessionTemplate.update("mybatis.notifiInfoMapping.deleteNotification",
         notificationDTO);
+  }
+  
+  public int selectNewCnt(int target_user_id) {
+    return sqlSessionTemplate.selectOne("mybatis.notifiInfoMapping.selectNewCnt",
+        target_user_id);
+  }
+  
+  public int updateNewFlgNotification(int target_user_id) {
+    return sqlSessionTemplate.update("mybatis.notifiInfoMapping.updateNewFlgNotification",
+        target_user_id);
   }
 
 }
