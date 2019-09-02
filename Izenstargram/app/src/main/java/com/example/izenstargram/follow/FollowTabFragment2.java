@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -51,11 +53,13 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
     HttpResponse response;
     String URL = "http://192.168.0.62:8080/project/followerList.do";
     PullRefreshLayout loading;
-
+    SearchView searchView;
     Button buttonOrder;
     TextView textViewOrder;
 
     String[] items;
+    RequestParams params;
+    String orderStatus = "desc";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,7 +78,7 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         listView.setAdapter(adapter1);
         listView.setFocusable(false);
         listView.setOnItemClickListener(this);
-        final RequestParams params = new RequestParams();
+        params = new RequestParams();
         params.put("user_id", user_id);
         params.put("sepa", 1);
         client.post(URL,params, response);
@@ -152,29 +156,13 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         }
     }
     public void order(int sepa) {
-        List<FollowDTO> arrayList =new ArrayList<>();
-
         if(sepa==0) {
-            for(int i=0; i<list.size(); i++) {
-                arrayList.add(list.get(i));
-            }
+            orderStatus = "desc";
         } else {
-            for(int i=list.size()-1; 0<=i; i--) {
-                arrayList.add(list.get(i));
-            }
+            orderStatus="asc";
         }
-        adapter1.clear();
-        for(int i=0; i<arrayList.size(); i++) {
 
-            Boolean followStatus = arrayList.get(i).isFollowStatus();
-            int user_id = arrayList.get(i).getUser_id();
-            String name = arrayList.get(i).getName();
-            String profile_photo = arrayList.get(i).getProfile_photo();
-            String login_id = arrayList.get(i).getLogin_id();
-
-            FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
-            adapter1.add(followDTO);
-        }
+        client.post(URL,params, response);
     }
     public class HttpResponse extends AsyncHttpResponseHandler {
         Activity activity;       // ProgressDialog에서 사용
@@ -200,7 +188,10 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
         }
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            adapter1.clear();
+            list.clear();
             String strJson = new String(responseBody);
+            List<FollowDTO> arrayList = new ArrayList<>();
             try {
                 JSONObject json = new JSONObject(strJson);
                 int result = json.getInt("result");
@@ -215,12 +206,20 @@ public class FollowTabFragment2 extends Fragment  implements AdapterView.OnItemC
                         String login_id = jsonObject.getString("login_id");
 
                         FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
-                        adapter1.add(followDTO);
+                        arrayList.add(followDTO);
+                    }
+                    if(orderStatus.equals("desc")) {
+                        for(int i=0; i<arrayList.size(); i++) {
+                            adapter1.add(arrayList.get(i));
+                        }
+                    } else {
+                        for(int i=arrayList.size()-1; 0<=i; i--) {
+                            adapter1.add(arrayList.get(i));
+                        }
                     }
                 } else {
                        adapter1.clear();
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }

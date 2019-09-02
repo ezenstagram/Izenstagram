@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.izenstargram.R;
+import com.example.izenstargram.profile.ProfileFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -47,6 +48,7 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
     List<FollowDTO> objects;
     boolean check = false;
 
+    int realUser_id;
     public FollowAdapter1(Context context, int resource, List<FollowDTO> objects, int user_id) {
         super(context, resource, objects);
         activity = (Activity) context;
@@ -58,6 +60,8 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
         client = new AsyncHttpClient();
         response = new HttpResponse();
 
+        SharedPreferences pref = getContext().getSharedPreferences("CONFIG", MODE_PRIVATE);
+        realUser_id = pref.getInt("user_id", 0);
         imageLoaderInit();
     }
     private void imageLoaderInit() {
@@ -88,22 +92,27 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
             textViewLogin.setText(item.getLogin_id());
             textViewName.setText(item.getName());
 
+            Log.d("[IN", "id="+item.getLogin_id());
             if(!item.getProfile_photo().equals("null")) {
                 String photo = "http://192.168.0.13:8080/image/storage/" +item.getProfile_photo();
                 imageLoader.displayImage(photo, imageView, options);
             } else {
                 imageView.setImageResource(R.drawable.ic_stub);
             }
-
-            if(item.isFollowStatus()) {         // 트루이면 내가 팔로우 하고 있는 상태
-                button.setBackgroundResource(R.drawable.for_button_modi);
-                button.setText("팔로잉");
-                button.setTextColor(Color.BLACK);
+            if(realUser_id==item.getUser_id()) {
+                button.setVisibility(View.GONE);
             } else {
-                button.setBackgroundResource(R.drawable.unfoll_button);
-                button.setText("팔로우");
-                button.setTextColor(Color.WHITE);
+                if(item.isFollowStatus()) {         // 트루이면 내가 팔로우 하고 있는 상태
+                    button.setBackgroundResource(R.drawable.for_button_modi);
+                    button.setText("팔로잉");
+                    button.setTextColor(Color.BLACK);
+                } else {
+                    button.setBackgroundResource(R.drawable.unfoll_button);
+                    button.setText("팔로우");
+                    button.setTextColor(Color.WHITE);
+                }
             }
+
 
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
