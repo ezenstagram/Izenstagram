@@ -32,11 +32,8 @@ public class PostImgAapter extends RecyclerView.Adapter<PostImgAapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
-//        Glide.with(viewHolder.itemView.getContext())
-//                .load(postImageList.get(position).getImage_url())
-//                .into(viewHolder.coreImg);
         Glide.with(viewHolder.itemView.getContext())
-                .load(R.drawable.like)
+                .load(postImageList.get(position).getImage_url())
                 .into(viewHolder.coreImg);
     }
 
