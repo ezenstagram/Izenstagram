@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -66,7 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         frameLayout = findViewById(R.id.frame_layout);
-
+        //액션바 없애주는 코드
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+        //setContentView(R.layout.activity_upload);
         SharedPreferences pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
         user_id = pref.getInt("user_id", 0);
         if (user_id == 0) {
