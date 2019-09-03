@@ -6,7 +6,7 @@ public class CommentsDTO {
 	private int comment_id; // 댓글번호
 	private String comment_cmt; // 댓글내용
 	private String reg_date; // 작성일자
-
+    private UserDTO userDTO; //댓글 쓴 유저 정보 
 	public int getPost_id() {
 		return post_id;
 	}
@@ -46,4 +46,14 @@ public class CommentsDTO {
 	public void setReg_date(String reg_date) {
 		this.reg_date = reg_date;
 	}
+
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+	
+	
 }

@@ -59,7 +59,14 @@ public class FeedService {
 
 	// 게시글 하나에 해당되는 댓글데이터 출력
 	public List<CommentsDTO> cmtList(int post_id) {
-		return feedDAO.cmtList(post_id);
+		List<CommentsDTO> cmtList = feedDAO.getCmtData(post_id); // 한 게시글에 해당하는 댓글 목록
+		for (int i = 0; i < cmtList.size(); i++) {
+			UserDTO userDTO = userDAO.user_profile(cmtList.get(i).getUser_id());
+			userDTO.setProfile_photo("http://192.168.0.13:8080/image/storage/" + userDTO.getProfile_photo());
+			cmtList.get(i).setUserDTO(userDTO);
+		}
+
+		return cmtList;
 	}
 
 	// 댓글삭제
@@ -115,10 +122,20 @@ public class FeedService {
 		return imglist;
 	}
 
-	// 댓글 데이터 뽑아오기
-	public List<CommentsDTO> getCmtData(int post_id) {
-		return feedDAO.getCmtData(post_id);
-	}
+//	// 댓글 데이터 뽑아오기
+//	public List<CommentsDTO> getCmtData(int post_id) {
+//
+//		List<CommentsDTO> cmtList = feedDAO.getCmtData(post_id); // 한 게시글에 해당하는 댓글 목록
+//		for (int i = 0; i < cmtList.size(); i++) {
+//			UserDTO userDTO = userDAO.user_profile(cmtList.get(i).getUser_id());
+//		
+//			userDTO.setProfile_photo("http://192.168.0.13:8080/image/storage/" + userDTO.getProfile_photo());
+//			System.out.println(userDTO.getProfile_photo());
+//			cmtList.get(i).setUserDTO(userDTO);
+//		}
+//
+//		return cmtList;
+//	}
 
 	// 좋아요 갯수 세기
 	public int cntLikes(int post_id) {

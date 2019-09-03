@@ -1,6 +1,5 @@
 package com.example.izenstargram.feed;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,12 +7,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import com.example.izenstargram.R;
 import com.example.izenstargram.feed.adapter.FeedAdapter;
 import com.example.izenstargram.feed.model.PostAll;
@@ -22,39 +19,31 @@ import com.example.izenstargram.profile.UserDTO;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import cz.msebera.android.httpclient.Header;
 
-
 public class ListFragment extends Fragment {
-    Activity activity = getActivity();
-    String url = "http://192.168.0.62:8080/project/feedPostList.do";
+    Activity activity;
+    String url = "http://192.168.0.5:8080/project/feedPostList.do";
     AsyncHttpClient client;
     HttpResponse response;
     private RecyclerView recyclerView;
     private FeedAdapter adapter;
     private ArrayList<PostAll> feedPostList = new ArrayList<>();
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "onCreate(@Nullable Bundle savedInstanceState) 함수 시작");
         super.onCreate(savedInstanceState);
-        Log.d("[INFO]", "onCreate(@Nullable Bundle savedInstanceState) 함수 끝");
     }
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "onCreateView 함수 시작");
-
+        activity = getActivity();
         View view = inflater.inflate(R.layout.list_layout, container, false); // attachToRoot는 일단 false로..
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -65,9 +54,6 @@ public class ListFragment extends Fragment {
 
         return view;
     }
-
-
-
 
     @Override
     public void onResume() {
@@ -88,13 +74,13 @@ public class ListFragment extends Fragment {
     }
 
 
+
+
     class HttpResponse extends AsyncHttpResponseHandler{
-        Activity activity =getActivity();
+        Activity activity;
 
         public HttpResponse(Activity activity) {
-            Log.d("[INFO]", "HttpResponse(Activity activity) 생성자 시작");
             this.activity  = activity;
-            Log.d("[INFO]", "HttpResponse(Activity activity) 생성자 끝");
         }
 
 
@@ -142,7 +128,6 @@ public class ListFragment extends Fragment {
                     userDTO.setEmail(tempUserDTO.getString("email"));
                     userDTO.setGender(tempUserDTO.getString("gender"));
 
-                   // postAll.setUserDTO(tempUserDTO);
                     postAll.setPostImageList(imgList);
                     postAll.setUserDTO(userDTO);
                     feedPostList.add(postAll);
@@ -150,7 +135,6 @@ public class ListFragment extends Fragment {
                     //adapter의 데이터가 바뀔때마다
                     adapter.setItems(feedPostList);
                     adapter.notifyDataSetChanged();
-                  //  Log.d("[INFO]", "url출력" + postAll.getPostImageList().get(0).getImage_url());
                 }
 
             } catch (JSONException e) {

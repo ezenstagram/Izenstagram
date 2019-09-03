@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.example.izenstargram.R;
-import com.example.izenstargram.feed.Interface.IItemClickListener;
 import com.example.izenstargram.feed.model.PostImage;
 
 import java.util.List;
@@ -46,11 +45,6 @@ public class PostImgAapter extends RecyclerView.Adapter<PostImgAapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
        ImageView coreImg;
-       IItemClickListener itemClickListener;
-
-        public void  setItemClickListener(IItemClickListener itemClickListener){
-           this.itemClickListener = itemClickListener;
-        }
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -1,12 +1,16 @@
 package com.example.izenstargram.feed.model;
 
-public class Comments {
+import com.example.izenstargram.profile.UserDTO;
+
+import java.io.Serializable;
+
+public class Comments implements Serializable {
     private int  post_id;         //게시물 번호
     private int  user_id;         //유저아이디
     private int  comment_id;      //댓글번호
     private String comment_cmt;   //댓글내용
     private String reg_date;      //작성일자
-
+    private UserDTO userDTO; //댓글 쓴 유저 정보
     public int getPost_id() {
         return post_id;
     }
@@ -45,5 +49,13 @@ public class Comments {
 
     public void setReg_date(String reg_date) {
         this.reg_date = reg_date;
+    }
+
+    public UserDTO getUserDTO() {
+        return userDTO;
+    }
+
+    public void setUserDTO(UserDTO userDTO) {
+        this.userDTO = userDTO;
     }
 }

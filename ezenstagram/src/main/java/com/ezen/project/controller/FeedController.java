@@ -134,17 +134,17 @@ public class FeedController {
 		return mv;
 	}
 
-	@RequestMapping(value = "getCmtData.do")
-	public ModelAndView getCmtData(HttpServletRequest request) throws Exception {
-		int post_id = Integer.parseInt(request.getParameter("post_id"));
-
-		CommentsDTO commentsDTO = new CommentsDTO();
-		commentsDTO.setPost_id(post_id);
-		List<CommentsDTO> commentList = feedService.getCmtData(post_id);
-		ModelAndView mv = new ModelAndView("jsonView");
-		mv.addObject("data", commentList);
-		return mv;
-	}
+//	@RequestMapping(value = "getCmtData.do")
+//	public ModelAndView getCmtData(HttpServletRequest request) throws Exception {
+//		int post_id = Integer.parseInt(request.getParameter("post_id"));
+//
+//		CommentsDTO commentsDTO = new CommentsDTO();
+//		commentsDTO.setPost_id(post_id);
+//		List<CommentsDTO> commentList = feedService.getCmtData(post_id);
+//		ModelAndView mv = new ModelAndView("jsonView");
+//		mv.addObject("data", commentList);
+//		return mv;
+//	}
 
 	@RequestMapping(value = "cntLikes.do")
 	public ModelAndView cntLikes(HttpServletRequest request) throws Exception {

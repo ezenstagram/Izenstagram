@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".feed.CommentsActivity"/>
         <activity android:name=".profile.ProfileGalleryActivity" />
         <activity android:name=".profile.ProfileCameraImageActivity" />
         <activity android:name=".profile.ProfileCameraActivity" />

@@ -1,23 +1,30 @@
 package com.example.izenstargram.feed.adapter;
 
-
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
 import com.bumptech.glide.Glide;
 import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
+import com.example.izenstargram.feed.CommentsActivity;
+import com.example.izenstargram.feed.model.Comments;
 import com.example.izenstargram.feed.model.PostAll;
 import com.example.izenstargram.feed.model.PostImage;
+import com.example.izenstargram.profile.ProfileFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -31,27 +38,30 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
-    MainActivity mainActivity = new MainActivity();
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
+
     int user_id;
     AsyncHttpClient client;
     HttpResponse response; //좋아요 유무 확인용, response 는 0 혹은 1
     FeedLikeResponse feedLikeResponse; //좋아요 데이터 저장 혹은 삭제용 response
+
     ArrayList<PostAll> feedPostList; //itemGroup
-    Context context;
-    String url = "http://192.168.0.62:8080/project/chkLikes.do";
-    String url_like_save = "http://192.168.0.62:8080/project/saveLikes.do";
-    String url_like_delete = "http://192.168.0.62:8080/project/delLikes.do";
+    private ArrayList<Comments> commentList = new ArrayList<>();
+    Activity activity;
+    String url = "http://192.168.0.5:8080/project/chkLikes.do";
+    String url_like_save = "http://192.168.0.5:8080/project/saveLikes.do";
+    String url_like_delete = "http://192.168.0.5:8080/project/delLikes.do";
 
     int mode = 0;
     public void setItems(List<PostAll> feedPostList) {
         this.feedPostList = (ArrayList<PostAll>) feedPostList;
     }
 
-    public FeedAdapter(ArrayList<PostAll> feedPostList, Context context, int user_id) {
+    public FeedAdapter(ArrayList<PostAll> feedPostList, Activity activity, int user_id) {
         this.feedPostList = feedPostList;
-        this.context = context;
+        this.activity = activity;
         this.user_id = user_id;
+
     }
 
 
@@ -61,7 +71,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
         ViewHolder viewHolder = new ViewHolder(view);
         client = new AsyncHttpClient();
         feedLikeResponse = new FeedLikeResponse(viewHolder, mode);
-
         return viewHolder;
     }
 
@@ -80,16 +89,31 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
         viewHolder.feed_login_id.setText(feedPostList.get(position).getUserDTO().getLogin_id()); //글쓴사람
         Glide.with(viewHolder.itemView.getContext())
                 .load(feedPostList.get(position).getUserDTO().getProfile_photo())
+                .asBitmap()
                 .into(viewHolder.feed_profile_Img);
 
 
 
-        List<PostImage> postImageList = feedPostList.get(position).getPostImageList();   // 게시글은 현재 1개
-        final PostImgAapter imgItemAdapter = new PostImgAapter(context, postImageList);
+        final List<PostImage> postImageList = feedPostList.get(position).getPostImageList();   // 게시글은 현재 1개
+        final PostImgAapter imgItemAdapter = new PostImgAapter(activity, postImageList);
         viewHolder.recyclerView_img_item.setHasFixedSize(true);
-        viewHolder.recyclerView_img_item.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        viewHolder.recyclerView_img_item.setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
         viewHolder.recyclerView_img_item.setAdapter(imgItemAdapter);
         viewHolder.recyclerView_img_item.setNestedScrollingEnabled(false);
+
+        /* 프로필 클릭시 이동 */
+        viewHolder.feed_login_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ProfileFragment fragment = new ProfileFragment();
+                Bundle bundle = new Bundle(1);
+                bundle.putInt("user_id",feedPostList.get(position).getUser_id());
+                fragment.setArguments(bundle);
+
+                ((MainActivity)activity).replaceFragment(R.id.frame_layout, fragment, "list");
+            }
+        });
 
 
         /* 피드 좋아요 버튼 꾸욱 */
@@ -100,6 +124,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
                 RequestParams params = new RequestParams();
                 params.put("post_id", feedPostList.get(position).getPost_id());
                 params.put("user_id", user_id);
+
                 response = new HttpResponse(viewHolder.heart_btn, position); //*IMPORTANT//
                 client.post(url, params, response);
             }
@@ -109,20 +134,41 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
         viewHolder.cmt_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("댓글기능 구현 시작");
+                Intent intent = new Intent(activity, CommentsActivity.class);
+                intent.putExtra("post_id",  feedPostList.get(position).getPost_id());
+                intent.putExtra("user_id", user_id);
+                activity.startActivity(intent);
+            }
+        });
+
+        /* 댓글 입력 기능 */
+        viewHolder.insert_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String comment = String.valueOf(viewHolder.insert_comment.getText());
+                Log.d("[INFO]", comment + "라는 내용을 입력하셨습니다. ");
+                RequestParams params = new RequestParams();
+                Comments comments = new Comments();
+                comments.setPost_id(feedPostList.get(position).getPost_id());
+                comments.setComment_cmt(comment);
+                comments.setUser_id(user_id);
+                params.put("post_id", comments.getPost_id());
+                params.put("user_id", comments.getUser_id());
+                params.put("comment_cmt", comments.getComment_cmt());
 
             }
         });
 
-
     }
+
+
 
     @Override
     public int getItemCount() {
 
         return (feedPostList != null ? feedPostList.size() : 0);
     }
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         CircleImageView feed_profile_Img; //프로필이미지
@@ -133,6 +179,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
         TextView feed_txt_comment; //댓글내용
         ToggleButton heart_btn;
         ImageView cmt_btn;
+        EditText insert_comment;
 
         @SuppressLint("ResourceType")
         public ViewHolder(View itemView) {
@@ -147,10 +194,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
             feed_cnt_likes = itemView.findViewById(R.id.feed_cnt_likes);
             feed_txt_content = itemView.findViewById(R.id.feed_txt_content);
             feed_txt_comment = itemView.findViewById(R.id.feed_txt_comment);
-
+            insert_comment = itemView.findViewById(R.id.insert_comment);
         }
     }
-
 
     class HttpResponse extends AsyncHttpResponseHandler{
         ToggleButton heart_btn;
@@ -189,7 +235,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder>  {
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            Toast.makeText(context, "좋아요 데이터 검사 실패", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "좋아요 데이터 검사 실패", Toast.LENGTH_SHORT).show();
         }
     }
+
+
 }
