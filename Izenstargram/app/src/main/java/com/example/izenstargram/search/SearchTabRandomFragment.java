@@ -80,7 +80,7 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
         PostImageDTO item = adapter.getItem(position);
         int post_id = item.getPost_id();
-        Log.d("[INFO]", "SearchTabRandomFragment : post_id = " + post_id);
+        //Log.d("[INFO]", "SearchTabRandomFragment : post_id = " + post_id);
         Fragment fragment = new SearchRandomClickFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("post_id", post_id);
@@ -118,7 +118,6 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             //Log.d("[INFO]", "TabRandomFragment : onFailure() 진입" + statusCode);
-            //Toast.makeText(getContext(), "Tab user 연결실패", Toast.LENGTH_SHORT).show();
         }
     }
 

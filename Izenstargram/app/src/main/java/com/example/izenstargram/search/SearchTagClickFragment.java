@@ -59,7 +59,7 @@ public class SearchTagClickFragment extends Fragment implements AdapterView.OnIt
             tag_id = getArguments().getInt("tag_id", 0);
             tag_name = getArguments().getString("tag_name");
         }
-        Log.d("[INFO]", "SearchTagClickFrag: user_id = " + user_id);
+        //Log.d("[INFO]", "SearchTagClickFrag: user_id = " + user_id);
         list = new ArrayList<>();
         adapter = new SearchTagClickAdapter(getActivity(), R.layout.search_gridview_item_2, list);
         gridView = view.findViewById(R.id.gridViewForSearchTagClick);
@@ -77,7 +77,7 @@ public class SearchTagClickFragment extends Fragment implements AdapterView.OnIt
         super.onResume();
         adapter.clear();    // List의 데이터 삭제
         RequestParams params = new RequestParams();
-        Log.d("[INFO]", "새로 만든 SearchTagClickAdapter : tag_id = " + tag_id);
+        //Log.d("[INFO]", "새로 만든 SearchTagClickAdapter : tag_id = " + tag_id);
         params.put("tag_id", tag_id);
         client.post(url, params, response);
     }
@@ -92,7 +92,7 @@ public class SearchTagClickFragment extends Fragment implements AdapterView.OnIt
 
         PostImageDTO item = adapter.getItem(position);
         int post_id = item.getPost_id();
-        Log.d("[INFO]", "SearchTagClickFragment : post_id = " + post_id);
+        //Log.d("[INFO]", "SearchTagClickFragment : post_id = " + post_id);
         Fragment fragment = new SearchTagClickClickFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("post_id", post_id);
@@ -118,7 +118,7 @@ public class SearchTagClickFragment extends Fragment implements AdapterView.OnIt
                     PostImageDTO postImageDTO = new PostImageDTO();
                     postImageDTO.setPost_id(temp.getInt("post_id"));
                     postImageDTO.setImage_url(temp.getString("image_url"));
-                    Log.d("[INFO]", "TabTagClickFragment : image_url = " + temp.getString("image_url"));
+                    //Log.d("[INFO]", "TabTagClickFragment : image_url = " + temp.getString("image_url"));
                     adapter.add(postImageDTO);
                 }
             } catch (JSONException e) {
@@ -132,5 +132,4 @@ public class SearchTagClickFragment extends Fragment implements AdapterView.OnIt
             //Toast.makeText(getContext(), "Tab user 연결실패", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

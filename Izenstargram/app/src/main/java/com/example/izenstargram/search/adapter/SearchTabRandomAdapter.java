@@ -40,7 +40,8 @@ public class SearchTabRandomAdapter extends ArrayAdapter<PostImageDTO> {
         DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
         builder.showImageOnLoading(R.drawable.ic_stub);
         builder.showImageForEmptyUri(R.drawable.ic_empty);
-        builder.showImageOnFail(R.drawable.ic_error);
+        //builder.showImageOnFail(R.drawable.ic_error);
+        builder.showImageOnFail(R.drawable.icon_main);
         options = builder.build();
     }
 
@@ -57,7 +58,7 @@ public class SearchTabRandomAdapter extends ArrayAdapter<PostImageDTO> {
                 ImageView imageView = convertView.findViewById(R.id.imageViewSearchGrid);
                 convertView.setLayoutParams(new GridView.LayoutParams(360, 360));
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                Log.d("[INFO]", "새로 만든 SearchTabRandomAdapter : item.getImage_url() = " + item.getImage_url());
+                //Log.d("[INFO]", "새로 만든 SearchTabRandomAdapter : item.getImage_url() = " + item.getImage_url());
                 item.getPost_id();
                 ImageLoader.getInstance().displayImage(item.getImage_url(), imageView, options);
 

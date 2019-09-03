@@ -50,12 +50,11 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
     ArrayList<AllTagDTO> tagNameList = new ArrayList<>();
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_tab_tag_layout, container, false);
-//View viewSearchFrag = inflater.inflate(R.layout.search_layout, container, false); (작동됨)
+        //View viewSearchFrag = inflater.inflate(R.layout.search_layout, container, false); (작동됨)
         //View viewSearchFrag = getLayoutInflater().inflate(R.layout.search_layout, null); //(작동됨)
         activity = getActivity();
         list = new ArrayList<>();
@@ -78,7 +77,7 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
         adapter.clear();    // List의 데이터 삭제
         letter_to_search = SearchFragment.letter_to_search;
         RequestParams params = new RequestParams();
-        Log.d("[INFO]", "onResume : letter_to_search= " + letter_to_search);
+        //Log.d("[INFO]", "onResume : letter_to_search= " + letter_to_search);
         params.put("letter_to_search", letter_to_search);
         client.post(url, params, response);
 
@@ -97,8 +96,8 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
         //Log.d("[INFO]", "TabTagFragment : onItemClick() : position=" + position);
         int tag_id = item.getTag_id();
         String tag_name = item.getTag_name();
-        Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_id=" + tag_id);
-        Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_name=" + tag_name);
+        //Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_id=" + tag_id);
+        //Log.d("[INFO]", "TabTagFragment : onItemClick() : tag_name=" + tag_name);
         Fragment fragment = new SearchTagClickFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("tag_id", tag_id);
@@ -108,18 +107,15 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
 
     }
 
-
     class HttpResponse extends AsyncHttpResponseHandler {
         Activity activity = getActivity();
 
         public HttpResponse(Activity activity) {
-            Log.d("[INFO]", "TabTagFragment : HttpResponse() ");
             this.activity = activity;
         }
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-            Log.d("[INFO]", "TabTagFragment : onSuccess() 실행");
             String strJson = new String(responseBody);
             try {
                 JSONObject json = new JSONObject(strJson);
@@ -136,15 +132,11 @@ public class SearchTabTagFragment extends Fragment implements AdapterView.OnItem
                 Toast.makeText(getContext(), "실패", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
             // Log.d("[INFO]", "TabTagFragment : onFailure() 진입" + statusCode);
-            //Toast.makeText(getContext(), "Tab Tag 연결실패", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 }

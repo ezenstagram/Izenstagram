@@ -146,11 +146,20 @@ public class TagService {
   
   
 
-  // (확인용) 게시글에 @login_id 태그시 해당하는 user_id 찾아오기
+  // (확인용) 게시글에 @login_id 태그시 해당하는 user_id 찾아오기 ---------박제용
   // public int findUserIdByLoginId(String login_id) {
   public Integer findUserIdByLoginId(String login_id) {
+ 
     return tagDAO.findUserIdByLoginId(login_id);
   }
+  
+  
+  
+  
+  
+  
+  
+  
 
   // (@게시글 업로드시) 게시글 post_id에 유저태그 user_id 포함시키기
   public int insertUserTag(int post_id, int user_id) {

@@ -37,7 +37,7 @@ public class SearchTabTagAdapter extends ArrayAdapter<AllTagDTO> {
         if (item != null) {
             TextView textView = convertView.findViewById(R.id.textViewTagName);
 
-            item.getTag_id();////////////
+            item.getTag_id();
             textView.setText("#" + item.getTag_name());
 
 
