@@ -144,46 +144,40 @@ public class SearchRandomClickFragment extends Fragment {
 
 
 
-
-                Map<String, Fragment> clickStrMap = new HashMap<>();
-                String str = postOne.getContent();
-                Log.d("[INFO]", "SearchRandomClickFrag : postOne_getContent() = " + postOne.getContent());
-//                // 유저 태그가 있는지 없는지 검사
-//                List<String> strListForUser = SpannableStringMaker.getInstance(activity).getUserTagList(str);
-//                for (String userTagList : strListForUser) {
-//                    SearchUserClickFragment fragment = new SearchUserClickFragment();
-//                    clickStrMap.put(userTagList, fragment);
+//
+//                Map<String, Fragment> clickStrMap = new HashMap<>();
+//                String str = postOne.getContent();
+//                Log.d("[INFO]", "SearchRandomClickFrag : postOne_getContent() = " + postOne.getContent());
+////                // 유저 태그가 있는지 없는지 검사
+////                List<String> strListForUser = SpannableStringMaker.getInstance(activity).getUserTagList(str);
+////                for (String userTagList : strListForUser) {
+////                    SearchUserClickFragment fragment = new SearchUserClickFragment();
+////                    clickStrMap.put(userTagList, fragment);
+////                }
+////                // 링크걸어진 text 작성
+////                feed_txt_content.setText(SpannableStringMaker.getInstance(activity).makeSpannableString(str, clickStrMap, "search"));
+////                feed_txt_content.setMovementMethod(LinkMovementMethod.getInstance());
+//
+//                // 해시 태그가 있는지 없는지 검사
+//                List<String> strListForTag = SpannableStringMaker.getInstance(activity).getHashTagList(str);
+//                for (String hashTagList : strListForTag) {  // 링크달기
+//                    //SearchUserClickFragment fragment = new SearchUserClickFragment();
+//                    //clickStrMap.put(hashTagList, fragment);
+//                    Fragment newNew = clickStrMap.get(hashTagList);
 //                }
-//                // 링크걸어진 text 작성
+//
 //                feed_txt_content.setText(SpannableStringMaker.getInstance(activity).makeSpannableString(str, clickStrMap, "search"));
 //                feed_txt_content.setMovementMethod(LinkMovementMethod.getInstance());
-
-                // 해시 태그가 있는지 없는지 검사
-                List<String> strListForTag = SpannableStringMaker.getInstance(activity).getHashTagList(str);
-                for (String hashTagList : strListForTag) {  // 링크달기
-                    //SearchUserClickFragment fragment = new SearchUserClickFragment();
-                    //clickStrMap.put(hashTagList, fragment);
-                    Fragment newNew = clickStrMap.get(hashTagList);
-                }
-
-
-
-
-                출처: https://mainia.tistory.com/2237 [녹두장군 - 상상을 현실로]
-                feed_txt_content.setText(SpannableStringMaker.getInstance(activity).makeSpannableString(str, clickStrMap, "search"));
-                feed_txt_content.setMovementMethod(LinkMovementMethod.getInstance());
+//
+//
+//
 
 
 
 
 
 
-
-
-
-
-
-                //feed_txt_content.setText(postOne.getContent());
+                feed_txt_content.setText(postOne.getContent());
                 feed_txt_comment.setText("댓글" + postOne.getComment_cnt() + "개 모두 보기");
                 Glide.with(getActivity())
                         .load(postOne.getUserDTO().getProfile_photo())
