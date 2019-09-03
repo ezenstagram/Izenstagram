@@ -49,7 +49,7 @@ public class GalleryFragment extends Fragment  {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_gallery, container, false); // attachToRoot는 일단 false로..
         textView = view.findViewById(R.id.textView);
         recyclerView = view.findViewById(R.id.recyclerView);

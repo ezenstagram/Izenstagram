@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
@@ -41,7 +42,7 @@ public class JoinFirstActivity extends AppCompatActivity implements View.OnClick
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.62:8080/project/InfoPresence.do";
+    String URL = "http://192.168.0.32:8080/project/InfoPresence.do";
 
     String email;
 
@@ -73,6 +74,9 @@ public class JoinFirstActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_join_first);
         client = new AsyncHttpClient();
         response = new HttpResponse(this);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         tabHost = findViewById(R.id.taphost);
         tabHost.setup();

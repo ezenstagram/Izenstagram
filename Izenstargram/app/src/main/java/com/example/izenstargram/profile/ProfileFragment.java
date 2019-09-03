@@ -66,16 +66,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     AsyncHttpClient client;
     ProfileInfoResponse profileInfoResponse;
-    String profileInfoURL = "http://192.168.0.62:8080/project/profileInfo.do";
+    String profileInfoURL = "http://192.168.0.32:8080/project/profileInfo.do";
 
     UserInfoResponse userInfoResponse;
-    String userInfoURL = "http://192.168.0.62:8080/project/user_profileInfo.do";
+    String userInfoURL = "http://192.168.0.32:8080/project/user_profileInfo.do";
 
     FollowResponse followResponse;
-    String followURL = "http://192.168.0.62:8080/project/follow.do";
+    String followURL = "http://192.168.0.32:8080/project/follow.do";
 
     FollowRelaResponse followRelaResponse;
-    String followRealURL = "http://192.168.0.62:8080/project/followReal.do";
+    String followRealURL = "http://192.168.0.32:8080/project/followReal.do";
     ImageLoader imageLoader;
     DisplayImageOptions options;
 
@@ -97,7 +97,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         SharedPreferences pref = getActivity().getSharedPreferences("CONFIG", MODE_PRIVATE);
         user_id_owner = pref.getInt("user_id", 0);
 
-        //bundle = new Bundle();
         user_id = getArguments().getInt("user_id", 0);
 
         linearLayoutFriend =  (LinearLayout) view.findViewById(R.id.linearLayoutFriend);
@@ -251,13 +250,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Bundle bundle1 = new Bundle(3);
+        Bundle bundle1 = new Bundle(5);
         bundle1.putInt("user_id", user_id);
         bundle1.putString("login_id", textViewLogin_id1.getText().toString());
-//        bundle1.putString("following", textViewFollowing.getText().toString());
-//        bundle1.putString("follower", textViewFollower.getText().toString());
-        FollowListFragment.following = textViewFollowing.getText().toString();
-        FollowListFragment.follower = textViewFollower.getText().toString();
+        bundle1.putString("following", textViewFollowing.getText().toString());
+        bundle1.putString("follower", textViewFollower.getText().toString());
         switch (v.getId()) {
             case R.id.buttonFollowing:
                 RequestParams params = new RequestParams();

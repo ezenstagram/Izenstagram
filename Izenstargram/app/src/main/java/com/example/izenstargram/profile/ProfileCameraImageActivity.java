@@ -9,41 +9,48 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.izenstargram.R;
 import com.example.izenstargram.upload.CameraFragment;
 import com.example.izenstargram.upload.UploadActivity;
 import com.example.izenstargram.upload.WriteActivity;
 
-public class ProfileCameraImageActivity extends AppCompatActivity {
+public class ProfileCameraImageActivity extends AppCompatActivity implements View.OnClickListener {
     Bitmap adjustedBitmap;
     String photoPath;
+    int sepa;
+    TextView textViewOK, textViewCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_camera_image);
 
-        //뒤로가기 버튼 액션바에 추가하기
-        ActionBar actionBar = getSupportActionBar();
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
         Intent intent = getIntent();
         photoPath = intent.getStringExtra("strParamName");
+        sepa = intent.getIntExtra("sepa", 0);
+
+        textViewOK = findViewById(R.id.textViewOK);
+        textViewCancel = findViewById(R.id.textViewCancel);
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
         Bitmap bmp = BitmapFactory.decodeFile(photoPath, options);
 
         Matrix matrix = new Matrix();
-        matrix.preRotate(90);
+        if(sepa == 0) {
+            matrix.preRotate(90);
+       }
         adjustedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
-
 
         ImageView img = (ImageView) findViewById(R.id.img);
         img.setImageBitmap(adjustedBitmap);
+
+        textViewOK.setOnClickListener(this);
+        textViewCancel.setOnClickListener(this);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,15 +62,28 @@ public class ProfileCameraImageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_btn1:
-                Intent intent = new Intent();
-                intent.putExtra("photoPath",photoPath);
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
+
             case R.id.home:
                finish();
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.textViewOK:
+                Intent intent = new Intent();
+                intent.putExtra("photoPath",photoPath);
+
+                setResult(RESULT_OK, intent);
+                finish();
+                break;
+            case R.id.textViewCancel:
+                finish();
+            default:
+                break;
         }
     }
 }

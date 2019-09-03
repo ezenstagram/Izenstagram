@@ -27,7 +27,6 @@ public class GMailSender extends  javax.mail.Authenticator {
 
     public GMailSender(String user, String password)
     {
-        Log.d("[In", "진입?");
         this.user = user;
         this.password = password;
 
