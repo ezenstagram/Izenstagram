@@ -23,6 +23,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder>  {
     Activity activity;
     List<Comments> commentsList;
+    int comment_position;
 
     public CommentAdapter(Activity activity, ArrayList<Comments> commentList) {
         this.activity = activity;
@@ -32,6 +33,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public void setItems(List<Comments> commentsList) {
         this.commentsList =  commentsList;
     }
+
 
     @NonNull
     @Override
@@ -53,12 +55,17 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                 .load(commentsList.get(position).getUserDTO().getProfile_photo())
                 .asBitmap()
                 .into(viewHolder.cmt_profile_img);
+       comment_position = viewHolder.getAdapterPosition();
 
     }
 
     @Override
     public int getItemCount() {
         return (commentsList != null ? commentsList.size() : 0);
+    }
+
+    public void notifyItemInserted(ArrayList<Comments> commentList) {
+        this.commentsList = commentList;
     }
 
 

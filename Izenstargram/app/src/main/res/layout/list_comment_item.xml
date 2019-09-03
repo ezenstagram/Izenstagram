@@ -13,8 +13,8 @@
         />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="2dp"
@@ -24,30 +24,36 @@
         <!-- 인스타 아이디 + 댓글  -->
         <TextView
             android:id="@+id/cmt_profile_id"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="2dp"
             android:text="인스티 아이디 + 댓글 입력란" />
 
 
         <TextView
             android:id="@+id/cmt_reg_date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_below="@id/cmt_profile_id"
             android:text="작성일지 입니다." />
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@mipmap/ic_launcher_round"
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="8dp"/>
 
     </RelativeLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="25dp">
 
+        <ToggleButton
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/likes"
+            android:textOff=""
+            android:textOn=""/>
+    </LinearLayout>
 
 </RelativeLayout>
