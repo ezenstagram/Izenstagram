@@ -1,12 +1,10 @@
 package com.ezen.project.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.project.bean.FollowList;
-import com.ezen.project.bean.PostImageDTO;
 import com.ezen.project.bean.UserDTO;
 import com.ezen.project.service.NotifiInfoService;
 import com.ezen.project.service.PostService;
@@ -25,8 +22,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private PostService postService;
+	
 	@Autowired
     private NotifiInfoService notifiInfoService;
 	
@@ -282,7 +278,11 @@ public class UserController {
 		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner"));
 		int sign = Integer.parseInt(request.getParameter("sign"));	// sign�씠 0�씠硫� �뙏濡쒖슦, sing�씠 1�씠硫� �뙏濡쒖슦 痍⑥냼
 		int result = userService.follow(user_id, user_id_owner, sign);
-		notifiInfoService.insert(3, user_id_owner, user_id_owner, null);
+		if(sign == 0) {
+		  notifiInfoService.insert(3, user_id, user_id_owner, null);
+        } else {
+          notifiInfoService.delete(3, user_id, user_id_owner, null);
+        }
 		mv.addObject("result", result);
 		mv.addObject("sign", sign);
 		return mv;

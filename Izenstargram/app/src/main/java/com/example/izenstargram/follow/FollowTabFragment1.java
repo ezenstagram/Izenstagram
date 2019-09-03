@@ -46,7 +46,7 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
     FollowAdapter1 adapter1;
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.62:8080/project/followerList.do";
+    String URL = "http://192.168.0.32:8080/project/followerList.do";
     PullRefreshLayout loading;
 
     Button buttonOrder;

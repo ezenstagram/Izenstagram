@@ -2,6 +2,7 @@ package com.example.izenstargram.login;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences pref = getSharedPreferences("CONFIG", MODE_PRIVATE);
         int id = pref.getInt("user_id", 0);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         if(id != 0){
             // 로그인이 되어 있으면 main 화면으로

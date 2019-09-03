@@ -23,6 +23,7 @@ public class FollowTabAPagerdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
         Bundle bundle1 = new Bundle(4);
         bundle1.putInt("user_id", user_id);
+
         switch (i) {
             case 0:
                 followFragment1.setArguments(bundle1);

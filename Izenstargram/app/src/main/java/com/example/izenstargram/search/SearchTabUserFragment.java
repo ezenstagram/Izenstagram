@@ -1,7 +1,9 @@
 package com.example.izenstargram.search;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,7 +19,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
+import com.example.izenstargram.profile.ProfileFragment;
 import com.example.izenstargram.profile.UserDTO;
 import com.example.izenstargram.search.adapter.SearchTabUserAdapter;
 import com.loopj.android.http.AsyncHttpClient;
@@ -44,14 +48,22 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
     List<UserDTO> list;
     SearchTabUserAdapter adapter;
     ListView listView;
-    Activity activity = getActivity();
+    Activity activity;
     ArrayList<UserDTO> userNameList = new ArrayList<>();
+
+   int user_id;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Log.d("[INFO]", "TabUserFragment : onCreateView() 실행");
         View view = inflater.inflate(R.layout.search_tab_user_layout, container, false);
+        activity = getActivity();
+
+       // SharedPreferences pref = getActivity().getSharedPreferences("CONFIG", Context.MODE_PRIVATE);
+        //user_id = pref.getInt("user_id", 0);
+
+        Log.d("[INFO]", "SearchTabUserFrag : user_id=" + user_id);
         //View viewSearchFrag = inflater.inflate(R.layout.search_layout, container, false); (작동됨)
         //View viewSearchFrag = getLayoutInflater().inflate(R.layout.search_layout, null); //(작동됨)
         list = new ArrayList<>();
@@ -92,6 +104,14 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
         String login_id = item.getLogin_id();
         Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" + login_id);
 
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle bundle = new Bundle(1);
+        user_id = list.get(position).getUser_id();
+        bundle.putInt("user_id", user_id);
+        Log.d("[INFO]", "TabUserFragment : onItemClick() : user_id=" + user_id);
+       // bundle.putInt("user_id",list.get(position).getUser_id());
+        fragment.setArguments(bundle);
+        ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, fragment, "profile");
 
     }
 
@@ -115,6 +135,9 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
                     UserDTO userDTO = new UserDTO();
                     userDTO.setProfile_photo(temp.getString("profile_photo"));
                     userDTO.setLogin_id(temp.getString("login_id"));
+
+                    userDTO.setUser_id(temp.getInt("user_id"));
+                    user_id = temp.getInt("user_id");
                     adapter.add(userDTO);
                 }
             } catch (JSONException e) {

@@ -27,8 +27,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Locale;
-
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -42,7 +40,7 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
     DisplayImageOptions options;
     HttpResponse response;
     AsyncHttpClient client;
-    String URL = "http://192.168.0.62:8080/project/follow.do";
+    String URL = "http://192.168.0.32:8080/project/follow.do";
     int user_id;
     int sign = 0;
     List<FollowDTO> objects;
@@ -92,7 +90,6 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
             textViewLogin.setText(item.getLogin_id());
             textViewName.setText(item.getName());
 
-            Log.d("[IN", "id="+item.getLogin_id());
             if(!item.getProfile_photo().equals("null")) {
                 String photo = "http://192.168.0.13:8080/image/storage/" +item.getProfile_photo();
                 imageLoader.displayImage(photo, imageView, options);
@@ -112,13 +109,11 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
                     button.setTextColor(Color.WHITE);
                 }
             }
-
-
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     RequestParams params = new RequestParams();
-                    params.put("user_id_owner", user_id);
+                    params.put("user_id_owner", realUser_id);
                     params.put("user_id", item.getUser_id());
                     if(button.getText().toString().equals("팔로우")) {
                         params.put("sign", 0);
@@ -166,7 +161,7 @@ public class FollowAdapter1 extends ArrayAdapter<FollowDTO> {
         }
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            Toast.makeText(activity, "통신 실패1111", Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, "통신 실패", Toast.LENGTH_SHORT).show();
         }
     }
 }

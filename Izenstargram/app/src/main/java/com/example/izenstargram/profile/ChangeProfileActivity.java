@@ -48,7 +48,7 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
 
     AsyncHttpClient client;
     ProfileModiResponse response;
-    String URL = "http://192.168.0.62:8080/project/changeProfile.do";
+    String URL = "http://192.168.0.32:8080/project/changeProfile.do";
     int i=1;
     String photoPath = "";
     int user_id = 0;
@@ -348,6 +348,8 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
             switch (requestCode) {
                 case 100:
                     String photoPath = data.getStringExtra("photoPath");
+                    int sepa = data.getIntExtra("sepa", 0);
+
                     this.photoPath = photoPath;
                     String fileName = photoPath.substring( photoPath.lastIndexOf('/')+1, photoPath.length() );
 
@@ -357,10 +359,12 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
                     Bitmap bmp = BitmapFactory.decodeFile(photoPath, options);
 
                     Matrix matrix = new Matrix();
-                    matrix.preRotate(90);
+                    if(sepa == 0) {
+                        matrix.preRotate(90);
+                    }
                     adjustedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
-
                     imageView.setImageBitmap(adjustedBitmap);
+
                     break;
                 case 102:
                     String login_id = data.getStringExtra("login_id");

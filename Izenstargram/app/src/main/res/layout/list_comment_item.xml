@@ -11,43 +11,43 @@
         android:id="@+id/cmt_profile_img"
         android:padding="50dp"
         />
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="60dp"
-        android:layout_centerVertical="true"
-        >
 
-        <!-- 인스타 아이디 -->
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="2dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp">
+
+        <!-- 인스타 아이디 + 댓글  -->
         <TextView
+            android:id="@+id/cmt_profile_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/cmt_profile_id"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="2dp"
-            android:textStyle="bold"
-            android:text="인스티 아이디 입니다." />
+            android:text="인스티 아이디 + 댓글 입력란" />
 
-        <!-- 인스타 댓글 -->
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cmt_comment"
-            android:layout_marginLeft="10dp"
-            android:text="인스타 댓글입니다. 근데 fragment로 어떻게 넘어가니 ㅡㅡ"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/cmt_reg_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="작성일지 입니다."/>
+            android:layout_below="@id/cmt_profile_id"
+            android:text="작성일지 입니다." />
 
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@mipmap/ic_launcher_round"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>
