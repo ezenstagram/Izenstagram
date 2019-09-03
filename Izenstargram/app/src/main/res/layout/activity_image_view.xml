@@ -21,12 +21,6 @@
             android:scaleType="fitCenter"
             app:srcCompat="@mipmap/ic_launcher_round" />
 
-        <Button
-            android:id="@+id/button_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="뒤로가기" />
-
     </LinearLayout>
 
 </LinearLayout>

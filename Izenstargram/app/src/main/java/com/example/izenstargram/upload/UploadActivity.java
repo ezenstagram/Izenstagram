@@ -29,7 +29,7 @@ public class UploadActivity extends AppCompatActivity {
 
         tabLayout = (TabLayout) findViewById(R.id.tablayout);
         tabLayout.addTab(tabLayout.newTab().setText("갤러리"), 0, true);
-        tabLayout.addTab(tabLayout.newTab().setText("사진"), 1);
+        tabLayout.addTab(tabLayout.newTab().setText("카메라"), 1);
         tabLayout.addTab(tabLayout.newTab().setText("동영상"), 2);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
@@ -41,6 +41,17 @@ public class UploadActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()){
+                    case 0:
+                        toolbar.setTitle("갤러리");
+                        break;
+                    case 1:
+                        toolbar.setTitle("카메라");
+                        break;
+                    case 2:
+                        toolbar.setTitle("동영상");
+                        break;
+                }
             }
 
             @Override
@@ -53,6 +64,8 @@ public class UploadActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
 

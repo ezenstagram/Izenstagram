@@ -151,7 +151,6 @@ public class CameraFragment extends Fragment implements SurfaceHolder.Callback, 
         switch (view.getId()) {
             case R.id.button:
                 camera.takePicture(null, null, jpegCallback);
-
                 break;
         }
     }

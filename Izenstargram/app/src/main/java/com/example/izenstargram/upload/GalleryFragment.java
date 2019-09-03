@@ -107,12 +107,12 @@ public class GalleryFragment extends Fragment  {
         }
 
 
-        textView.setText(pictureCount + " 개");
-        Log.d("MainActivity", "Picture count : " + pictureCount);
-
-        for (PictureInfo info : result) {
-            Log.d("MainActivity", info.toString());
-        }
+//        textView.setText(pictureCount + " 개");
+//        Log.d("MainActivity", "Picture count : " + pictureCount);
+//
+//        for (PictureInfo info : result) {
+//            Log.d("MainActivity", info.toString());
+//        }
 
         return result;
     }
