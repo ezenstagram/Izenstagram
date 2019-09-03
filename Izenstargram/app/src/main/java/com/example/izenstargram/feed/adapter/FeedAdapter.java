@@ -141,24 +141,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             }
         });
 
-        /* 댓글 입력 기능 */
-        viewHolder.insert_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String comment = String.valueOf(viewHolder.insert_comment.getText());
-                Log.d("[INFO]", comment + "라는 내용을 입력하셨습니다. ");
-                RequestParams params = new RequestParams();
-                Comments comments = new Comments();
-                comments.setPost_id(feedPostList.get(position).getPost_id());
-                comments.setComment_cmt(comment);
-                comments.setUser_id(user_id);
-                params.put("post_id", comments.getPost_id());
-                params.put("user_id", comments.getUser_id());
-                params.put("comment_cmt", comments.getComment_cmt());
-
-            }
-        });
 
     }
 
@@ -194,7 +176,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             feed_cnt_likes = itemView.findViewById(R.id.feed_cnt_likes);
             feed_txt_content = itemView.findViewById(R.id.feed_txt_content);
             feed_txt_comment = itemView.findViewById(R.id.feed_txt_comment);
-            insert_comment = itemView.findViewById(R.id.insert_comment);
         }
     }
 
