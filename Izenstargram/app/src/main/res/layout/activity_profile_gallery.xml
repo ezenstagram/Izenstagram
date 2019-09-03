@@ -23,7 +23,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Ezenstargram"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
     </LinearLayout>
 

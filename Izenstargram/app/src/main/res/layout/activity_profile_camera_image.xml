@@ -29,7 +29,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="Ezenstargram"
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/textViewOK"
@@ -38,7 +39,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:gravity="center"
-            android:text="다음"
+            android:text="확인"
             android:textColor="@android:color/holo_blue_dark" />
     </LinearLayout>
 

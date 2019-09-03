@@ -48,9 +48,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     ArrayList<PostAll> feedPostList; //itemGroup
     private ArrayList<Comments> commentList = new ArrayList<>();
     Activity activity;
-    String url = "http://192.168.0.5:8080/project/chkLikes.do";
-    String url_like_save = "http://192.168.0.5:8080/project/saveLikes.do";
-    String url_like_delete = "http://192.168.0.5:8080/project/delLikes.do";
+    String url = "http://192.168.0.32:8080/project/chkLikes.do";
+    String url_like_save = "http://192.168.0.32:8080/project/saveLikes.do";
+    String url_like_delete = "http://192.168.0.32:8080/project/delLikes.do";
 
     int mode = 0;
     public void setItems(List<PostAll> feedPostList) {
@@ -87,11 +87,14 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         viewHolder.feed_txt_comment.setText("댓글 " + feedPostList.get(position).getComment_cnt() + "개 모두 보기"); //댓글총갯수
         viewHolder.feed_txt_content.setText(feedPostList.get(position).getContent()); //댓글내용
         viewHolder.feed_login_id.setText(feedPostList.get(position).getUserDTO().getLogin_id()); //글쓴사람
+//        Glide.with(viewHolder.itemView.getContext())
+//                .load(feedPostList.get(position).getUserDTO().getProfile_photo())
+//                .asBitmap()
+//                .into(viewHolder.feed_profile_Img);
         Glide.with(viewHolder.itemView.getContext())
-                .load(feedPostList.get(position).getUserDTO().getProfile_photo())
+                .load(R.drawable.like)
                 .asBitmap()
                 .into(viewHolder.feed_profile_Img);
-
 
 
         final List<PostImage> postImageList = feedPostList.get(position).getPostImageList();   // 게시글은 현재 1개
