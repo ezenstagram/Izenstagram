@@ -282,7 +282,11 @@ public class UserController {
 		int user_id_owner = Integer.parseInt(request.getParameter("user_id_owner"));
 		int sign = Integer.parseInt(request.getParameter("sign"));	// sign�씠 0�씠硫� �뙏濡쒖슦, sing�씠 1�씠硫� �뙏濡쒖슦 痍⑥냼
 		int result = userService.follow(user_id, user_id_owner, sign);
-		notifiInfoService.insert(3, user_id_owner, user_id_owner, null);
+		if(sign == 0) {
+		  notifiInfoService.insert(3, user_id, user_id_owner, null);
+        } else {
+          notifiInfoService.delete(3, user_id, user_id_owner, null);
+        }
 		mv.addObject("result", result);
 		mv.addObject("sign", sign);
 		return mv;
