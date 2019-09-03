@@ -1,6 +1,8 @@
 package com.example.izenstargram.search;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,12 +53,13 @@ public class SearchTagClickFragment extends Fragment implements AdapterView.OnIt
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_tag_click_layout, container, false);
         activity = getActivity();
+        SharedPreferences pref = getActivity().getSharedPreferences("CONFIG", Context.MODE_PRIVATE);
+        user_id = pref.getInt("user_id", 0);
         if(getArguments() != null) {
             tag_id = getArguments().getInt("tag_id", 0);
             tag_name = getArguments().getString("tag_name");
         }
-        user_id = getArguments().getInt("user_id", 0);
-
+        Log.d("[INFO]", "SearchTagClickFrag: user_id = " + user_id);
         list = new ArrayList<>();
         adapter = new SearchTagClickAdapter(getActivity(), R.layout.search_gridview_item_2, list);
         gridView = view.findViewById(R.id.gridViewForSearchTagClick);

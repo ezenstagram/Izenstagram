@@ -1,10 +1,12 @@
 package com.example.izenstargram.search;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.example.izenstargram.R;
 import com.example.izenstargram.feed.model.PostAll;
 import com.example.izenstargram.feed.model.PostImage;
+import com.example.izenstargram.helper.SpannableStringMaker;
 import com.example.izenstargram.profile.UserDTO;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -26,6 +29,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -47,6 +55,8 @@ public class SearchRandomClickFragment extends Fragment {
     int post_id;
     int user_id;
 
+    Activity activity;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +68,8 @@ public class SearchRandomClickFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("[INFO]", "SearchRandomClickFrag : onCreateView()");
         View view = inflater.inflate(R.layout. listone_item, container, false); // attachToRoot는 일단 false로..
+        activity = getActivity();
+
 
         if(getArguments() != null) {
             post_id = getArguments().getInt("post_id", 0);
@@ -126,10 +138,52 @@ public class SearchRandomClickFragment extends Fragment {
                 postOne.setLikes_cnt(data.getInt("likes_cnt"));
                 postOne.setLike(data.getBoolean("like"));
                 postOne.setUserDTO(userDTO);
-
                 feed_login_id.setText(postOne.getUserDTO().getLogin_id());
                 feed_cnt_likes.setText("좋아요 " + postOne.getLikes_cnt() + "개");
-                feed_txt_content.setText(postOne.getContent());
+
+
+
+
+
+                Map<String, Fragment> clickStrMap = new HashMap<>();
+                String str = postOne.getContent();
+                Log.d("[INFO]", "SearchRandomClickFrag : postOne_getContent() = " + postOne.getContent());
+//                // 유저 태그가 있는지 없는지 검사
+//                List<String> strListForUser = SpannableStringMaker.getInstance(activity).getUserTagList(str);
+//                for (String userTagList : strListForUser) {
+//                    SearchUserClickFragment fragment = new SearchUserClickFragment();
+//                    clickStrMap.put(userTagList, fragment);
+//                }
+//                // 링크걸어진 text 작성
+//                feed_txt_content.setText(SpannableStringMaker.getInstance(activity).makeSpannableString(str, clickStrMap, "search"));
+//                feed_txt_content.setMovementMethod(LinkMovementMethod.getInstance());
+
+                // 해시 태그가 있는지 없는지 검사
+                List<String> strListForTag = SpannableStringMaker.getInstance(activity).getHashTagList(str);
+                for (String hashTagList : strListForTag) {  // 링크달기
+                    //SearchUserClickFragment fragment = new SearchUserClickFragment();
+                    //clickStrMap.put(hashTagList, fragment);
+                    Fragment newNew = clickStrMap.get(hashTagList);
+                }
+
+
+
+
+                출처: https://mainia.tistory.com/2237 [녹두장군 - 상상을 현실로]
+                feed_txt_content.setText(SpannableStringMaker.getInstance(activity).makeSpannableString(str, clickStrMap, "search"));
+                feed_txt_content.setMovementMethod(LinkMovementMethod.getInstance());
+
+
+
+
+
+
+
+
+
+
+
+                //feed_txt_content.setText(postOne.getContent());
                 feed_txt_comment.setText("댓글" + postOne.getComment_cnt() + "개 모두 보기");
                 Glide.with(getActivity())
                         .load(postOne.getUserDTO().getProfile_photo())
