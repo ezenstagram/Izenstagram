@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
@@ -68,13 +69,14 @@ public class FindLoginActivity extends AppCompatActivity implements View.OnClick
     boolean pressCheck = false;
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.62:8080/project/User_id_emailandtel.do";
+    String URL = "http://192.168.0.32:8080/project/User_id_emailandtel.do";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_find_login);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         client = new AsyncHttpClient();
         response = new HttpResponse(this);
         sms = SmsManager.getDefault();

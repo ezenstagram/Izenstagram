@@ -21,7 +21,10 @@ public class UserDAO {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("loginId", login_id);
 		map.put("password", password);
-		 
+
+		System.out.println("첫번째");
+		UserDTO userDTO = sqlSession.selectOne("mybatis.memberMapping.userLogin", map);
+		System.out.println("세번째 = "+userDTO.getEmail());
 		return sqlSession.selectOne("mybatis.memberMapping.userLogin", map);
 	}
 //	public int loginTotal(String login_id, String password) {
@@ -47,12 +50,12 @@ public class UserDAO {
 	public UserDTO user_profile(int user_id) {
 		return sqlSession.selectOne("mybatis.memberMapping.user_profile", user_id);
 	}
-	public int follow(int user_id, int follow_user_id) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("user_id", user_id);
-		map.put("follow_user_id", follow_user_id);
-		return sqlSession.insert("mybatis.memberMapping.followUser", map);
-	}
+//	public int follow(int user_id, int follow_user_id) {
+//		Map<String, Integer> map = new HashMap<String, Integer>();
+//		map.put("user_id", user_id);
+//		map.put("follow_user_id", follow_user_id);
+//		return sqlSession.insert("mybatis.memberMapping.followUser", map);
+//	}
 	public int emailOX(String email) {
 		return sqlSession.selectOne("mybatis.memberMapping.emailOX", email);
 	}

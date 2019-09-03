@@ -41,9 +41,9 @@ public class UserService {
 	public UserDTO user_profile(int user_id) {
 		return userDAO.user_profile(user_id);
 	}
-	public int follow(int user_id, int follow_user_id) {
-		return userDAO.follow(user_id, follow_user_id);
-	}
+//	public int follow(int user_id, int follow_user_id) {
+//		return userDAO.follow(user_id, follow_user_id);
+//	}
 	public int emailOX(String email) {
 		return userDAO.emailOX(email);
 	}

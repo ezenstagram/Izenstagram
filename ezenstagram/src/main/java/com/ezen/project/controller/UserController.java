@@ -1,12 +1,10 @@
 package com.ezen.project.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ezen.project.bean.FollowList;
-import com.ezen.project.bean.PostImageDTO;
 import com.ezen.project.bean.UserDTO;
 import com.ezen.project.service.NotifiInfoService;
 import com.ezen.project.service.PostService;
@@ -25,8 +22,7 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
-	@Autowired
-	private PostService postService;
+	
 	@Autowired
     private NotifiInfoService notifiInfoService;
 	

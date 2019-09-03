@@ -56,8 +56,8 @@ public class ProfileGalleryActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), ProfileCameraImageActivity.class);
                 intent.putExtra("strParamName",str);
+                intent.putExtra("sepa", 1);
                 startActivityForResult(intent, 100);
-               // Toast.makeText(getApplicationContext(), "아이템 선택됨 : " + str, Toast.LENGTH_LONG).show();//getContext().를 붙임
             }
         });
 
@@ -110,6 +110,7 @@ public class ProfileGalleryActivity extends AppCompatActivity {
 
                     Intent intent = new Intent();
                     intent.putExtra("photoPath",photoPath);
+                    intent.putExtra("sepa", 1);
                     setResult(RESULT_OK, intent);
                     finish();
                 }

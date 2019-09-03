@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -43,14 +44,17 @@ public class JoinSecondActivity extends AppCompatActivity implements View.OnClic
 
     AsyncHttpClient client;
     HttpResponseIdCheck response_idCheck;
-    String URL_idCheck = "http://192.168.0.62:8080/project/InfoPresence.do";
+    String URL_idCheck = "http://192.168.0.32:8080/project/InfoPresence.do";
 
     HttpResponseJoin response_join;
-    String URL_join = "http://192.168.0.62:8080/project/user_join.do";
+    String URL_join = "http://192.168.0.32:8080/project/user_join.do";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_second);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         button = findViewById(R.id.button);
         editText1 = findViewById(R.id.editText1);
