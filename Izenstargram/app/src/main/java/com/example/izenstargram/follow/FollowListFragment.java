@@ -20,10 +20,6 @@ public class FollowListFragment extends Fragment {
     TabItem tabItem1, tabItem2;
     TextView textViewLogin_id;
 
-
-    public static String following = "";
-    public static String follower = "";
-
     int sepa;
     @Nullable
     @Override
@@ -33,6 +29,8 @@ public class FollowListFragment extends Fragment {
         int user_id = getArguments().getInt("user_id", 0);
         String login_id = getArguments().getString("login_id", "0");
         sepa = getArguments().getInt("sepa", 0);
+        String following = getArguments().getString("following", "0");
+        String follower = getArguments().getString("follower", "0");
 
         tabLayout = view.findViewById(R.id.tabLayout);
         tabItem1 = view.findViewById(R.id.tabItem1);
@@ -54,6 +52,7 @@ public class FollowListFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 pager.setCurrentItem(tab.getPosition());
                 adapter.notifyDataSetChanged();
+
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {}
@@ -61,6 +60,7 @@ public class FollowListFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {}
         });
         TabLayout.Tab tab;
+
         if(sepa==0) {
             tab = tabLayout.getTabAt(0);
         } else {

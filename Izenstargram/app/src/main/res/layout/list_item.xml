@@ -8,21 +8,22 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="440dp"
+        android:layout_height="619dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="0dp"
+        app:cardElevation="0dp"
         app:cardMaxElevation="1dp"
-        app:cardElevation="0.7dp"
-        app:contentPadding="10dp"
-        app:contentPaddingBottom="0dp"
-        app:cardPreventCornerOverlap="true"
-        app:cardUseCompatPadding="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentLeft="true">
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="false"
+        app:contentPadding="0dp"
+        app:contentPaddingBottom="0dp">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/feed_profile_Img"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_gravity="top"
             android:layout_margin="6dp" />
@@ -32,26 +33,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="-283dp"
             android:layout_toRightOf="@+id/feed_profile_Img"
-            android:layout_marginTop="-170dp"
-            android:layout_marginLeft="70dp"
-            android:textStyle="bold"
             android:hint="테스트"
-            android:textSize="17sp" />
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <ImageButton
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/tripledot"
-            android:layout_marginLeft="350dp"
-            android:layout_marginTop="6dp"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="375dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/tripledot" />
 
 
         <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginLeft="0dp"
             android:id="@+id/recyclerView_img_item"
+            android:layout_width="match_parent"
+            android:layout_height="410dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="58dp"
+            android:background="@drawable/image_border"
             android:orientation="horizontal">
 
         </android.support.v7.widget.RecyclerView>
@@ -61,8 +65,8 @@
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_below="@+id/recyclerView_img_item"
-            android:layout_marginTop="280dp"
             android:layout_marginLeft="6dp"
+            android:layout_marginTop="475dp"
             android:layout_marginRight="6dp"
             android:orientation="horizontal">
 
@@ -71,11 +75,12 @@
                 android:id="@+id/heart_btn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/likes"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="6dp"
+                android:background="@drawable/likes"
+                android:stateListAnimator="@null"
                 android:textOff=""
-                android:textOn=""  />
+                android:textOn="" />
 
 
             <ImageView
@@ -84,58 +89,75 @@
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="8dp"
-                android:background="@drawable/speechbubble"
-                />
+                android:background="@drawable/instamain2" />
 
             <ImageView
                 android:id="@+id/send_btn"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_margin="8dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/paperplane" />
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="8dp"
+                android:background="@drawable/insta5" />
+
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/feedsave"
-                android:layout_marginLeft="205dp"/>
+                android:layout_marginLeft="225dp"
+                android:background="@drawable/instamain4" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:layout_marginVertical="340dp"
-            android:layout_marginTop="300dp"
-            android:layout_marginBottom="260dp">
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="520dp"
+            android:layout_marginRight="12dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="6dp">
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:id="@+id/feed_cnt_likes"
-                    android:textStyle="bold"
-                    android:text="좋아요"
-                    android:layout_margin="2dp"/>
-                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/feed_txt_content"
+                    android:layout_marginStart="2dp"
                     android:layout_marginTop="2dp"
-                    android:text="로긴아이디 + 댓글 내용"
-                    android:layout_below="@id/feed_cnt_likes"/>
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginBottom="4dp"
+                    android:text="좋아요"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
                 <TextView
+                    android:id="@+id/feed_txt_content"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/feed_cnt_likes"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="3dp"
+                    android:text="로긴아이디 + 댓글 내용"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="normal" />
+
+                <TextView
                     android:id="@+id/feed_txt_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/feed_txt_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="2dp"
                     android:text="댓글총갯수"
-                    android:layout_marginTop="2dp"/>
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 

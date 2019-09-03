@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.Spannable;
@@ -39,12 +40,15 @@ public class GoLoginActivity extends AppCompatActivity implements View.OnClickLi
     AsyncHttpClient client;
     TextView textView, textViewJoin;
 
-    String URL = "http://192.168.0.62:8080/project/user_login.do";
+    String URL = "http://192.168.0.32:8080/project/user_login.do";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_go_login);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         editText1 = findViewById(R.id.editText1);
         editText2 = findViewById(R.id.editText2);

@@ -29,8 +29,8 @@ import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentsActivity extends AppCompatActivity implements View.OnClickListener {
-    String url = "http://192.168.0.5:8080/project/cmtList.do"; //댓글 목록보기
-    String url_insert_comment = "http://192.168.0.5:8080/project/saveCmts.do"; //댓글 저장하기
+    String url = "http://192.168.0.32:8080/project/cmtList.do"; //댓글 목록보기
+    String url_insert_comment = "http://192.168.0.32:8080/project/saveCmts.do"; //댓글 저장하기
     AsyncHttpClient client;
     CommentHttpResponse response;
     CommentInsertHttpResponse commentInsertHttpResponse;

@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -31,7 +32,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
 
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.62:8080/project/change_password.do";
+    String URL = "http://192.168.0.32:8080/project/change_password.do";
 
     int user_id = 0;
     String login_id = null;
@@ -40,6 +41,9 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         editText1 = findViewById(R.id.editText1);
         editText2 = findViewById(R.id.editText2);

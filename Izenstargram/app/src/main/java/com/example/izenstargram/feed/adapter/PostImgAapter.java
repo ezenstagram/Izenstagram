@@ -35,7 +35,6 @@ public class PostImgAapter extends RecyclerView.Adapter<PostImgAapter.ViewHolder
         Glide.with(viewHolder.itemView.getContext())
                 .load(postImageList.get(position).getImage_url())
                 .into(viewHolder.coreImg);
-
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.izenstargram.R;
+import com.example.izenstargram.feed.adapter.FeedAdapter;
 import com.example.izenstargram.upload.adapter.TabPagerAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -33,15 +34,13 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 
-public class ImageViewActivity extends AppCompatActivity implements View.OnClickListener {
+public class ImageViewActivity extends AppCompatActivity {
     CameraFragment cameraFragment; //액티비티에서 프래그먼트를 호출하기위해
     GalleryFragment galleryFragment;
-    Bitmap adjustedBitmap,adjustedBitmap1;
+    Bitmap adjustedBitmap, adjustedBitmap1;
     String photoPath_gallery, photoPath_camera;
-    TabPagerAdapter adapter;
+    TabPagerAdapter tabPagerAdapter;
 
-
-    Button button_back;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -53,35 +52,35 @@ public class ImageViewActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(0xFFF8F8FF));
 
         //getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setIcon(R.drawable.back);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(false);
+
+//        galleryFragment = new GalleryFragment();
+
         Intent intent = getIntent();
         photoPath_gallery = intent.getStringExtra("strParamName_gallery");
         photoPath_camera = intent.getStringExtra("strParamName_camera");
         cameraFragment = new CameraFragment();
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
-        if (photoPath_camera!=null){ //카메라에서 찍어서 넘어온 사진은 90도 회전이 되므로 roatate 설정 해주어야함
+        if (photoPath_camera != null) { //카메라에서 찍어서 넘어온 사진은 90도 회전이 되므로 roatate 설정 해주어야함
             Bitmap bmp = BitmapFactory.decodeFile(photoPath_camera, options);
             Matrix matrix = new Matrix();
             matrix.preRotate(90);
-            adjustedBitmap = Bitmap.createBitmap(bmp,0,0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+            adjustedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
             adjustedBitmap1 = Bitmap.createScaledBitmap(adjustedBitmap, 160, 160, true);
 
         }
-        if(photoPath_gallery!=null){ //갤러리에서 넘어온 사진은 90도 회전할 필요가 없음
+        if (photoPath_gallery != null) { //갤러리에서 넘어온 사진은 90도 회전할 필요가 없음
             Bitmap bmp = BitmapFactory.decodeFile(photoPath_gallery, options);
             Matrix matrix = new Matrix();
-            adjustedBitmap = Bitmap.createBitmap(bmp,0,0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+            adjustedBitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
             adjustedBitmap1 = Bitmap.createScaledBitmap(adjustedBitmap, 160, 160, true);
 
         }
         ImageView img = (ImageView) findViewById(R.id.img);
         img.setImageBitmap(adjustedBitmap1);
-
-        button_back = findViewById(R.id.button_back);
-        button_back.setOnClickListener(this);
-
     }
 
     @Override
@@ -89,19 +88,6 @@ public class ImageViewActivity extends AppCompatActivity implements View.OnClick
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
-    public void replaceFragment1(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.cameraFragment, fragment);
-        fragmentTransaction.commit();
-    }
-    public void replaceFragment2(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.galleryFragment, fragment);
-        fragmentTransaction.commit();
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -109,42 +95,26 @@ public class ImageViewActivity extends AppCompatActivity implements View.OnClick
                 Intent intent = new Intent(this, WriteActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                if (photoPath_camera!=null){
-                    intent.putExtra("strParamName_camera",photoPath_camera);
+                if (photoPath_camera != null) {
+                    intent.putExtra("strParamName_camera", photoPath_camera);
                 }
-                if(photoPath_gallery!=null){
-                    intent.putExtra("strParamName_gallery",photoPath_gallery);
+                if (photoPath_gallery != null) {
+                    intent.putExtra("strParamName_gallery", photoPath_gallery);
                 }
                 startActivity(intent);
                 finish();
                 return true;
-            case R.id.home:
-                if(adapter.getItem(adapter.getItemPosition(1)).equals(1)){
-                    replaceFragment1(cameraFragment);
+            case R.id.action_back:
+                if (photoPath_camera != null) {
+                    onBackPressed();
                 }
-                if(adapter.getItem(adapter.getItemPosition(0)).equals(0)){
-                   replaceFragment2(galleryFragment);
+                if (photoPath_gallery != null) {
+                    onBackPressed();
                 }
 
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.button_back:
-                if(adapter.getItem(1).equals(1)){
-                    replaceFragment1(cameraFragment);
-                }
-                if(adapter.getItem(adapter.getItemPosition(0)).equals(0)){
-                    replaceFragment2(galleryFragment);
-                }
-
-                break;
-        }
-    }
 }

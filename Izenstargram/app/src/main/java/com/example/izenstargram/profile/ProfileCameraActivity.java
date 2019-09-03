@@ -22,17 +22,20 @@ import com.example.izenstargram.upload.ImageViewActivity;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 public class ProfileCameraActivity extends AppCompatActivity implements SurfaceHolder.Callback, View.OnClickListener {
     static Camera camera;
     ImageButton button;
     TextView textViewCancel;
 
+
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
     String str;
     int cameraId;
     boolean capture;
+
 
     @SuppressWarnings("deprecation")
     Camera.PictureCallback jpegCallback;
@@ -80,7 +83,7 @@ public class ProfileCameraActivity extends AppCompatActivity implements SurfaceH
                 Intent intent = new Intent(getApplicationContext(), ProfileCameraImageActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 intent.putExtra("strParamName", str);
-                Log.d("[INFO]","photoPath의 역할을 하는 str:"+str);
+                intent.putExtra("sepa", 0);
                 startActivityForResult(intent, 100);
             }
         };
@@ -170,6 +173,7 @@ public class ProfileCameraActivity extends AppCompatActivity implements SurfaceH
 
                     Intent intent = new Intent();
                     intent.putExtra("photoPath",photoPath);
+                    intent.putExtra("sepa", 0);
                     setResult(RESULT_OK, intent);
                     finish();
                 }

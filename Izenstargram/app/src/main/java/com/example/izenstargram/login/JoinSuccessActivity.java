@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -28,13 +29,16 @@ public class JoinSuccessActivity extends AppCompatActivity implements View.OnCli
 
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.62:8080/project/find_userId.do";
+    String URL = "http://192.168.0.32:8080/project/find_userId.do";
     String login_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_success);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         textView1 = findViewById(R.id.textView1);
         button = findViewById(R.id.button);

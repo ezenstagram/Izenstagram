@@ -32,6 +32,6 @@
         app:tabGravity="fill"
         app:tabIndicatorColor="#63FFFFFF"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/select"
         app:tabTextColor="#c9c9c9"></android.support.design.widget.TabLayout>
 </LinearLayout>
