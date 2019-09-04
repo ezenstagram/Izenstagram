@@ -1,16 +1,23 @@
 package com.example.izenstargram.search;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
+import com.example.izenstargram.feed.CommentsActivity;
 import com.example.izenstargram.feed.model.PostAll;
 import com.example.izenstargram.feed.model.PostImage;
 import com.example.izenstargram.helper.SpannableStringMaker;
@@ -64,7 +72,7 @@ public class SearchRandomClickFragment extends Fragment {
     String fullContent;
     Activity activity;
 
-
+    ImageView cmt_btn;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +97,18 @@ public class SearchRandomClickFragment extends Fragment {
         select_one_image = view.findViewById(R.id.select_one_image);
         client = new AsyncHttpClient();
         selectOneHttpResponse = new SelectOneHttpResponse();
+
+        cmt_btn = view.findViewById(R.id.cmt_btn);
+        /* 피드 댓글 기능 */
+        cmt_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, CommentsActivity.class);
+                intent.putExtra("post_id",  post_id);
+                intent.putExtra("user_id", user_id);
+                activity.startActivity(intent);
+            }
+        });
         return view;
     }
 
@@ -171,8 +191,16 @@ public class SearchRandomClickFragment extends Fragment {
 //                }
 //                feed_txt_content.setText(SpannableStringMaker.getInstance(activity).makeSpannableString(fullContent, clickStrMap, "search"));
 //                feed_txt_content.setMovementMethod(LinkMovementMethod.getInstance());
-
-                feed_txt_content.setText(postOne.getContent());
+                String str = "";
+                if(postOne.getContent().equals("null")) {
+                    str = userDTO.getLogin_id() + "   " ;
+                } else {
+                    str = userDTO.getLogin_id() + "   " + postOne.getContent();
+                }
+                SpannableStringBuilder ssb = new SpannableStringBuilder(str);
+                ssb.setSpan(new StyleSpan(Typeface.BOLD), 0, userDTO.getLogin_id().length(), Spannable.SPAN_MARK_MARK);
+                
+                feed_txt_content.setText(ssb);
                 feed_txt_comment.setText("댓글" + postOne.getComment_cnt() + "개 모두 보기");
                 Glide.with(getActivity())
                         .load(postOne.getUserDTO().getProfile_photo())
