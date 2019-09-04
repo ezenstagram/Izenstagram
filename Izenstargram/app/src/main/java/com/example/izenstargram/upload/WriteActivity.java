@@ -45,10 +45,10 @@ public class WriteActivity extends AppCompatActivity {
     //통신용 객체 선언
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.32:8080/project/post.do";
+    String URL = "http://192.168.0.62:8080/project/post.do";
 
     Profilephoto profilephoto;
-    String profile_URL = "http://192.168.0.32:8080/project/user_profileInfo.do";
+    String profile_URL = "http://192.168.0.62:8080/project/user_profileInfo.do";
 
 
     String photoPath = null;
@@ -261,8 +261,8 @@ public class WriteActivity extends AppCompatActivity {
      * 태그관련 메소드
      */
     private void registerTags(String post_id, String content) {
-        String TAG_URL = "http://192.168.0.32:8080/project/putTagIntoPost.do";
-        String USER_TAG_URL = "http://192.168.0.32:8080/project/putUserTagIntoPost.do";
+        String TAG_URL = "http://192.168.0.62:8080/project/putTagIntoPost.do";
+        String USER_TAG_URL = "http://192.168.0.62:8080/project/putUserTagIntoPost.do";
 
         RequestParams params = new RequestParams();
         params.put("post_id", post_id);

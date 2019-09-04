@@ -68,7 +68,7 @@ public class GalleryFragment extends Fragment  {
                 intent.putExtra("strParamName_gallery",str);
 
                 startActivity(intent);
-                Toast.makeText(getContext().getApplicationContext(), "아이템 선택됨 : " + str, Toast.LENGTH_LONG).show();//getContext().를 붙임
+                //Toast.makeText(getContext().getApplicationContext(), "아이템 선택됨 : " + str, Toast.LENGTH_LONG).show();//getContext().를 붙임
             }
         });
 
