@@ -39,7 +39,7 @@ public class SearchTabRandomFragment extends Fragment implements AdapterView.OnI
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.32:8080/project/selectPostImageRandom.do";
+    String url = "http://192.168.0.62:8080/project/selectPostImageRandom.do";
     List<PostImageDTO> list;
     SearchTabRandomAdapter adapter;
     GridView gridView;

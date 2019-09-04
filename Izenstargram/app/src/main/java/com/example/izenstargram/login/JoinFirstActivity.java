@@ -42,7 +42,7 @@ public class JoinFirstActivity extends AppCompatActivity implements View.OnClick
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.32:8080/project/InfoPresence.do";
+    String URL = "http://192.168.0.62:8080/project/InfoPresence.do";
 
     String email;
 

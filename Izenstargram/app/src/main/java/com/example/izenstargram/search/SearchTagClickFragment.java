@@ -38,7 +38,7 @@ public class SearchTagClickFragment extends Fragment implements AdapterView.OnIt
     // 서버
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.32:8080/project/selectPostImageByTagId.do";
+    String url = "http://192.168.0.62:8080/project/selectPostImageByTagId.do";
     List<PostImageDTO> list;
     SearchTagClickAdapter adapter;
     GridView gridView;

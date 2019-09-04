@@ -32,7 +32,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
 
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.32:8080/project/change_password.do";
+    String URL = "http://192.168.0.62:8080/project/change_password.do";
 
     int user_id = 0;
     String login_id = null;

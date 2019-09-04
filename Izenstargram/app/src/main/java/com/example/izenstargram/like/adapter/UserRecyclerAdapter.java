@@ -45,7 +45,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     // server
     AsyncHttpClient client;
     FollowResponse response;
-    String URL = "http://192.168.0.13:8080/project/follow.do";
+    String URL = "http://192.168.0.62:8080/project/follow.do";
 
 
     public class UserRecyclerHolder extends RecyclerView.ViewHolder {

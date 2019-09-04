@@ -31,7 +31,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchTagClickClickFragment extends Fragment {
 
-    String url = "http://192.168.0.32:8080/project/feedPostOne.do";
+    String url = "http://192.168.0.62:8080/project/feedPostOne.do";
     AsyncHttpClient client;
     SelectOneHttpResponse selectOneHttpResponse;
     CircleImageView feed_profile_Img;

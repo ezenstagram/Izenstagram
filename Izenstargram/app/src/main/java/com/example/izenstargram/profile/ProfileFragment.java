@@ -66,16 +66,16 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     AsyncHttpClient client;
     ProfileInfoResponse profileInfoResponse;
-    String profileInfoURL = "http://192.168.0.32:8080/project/profileInfo.do";
+    String profileInfoURL = "http://192.168.0.62:8080/project/profileInfo.do";
 
     UserInfoResponse userInfoResponse;
-    String userInfoURL = "http://192.168.0.32:8080/project/user_profileInfo.do";
+    String userInfoURL = "http://192.168.0.62:8080/project/user_profileInfo.do";
 
     FollowResponse followResponse;
-    String followURL = "http://192.168.0.32:8080/project/follow.do";
+    String followURL = "http://192.168.0.62:8080/project/follow.do";
 
     FollowRelaResponse followRelaResponse;
-    String followRealURL = "http://192.168.0.32:8080/project/followReal.do";
+    String followRealURL = "http://192.168.0.62:8080/project/followReal.do";
     ImageLoader imageLoader;
     DisplayImageOptions options;
 
