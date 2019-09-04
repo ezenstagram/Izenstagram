@@ -22,8 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ProfileGalleryActivity extends AppCompatActivity {
-    TextView textView;
+public class ProfileGalleryActivity extends AppCompatActivity implements View.OnClickListener {
+    TextView textView, textViewCancel;
     RecyclerView recyclerView;
     ProfileGelleryAdapter adapter;
 
@@ -45,7 +45,7 @@ public class ProfileGalleryActivity extends AppCompatActivity {
         adapter = new ProfileGelleryAdapter();
         recyclerView.setAdapter(adapter);
         textView = findViewById(R.id.textView);
-
+        textViewCancel = findViewById(R.id.textViewCancel);
 
         adapter.setOnItemClickListener(new OnProfileGalleryClickListener() {
 
@@ -97,6 +97,7 @@ public class ProfileGalleryActivity extends AppCompatActivity {
             Log.d("MainActivity", info.toString());
         }
 
+        textViewCancel.setOnClickListener(this);
         return result;
     }
     @Override
@@ -114,6 +115,15 @@ public class ProfileGalleryActivity extends AppCompatActivity {
                     setResult(RESULT_OK, intent);
                     finish();
                 }
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.textViewCancel:
+                finish();
                 break;
         }
     }

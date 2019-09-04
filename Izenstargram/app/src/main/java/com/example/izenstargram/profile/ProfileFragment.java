@@ -246,7 +246,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         viewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-    }
+}
 
     @Override
     public void onClick(View v) {

@@ -22,9 +22,7 @@ public class UserDAO {
 		map.put("loginId", login_id);
 		map.put("password", password);
 
-		System.out.println("첫번째");
 		UserDTO userDTO = sqlSession.selectOne("mybatis.memberMapping.userLogin", map);
-		System.out.println("세번째 = "+userDTO.getEmail());
 		return sqlSession.selectOne("mybatis.memberMapping.userLogin", map);
 	}
 //	public int loginTotal(String login_id, String password) {

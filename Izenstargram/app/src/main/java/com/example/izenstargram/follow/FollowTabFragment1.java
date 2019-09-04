@@ -51,9 +51,9 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
 
     Button buttonOrder;
     TextView textViewOrder;
-    String[] items;
+    String[] items = new String[]{"기본", "팔로우한 날짜: 최신순", "팔로우한 날짜: 오래된순"};
     String orderStatus = "desc";
-
+    int item;
     RequestParams params;
     @Nullable
     @Override
@@ -120,7 +120,6 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonOrder:
-                items = new String[]{"기본", "팔로우한 날짜: 최신순", "팔로우한 날짜: 오래된순"};
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("정렬 기준");
@@ -130,14 +129,17 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
                         switch (which){
                             case 0:
                                 textViewOrder.setText(items[0]);
+                                item = 0;
                                 order(0);
                                 break;
                             case 1:
                                 textViewOrder.setText(items[1]);
+                                item = 1;
                                 order(0);
                                 break;
                             case 2:
                                 textViewOrder.setText(items[2]);
+                                item = 2;
                                 order(1);
                                 break;
                         }
@@ -203,6 +205,8 @@ public class FollowTabFragment1 extends Fragment implements AdapterView.OnItemCl
 
                         FollowDTO followDTO = new FollowDTO(followStatus, user_id, name, profile_photo, login_id);
                         arrayList.add(followDTO);
+                        String rr = "";
+                        textViewOrder.setText(items[item]);
                     }
                     if(orderStatus.equals("desc")) {
                         for(int i=0; i<arrayList.size(); i++) {

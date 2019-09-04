@@ -97,7 +97,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         String str = feedPostList.get(position).getUserDTO().getLogin_id() + "   " + feedPostList.get(position).getContent();
         SpannableStringBuilder ssb = new SpannableStringBuilder(str);
         ssb.setSpan(new StyleSpan(Typeface.BOLD), 0, feedPostList.get(position).getUserDTO().getLogin_id().length(), Spannable.SPAN_MARK_MARK);
-        
+
         viewHolder.feed_txt_content.setText(ssb);
         //viewHolder.feed_txt_content.setText(feedPostList.get(position).getContent()); //댓글내용
         viewHolder.feed_login_id.setText(feedPostList.get(position).getUserDTO().getLogin_id()); //글쓴사람
