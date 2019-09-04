@@ -2,6 +2,7 @@ package com.example.izenstargram.like.adapter;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -44,7 +45,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
     // server
     AsyncHttpClient client;
     FollowResponse response;
-    String URL = "http://192.168.0.62:8080/project/follow.do";
+    String URL = "http://192.168.0.13:8080/project/follow.do";
 
 
     public class UserRecyclerHolder extends RecyclerView.ViewHolder {
@@ -88,14 +89,20 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
 
             String str = "";
             Map<String, Fragment> clickStrMap = new HashMap<>();
+            Bundle bundle = new Bundle(1);
+            ProfileFragment profileFragment = new ProfileFragment();
             switch (notifiInfo.getMode_id()) {
                 case 1: // 좋아요 알림
-                    clickStrMap.put(notifiInfo.getAct_login_id(), new ProfileFragment());
+                    bundle.putInt("user_id", notifiInfo.getAct_user_id());
+                    profileFragment.setArguments(bundle);
+                    clickStrMap.put(notifiInfo.getAct_login_id(), profileFragment);
                     str = notifiInfo.getAct_login_id() + "님이 회원님의 게시물을 좋아합니다.";
                     break;
                 case 2: // 태그 알림
-                    clickStrMap.put(notifiInfo.getAct_login_id(), new ProfileFragment());
-                    str = notifiInfo.getAct_login_id() + "님이 댓글에서 회원님을 태그했습니다. : " + notifiInfo.getComment_txt();
+                    bundle.putInt("user_id", notifiInfo.getAct_user_id());
+                    profileFragment.setArguments(bundle);
+                    clickStrMap.put(notifiInfo.getAct_login_id(), profileFragment);
+                    str = notifiInfo.getAct_login_id() + "님이 댓글을 남겼습니다. : " + notifiInfo.getComment_txt();
                     break;
                 case 3: // 팔로우 알림
                     userRecyclerHolder.button.setVisibility(View.VISIBLE);
@@ -130,14 +137,20 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
                             }
                         }
                     });
-                    clickStrMap.put(notifiInfo.getAct_login_id(), new ProfileFragment());
+                    bundle.putInt("user_id", notifiInfo.getAct_user_id());
+                    profileFragment.setArguments(bundle);
+                    clickStrMap.put(notifiInfo.getAct_login_id(), profileFragment);
                     str = notifiInfo.getAct_login_id() + "님이 회원님을 팔로우하기 시작했습니다.";
                     break;
             }
             // 유저 태그가 있는지 없는지 검사
             List<String> strList = SpannableStringMaker.getInstance(activity).getUserTagList(str);
             for (String uerTagList : strList) {
-                clickStrMap.put(uerTagList, new ProfileFragment());
+                Bundle bundleTag = new Bundle(1);
+                ProfileFragment profileFragmentTag = new ProfileFragment();
+                bundleTag.putInt("user_id", notifiInfo.getAct_user_id());
+                profileFragmentTag.setArguments(bundle);
+                clickStrMap.put(uerTagList, profileFragmentTag);
             }
             // 링크걸어진 text 작성
             userRecyclerHolder.textView.setText(SpannableStringMaker.getInstance(activity).makeSpannableString(str, clickStrMap, "like"));
@@ -149,6 +162,7 @@ public class UserRecyclerAdapter extends RecyclerView.Adapter<UserRecyclerAdapte
             userRecyclerHolder.imageView1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    notifiInfo.getAct_user_id();
                     ((MainActivity) activity).replaceFragment(R.id.frame_layout, new ProfileFragment(), "like");
                 }
             });

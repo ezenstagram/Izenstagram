@@ -19,10 +19,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.izenstargram.feed.ListFragment;
+import com.example.izenstargram.follow.FollowListFragment;
 import com.example.izenstargram.like.LikeFragment;
 import com.example.izenstargram.like.response.CheckResponse;
 import com.example.izenstargram.profile.ProfileFragment;
@@ -76,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (user_id == 0) {
             // 에러 화면....
         }
+        addFragment();
 
         Bundle list_bundle = new Bundle(1);
         list_bundle.putInt("list_user_id", user_id);
@@ -195,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void delBadgeView() {
         if(notificationBadge != null){
-            notificationBadge.setVisibility(View.GONE);
+            ((ViewManager)notificationBadge.getParent()).removeView(notificationBadge);
         }
     }
 
@@ -206,6 +209,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         transaction.replace(layoutId, fragment,fra_name);
         transaction.setTransition(FragmentTransaction.TRANSIT_NONE);
         transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public void addFragment() {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.frame_layout, listFragment, navNames[0]);
+        transaction.add(R.id.frame_layout, searchFragment, navNames[1]);
+        transaction.add(R.id.frame_layout, likeFragment, navNames[3]);
+        Bundle bundle = new Bundle(1);
+        bundle.putInt("user_id", user_id);
+        profileFragment.setArguments(bundle);
+        transaction.add(R.id.frame_layout, profileFragment, navNames[4]);
+        Bundle bundle2 = new Bundle(1);
+        bundle2.putInt("sepa", 0);
+        FollowListFragment followListFragment = FollowListFragment.newInstance();
+
+        followListFragment.setArguments(bundle2);
+        transaction.add(R.id.frame_layout, followListFragment, navNames[4]);
         transaction.commit();
     }
 

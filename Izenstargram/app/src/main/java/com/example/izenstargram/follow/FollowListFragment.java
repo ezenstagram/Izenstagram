@@ -19,6 +19,16 @@ public class FollowListFragment extends Fragment {
     ViewPager pager;
     TabItem tabItem1, tabItem2;
     TextView textViewLogin_id;
+    static FollowListFragment followListFragment;
+
+    public static FollowListFragment newInstance()
+    {
+        if(followListFragment == null){
+            followListFragment = new FollowListFragment();
+        }
+
+        return followListFragment;
+    }
 
     int sepa;
     @Nullable

@@ -68,6 +68,7 @@ public class FeedController {
 		commentsDTO.setComment_cmt(comment_cmt);
 		ModelAndView mv = new ModelAndView("jsonView");
 		mv.addObject("data", feedService.saveCmts(commentsDTO));
+		notifiInfoService.insert(2, post_id, user_id, comment_cmt);
 		return mv;
 	}
 
