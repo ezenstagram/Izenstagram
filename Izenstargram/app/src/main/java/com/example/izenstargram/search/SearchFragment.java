@@ -26,16 +26,13 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
     SearchPagerAdapter searchPagerAdapter;
     ViewPager viewPager;
     TabLayout tabLayout;
-
-    static String letter_to_search;
-
     SearchView searchView;
+    static String letter_to_search; //검색어
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.search_layout, container, false);
-
         searchView = (SearchView) view.findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(this);
         viewPager = view.findViewById(R.id.viewPager);
@@ -43,13 +40,11 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         // searchPagerAdapter = new SearchPagerAdapter(
         //          getActivity().getSupportFragmentManager(), tabLayout.getTabCount());
         searchPagerAdapter = new SearchPagerAdapter(
-                this.getChildFragmentManager(), 3); ///?
+                this.getChildFragmentManager(), 3);
         viewPager.setAdapter(searchPagerAdapter);
         viewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-
         viewPager.onSaveInstanceState();
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -85,8 +80,6 @@ public class SearchFragment extends Fragment implements SearchView.OnQueryTextLi
         inflater.inflate(R.menu.search_menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
     }
-
-
 
     @Override
     public boolean onQueryTextSubmit(String query) {

@@ -25,7 +25,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		insert into post_user_tag values (#{post_id}, #{user_id})
 	</insert>
 	
-	<select id="findUserIdByLoginId" parameterType="java.lang.String" resultType="int">
+	<select id="findUserIdByLoginId" parameterType="java.lang.String" resultType="Integer">
 		select user_id from sns_user where login_id=#{login_id}
 	</select>
 

@@ -39,11 +39,9 @@ import cz.msebera.android.httpclient.Header;
 
 
 public class SearchTabUserFragment extends Fragment implements AdapterView.OnItemClickListener {
-    // 서버
     AsyncHttpClient client;
     HttpResponse response;
     String url = "http://192.168.0.62:8080/project/selectUserBySearch.do";
-    //selectTagNameByLetter.do
     String letter_to_search;
     List<UserDTO> list;
     SearchTabUserAdapter adapter;
@@ -59,11 +57,8 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
         // Log.d("[INFO]", "TabUserFragment : onCreateView() 실행");
         View view = inflater.inflate(R.layout.search_tab_user_layout, container, false);
         activity = getActivity();
-
        // SharedPreferences pref = getActivity().getSharedPreferences("CONFIG", Context.MODE_PRIVATE);
         //user_id = pref.getInt("user_id", 0);
-
-        Log.d("[INFO]", "SearchTabUserFrag : user_id=" + user_id);
         //View viewSearchFrag = inflater.inflate(R.layout.search_layout, container, false); (작동됨)
         //View viewSearchFrag = getLayoutInflater().inflate(R.layout.search_layout, null); //(작동됨)
         list = new ArrayList<>();
@@ -72,7 +67,6 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
         listView = view.findViewById(R.id.listViewUser);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        // 서버
         client = new AsyncHttpClient();
         response = new HttpResponse(activity);
         letter_to_search = SearchFragment.letter_to_search;
@@ -81,9 +75,8 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
 
     @Override
     public void onResume() {
-        //Log.d("[INFO]", "TabUserFragment : onResume() 시작");
         super.onResume();
-        adapter.clear();    // List의 데이터 삭제
+        adapter.clear();
         letter_to_search = SearchFragment.letter_to_search;
         RequestParams params = new RequestParams();
         // Log.d("[INFO]", "onResume : letter_to_search= " + letter_to_search);
@@ -102,13 +95,13 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
         UserDTO item = adapter.getItem(position);
         //Log.d("[INFO]", "TabUserFragment : onItemClick() : position=" + position);
         String login_id = item.getLogin_id();
-        Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" + login_id);
+        //Log.d("[INFO]", "TabUserFragment : onItemClick() : login_id=" + login_id);
 
         ProfileFragment fragment = new ProfileFragment();
         Bundle bundle = new Bundle(1);
         user_id = list.get(position).getUser_id();
         bundle.putInt("user_id", user_id);
-        Log.d("[INFO]", "TabUserFragment : onItemClick() : user_id=" + user_id);
+        //Log.d("[INFO]", "TabUserFragment : onItemClick() : user_id=" + user_id);
        // bundle.putInt("user_id",list.get(position).getUser_id());
         fragment.setArguments(bundle);
         ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, fragment, "profile");
@@ -135,7 +128,7 @@ public class SearchTabUserFragment extends Fragment implements AdapterView.OnIte
                     UserDTO userDTO = new UserDTO();
                     userDTO.setProfile_photo(temp.getString("profile_photo"));
                     userDTO.setLogin_id(temp.getString("login_id"));
-
+                    userDTO.setName(temp.getString("name"));
                     userDTO.setUser_id(temp.getInt("user_id"));
                     user_id = temp.getInt("user_id");
                     adapter.add(userDTO);

@@ -39,7 +39,7 @@ public class SearchTagClickClickFragment extends Fragment {
     TextView feed_cnt_likes;
     TextView feed_txt_content;
     TextView feed_txt_comment;
-    ImageView select_one_image;  //이미지용
+    ImageView select_one_image;
     private PostAll postOne = new PostAll();
     String imgurl = null;
 
@@ -51,11 +51,9 @@ public class SearchTagClickClickFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("[INFO]", "SearchTagClickClickFrag : onCreateView()");
         View view = inflater.inflate(R.layout. listone_item, container, false); // attachToRoot는 일단 false로..
 
         if(getArguments() != null) {
@@ -76,7 +74,6 @@ public class SearchTagClickClickFragment extends Fragment {
 
     @Override
     public void onResume() {
-        Log.d("[INFO]", "SearchRandomClickFrag : onResume()");
         super.onResume();
         RequestParams params = new RequestParams();
         params.put("post_id", post_id);
@@ -94,7 +91,6 @@ public class SearchTagClickClickFragment extends Fragment {
 
                 JSONObject json = new JSONObject(document);
                 JSONObject data = json.getJSONObject("data");
-
                 postOne.setPost_id(data.getInt("post_id"));
                 postOne.setUser_id(data.getInt("user_id"));
                 postOne.setContent(data.getString("content"));
@@ -142,8 +138,7 @@ public class SearchTagClickClickFragment extends Fragment {
 
         @Override
         public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            Toast.makeText(getContext(), "연결실패", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getContext(), "연결실패", Toast.LENGTH_SHORT).show();
         }
     }
-
 }

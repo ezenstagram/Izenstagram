@@ -47,7 +47,8 @@ public class SearchTabUserAdapter extends ArrayAdapter<UserDTO> {
         DisplayImageOptions.Builder builder = new DisplayImageOptions.Builder();
         builder.showImageOnLoading(R.drawable.ic_stub);
         builder.showImageForEmptyUri(R.drawable.ic_empty);
-        builder.showImageOnFail(R.drawable.ic_error);
+        //builder.showImageOnFail(R.drawable.ic_error);
+        builder.showImageOnFail(R.drawable.icon_main);
         options = builder.build();
     }
 
@@ -59,10 +60,12 @@ public class SearchTabUserAdapter extends ArrayAdapter<UserDTO> {
         }
         UserDTO item = getItem(position);
         if (item != null) {
-            TextView textView = convertView.findViewById(R.id.textViewUserName);
+            TextView textViewUserId = convertView.findViewById(R.id.textViewUserId);
+            TextView textViewUserName = convertView.findViewById(R.id.textViewUserName);
             CircleImageView circleImageView = convertView.findViewById(R.id.imageViewSearchUserCircle);
             imageLoader.displayImage(item.getProfile_photo(), circleImageView, options);
-            textView.setText("@" + item.getLogin_id());
+            textViewUserId.setText("@" + item.getLogin_id());
+            textViewUserName.setText(item.getName());
 
         }
         return convertView;

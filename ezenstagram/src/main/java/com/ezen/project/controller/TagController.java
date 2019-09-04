@@ -141,4 +141,21 @@ public class TagController {
 		mv.addObject("data", list);
 		return mv;
 	}
+	
+	// loginId 에 해당하는 user_id 찾아오기
+	@RequestMapping(value= "findUserIdByLoginId.do", method=RequestMethod.POST)
+	public ModelAndView findUserIdByLoginId(HttpServletRequest request) {
+		String login_id = request.getParameter("tagged_login_id");
+		int tagged_user_id=0;
+		Integer integer_tagged_user_id = tagService.findUserIdByLoginId(login_id);
+		if(integer_tagged_user_id == null) {
+			tagged_user_id = 0;
+		}else {
+			tagged_user_id = integer_tagged_user_id;
+		}		
+		ModelAndView mv = new ModelAndView("jsonView");
+		System.out.println("tagged_user_id =" + tagged_user_id);
+		mv.addObject("result", tagged_user_id);
+		return mv;
+	}
 }
