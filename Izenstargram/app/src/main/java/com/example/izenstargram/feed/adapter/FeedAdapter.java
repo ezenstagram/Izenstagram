@@ -56,9 +56,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     ArrayList<PostAll> feedPostList; //itemGroup
     private ArrayList<Comments> commentList = new ArrayList<>();
     Activity activity;
-    String url = "http://192.168.0.32:8080/project/chkLikes.do";
-    String url_like_save = "http://192.168.0.32:8080/project/saveLikes.do";
-    String url_like_delete = "http://192.168.0.32:8080/project/delLikes.do";
+    String url = "http://192.168.0.62:8080/project/chkLikes.do";
+    String url_like_save = "http://192.168.0.62:8080/project/saveLikes.do";
+    String url_like_delete = "http://192.168.0.62:8080/project/delLikes.do";
 
     int mode = 0;
     public void setItems(List<PostAll> feedPostList) {

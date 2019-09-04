@@ -44,6 +44,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         return viewHolder;
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int position) {
         Map<String, Fragment> clickStrMap = new HashMap<>(); //댓글이름눌렀을 때 프로필로 넘어가는 기능

@@ -1,6 +1,7 @@
 package com.example.izenstargram.feed;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.izenstargram.R;
 import com.example.izenstargram.feed.adapter.CommentAdapter;
 import com.example.izenstargram.feed.model.Comments;
@@ -18,6 +20,7 @@ import com.example.izenstargram.profile.UserDTO;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,11 +32,14 @@ import cz.msebera.android.httpclient.Header;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentsActivity extends AppCompatActivity implements View.OnClickListener {
-    String url = "http://192.168.0.32:8080/project/cmtList.do"; //댓글 목록보기
-    String url_insert_comment = "http://192.168.0.32:8080/project/saveCmts.do"; //댓글 저장하기
+
+    String url = "http://192.168.0.62:8080/project/cmtList.do"; //댓글 목록보기
+    String url_insert_comment = "http://192.168.0.62:8080/project/saveCmts.do"; //댓글 저장하기
+    String ulr_get_profile_for_cmt = "http://192.168.0.62:8080/project/user_profileInfo.do";
     AsyncHttpClient client;
     CommentHttpResponse response;
     CommentInsertHttpResponse commentInsertHttpResponse;
+    CommentProfileHttpResponse commentProfileHttpResponse;
     private CommentAdapter commentAdapter;
     private ArrayList<Comments> commentList = new ArrayList<>();
     int post_position;
@@ -42,6 +48,8 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
     CircleImageView insert_cmt_profile_image;
     EditText insert_cmt_cmt;
     Button insert_cmt_ok_button;
+    UserDTO userDTO;
+    UserDTO userDTO_Profile_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,23 +61,32 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
         insert_cmt_profile_image = findViewById(R.id.insert_cmt_profile_image);
         insert_cmt_cmt = findViewById(R.id.insert_cmt_cmt);
         insert_cmt_ok_button = findViewById(R.id.insert_cmt_ok_button);
+
+        //Glide.with(this).load(userDTO_Profile_img.getProfile_photo()).asBitmap().into(insert_cmt_profile_image);
         comment_list_view1.setHasFixedSize(true);
         commentAdapter = new CommentAdapter(this, commentList);
         comment_list_view1.setLayoutManager(new LinearLayoutManager(this));
         client = new AsyncHttpClient();
         response = new CommentHttpResponse(this);
         commentInsertHttpResponse = new CommentInsertHttpResponse();
+        commentProfileHttpResponse = new CommentProfileHttpResponse();
         insert_cmt_ok_button.setOnClickListener(this);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        RequestParams params1 = new RequestParams();
+        params1.put("user_id", user_id);
+        client.post(ulr_get_profile_for_cmt, params1, commentProfileHttpResponse);
+
         RequestParams params = new RequestParams();
         params.put("post_id",post_position); //게시글 받아옴
         clear();
         client.post(url, params, response);
         comment_list_view1.setAdapter(commentAdapter);
+
     }
 
     private void clear() {
@@ -82,6 +99,7 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         if(v.getId() == R.id.insert_cmt_ok_button){
+            commentAdapter.notifyDataSetChanged();
             String comment = String.valueOf(insert_cmt_cmt.getText());
             RequestParams params = new RequestParams();
             Comments comments = new Comments();
@@ -92,7 +110,6 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
             params.put("user_id", comments.getUser_id());
             params.put("comment_cmt", comments.getComment_cmt());
             client.post(url_insert_comment, params, commentInsertHttpResponse);
-
         }
     }
 
@@ -122,7 +139,7 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
                     comments.setComment_cmt(tempCmtObject.getString("comment_cmt"));
                     comments.setReg_date(tempCmtObject.getString("reg_date"));
                     JSONObject tempUserDTO = tempCmtObject.getJSONObject("userDTO");
-                    UserDTO userDTO = new UserDTO();
+                    userDTO = new UserDTO();
                     userDTO.setUser_id(tempUserDTO.getInt("user_id"));
                     userDTO.setName(tempUserDTO.getString("name"));
                     userDTO.setLogin_id(tempUserDTO.getString("login_id"));
@@ -138,6 +155,9 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
                     commentList.add(comments);
                     commentAdapter.setItems(commentList);
                     commentAdapter.notifyDataSetChanged();
+                    if(userDTO.getUser_id() == user_id){
+                        Glide.with(activity).load(userDTO.getProfile_photo()).asBitmap().into(insert_cmt_profile_image);
+                    }
                 }
 
 
@@ -156,6 +176,7 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
 
     class CommentInsertHttpResponse  extends  AsyncHttpResponseHandler{
 
+
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             String document = new String(responseBody);
@@ -165,6 +186,30 @@ public class CommentsActivity extends AppCompatActivity implements View.OnClickL
                 if(result>0){
                     Toast.makeText(getApplicationContext(), "댓글작성을 완료하였습니다. ", Toast.LENGTH_SHORT).show();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+        }
+    }
+
+    /*댓글 쓰는 란 옆에 유저 프로필 이미지 얻기 */
+    class CommentProfileHttpResponse extends AsyncHttpResponseHandler{
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+            String document = new String(responseBody);
+
+            try {
+                JSONObject json = new JSONObject(document);
+                userDTO_Profile_img = new UserDTO();
+                userDTO_Profile_img.setProfile_photo("http://192.168.0.13:8080/image/storage/" + json.getString("profile_photo"));
+                ImageLoader.getInstance().displayImage(userDTO_Profile_img.getProfile_photo(), insert_cmt_profile_image);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
