@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -36,7 +37,8 @@ public class ProfileGalleryActivity extends AppCompatActivity implements View.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_gallery);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
 
         recyclerView =findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new GridLayoutManager(this,3);

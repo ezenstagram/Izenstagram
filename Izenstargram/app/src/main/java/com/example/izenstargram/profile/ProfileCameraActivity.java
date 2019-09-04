@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.hardware.Camera;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,7 +54,8 @@ public class ProfileCameraActivity extends AppCompatActivity implements SurfaceH
         camera.setDisplayOrientation(90);
         button.setOnClickListener(this);
         textViewCancel.setOnClickListener(this);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         surfaceView = findViewById(R.id.surfaceView);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);

@@ -148,6 +148,7 @@ public class UserController {
 		
 		if(email != null) {
 			login_id = userService.emailForFind(email);
+			System.out.println("안녕");
 			div = 0;
 			if(login_id != null) {
 				result = 1;

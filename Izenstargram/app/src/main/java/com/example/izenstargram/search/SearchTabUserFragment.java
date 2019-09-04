@@ -41,7 +41,7 @@ import cz.msebera.android.httpclient.Header;
 public class SearchTabUserFragment extends Fragment implements AdapterView.OnItemClickListener {
     AsyncHttpClient client;
     HttpResponse response;
-    String url = "http://192.168.0.62:8080/project/selectUserBySearch.do";
+    String url = "http://192.168.0.32:8080/project/selectUserBySearch.do";
     String letter_to_search;
     List<UserDTO> list;
     SearchTabUserAdapter adapter;

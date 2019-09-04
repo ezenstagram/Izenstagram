@@ -34,7 +34,7 @@ public class FollowingFragment extends Fragment {
     // server
     AsyncHttpClient client;
     HttpResponse response;
-    String URL = "http://192.168.0.62:8080/project/followerNotifiInfo.do";
+    String URL = "http://192.168.0.32:8080/project/followerNotifiInfo.do";
 
     RecyclerView recyclerView;
     ArrayList<NotifiInfo> list;

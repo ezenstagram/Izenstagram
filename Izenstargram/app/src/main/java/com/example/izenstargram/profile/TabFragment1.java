@@ -16,8 +16,10 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.baoyz.widget.PullRefreshLayout;
+import com.example.izenstargram.MainActivity;
 import com.example.izenstargram.R;
 import com.example.izenstargram.profile.adapter.ImageGridAdapter;
+import com.example.izenstargram.search.SearchRandomClickFragment;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -31,7 +33,7 @@ import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
-public class TabFragment1 extends Fragment{
+public class TabFragment1 extends Fragment implements AdapterView.OnItemClickListener {
     ImageGridAdapter adapter;
 
     AsyncHttpClient client;
@@ -41,10 +43,10 @@ public class TabFragment1 extends Fragment{
     int user_id;
     GridView gv;
     PullRefreshLayout loading;
-
+    List<Integer> list_post_id;
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)  {
         View view = inflater.inflate(R.layout.tab_fragment_1, container, false);
 
         client = new AsyncHttpClient();
@@ -53,16 +55,16 @@ public class TabFragment1 extends Fragment{
         user_id = getArguments().getInt("user_id", 0);
         final RequestParams params = new RequestParams();
         params.put("user_id", user_id);
-
         client.post(URL, params, response);
         gv = (GridView) view.findViewById(R.id.gridView);
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-        });
-
+//        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//
+//            }
+//        });
+        gv.setOnItemClickListener(this);
         loading= (PullRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
 
         //pullrefresh 스타일 지정
@@ -94,11 +96,22 @@ public class TabFragment1 extends Fragment{
         super.onResume();
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        SearchRandomClickFragment searchRandomClickFragment = new SearchRandomClickFragment();
+        Bundle bundle = new Bundle(2);
+        bundle.putInt("post_id", list_post_id.get(position));
+        bundle.putInt("user_id", user_id);
+        searchRandomClickFragment.setArguments(bundle);
+        ((MainActivity)getActivity()).replaceFragment(R.id.frame_layout, searchRandomClickFragment, "profile");
+    }
+
     public class HttpResponse extends AsyncHttpResponseHandler {
         @Override
         public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
             String content = new String(responseBody);
             list = new ArrayList<>();
+            list_post_id = new ArrayList<>();
             try {
                 JSONObject json = new JSONObject(content);
                 int result = json.getInt("result");
@@ -109,6 +122,7 @@ public class TabFragment1 extends Fragment{
                     for(int i=0; i<size; i++) {
                         JSONObject jsonObject = array.getJSONObject(i);
                         list.add(jsonObject.getString("image_url"));
+                        list_post_id.add(jsonObject.getInt("post_id"));
                     }
                     adapter = new ImageGridAdapter(getActivity().getApplicationContext(), R.layout.row, list);
                     gv.invalidateViews();

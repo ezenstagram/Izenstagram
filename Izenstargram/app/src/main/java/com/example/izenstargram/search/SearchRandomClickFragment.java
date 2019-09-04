@@ -44,8 +44,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchRandomClickFragment extends Fragment {
 
-    String url = "http://192.168.0.62:8080/project/feedPostOne.do";
-    String urlForFindingId = "http://192.168.0.62:8080/project/findUserIdByLoginId.do";
+    String url = "http://192.168.0.32:8080/project/feedPostOne.do";
+    String urlForFindingId = "http://192.168.0.32:8080/project/findUserIdByLoginId.do";
     AsyncHttpClient client;
     SelectOneHttpResponse selectOneHttpResponse;
     HttpResponse response;

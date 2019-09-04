@@ -32,7 +32,8 @@ public class ProfileCameraImageActivity extends AppCompatActivity implements Vie
         Intent intent = getIntent();
         photoPath = intent.getStringExtra("strParamName");
         sepa = intent.getIntExtra("sepa", 0);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         textViewOK = findViewById(R.id.textViewOK);
         textViewCancel = findViewById(R.id.textViewCancel);
 

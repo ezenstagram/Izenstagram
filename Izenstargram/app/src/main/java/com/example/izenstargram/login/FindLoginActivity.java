@@ -174,6 +174,7 @@ public class FindLoginActivity extends AppCompatActivity implements View.OnClick
                         return;
                     }
                     params.put("email", email);
+                    Log.d("[IN", "email = "+email);
                     client.post(URL, params, response);
                 }
                 break;

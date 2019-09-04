@@ -57,7 +57,7 @@ public class UserService {
 	public String emailForFind(String email) {
 		String login_id = null;
 		login_id = userDAO.emailForFind(email);
-
+		System.out.println("login_id1"+login_id);
 		return login_id;
 	}
 	public UserDTO selectOne(int string) {

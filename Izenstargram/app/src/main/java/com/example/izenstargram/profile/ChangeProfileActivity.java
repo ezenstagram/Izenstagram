@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -61,7 +62,8 @@ public class ChangeProfileActivity extends AppCompatActivity implements View.OnC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_profile);
-
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
         SharedPreferences  preferences = getSharedPreferences("CONFIG", MODE_PRIVATE);
         user_id = preferences.getInt("user_id", 0);
         textViewCancel = findViewById(R.id.textViewCancel);
